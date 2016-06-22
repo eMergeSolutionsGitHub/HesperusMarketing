@@ -1,0 +1,200 @@
+package com.HesperusMarketing.channelbridge;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
+import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+
+import com.HesperusMarketing.channelbridgeaddapters.ReportList;
+import com.HesperusMarketing.channelbridgeaddapters.ReturnSalesAdapter;
+import com.HesperusMarketing.channelbridgedb.Customers;
+import com.HesperusMarketing.channelbridgedb.ProductReturns;
+import com.borax12.materialdaterangepicker.date.DatePickerDialog;
+
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+
+/**
+ * Created by Himanshu on 6/7/2016.
+ */
+public class RetrunSalesFragment  extends Fragment implements DatePickerDialog.OnDateSetListener  {
+
+    AutoCompleteTextView edtCustomer, edtTown;
+    ListView list;
+    TextView txtfromDate, txtToDate;
+    RelativeLayout layoutClander;
+
+    private List<String> customerNameList;
+    private List<String> townNameList;
+
+    String fromDate = null, dateTo, cusNAme = null, town = null;
+    int serachStatus = 0;
+
+    ReturnSalesAdapter returnSalseAdapter;
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
+        View view = inflater.inflate(R.layout.fragment_returnsales, container, false);
+
+        edtCustomer = (AutoCompleteTextView) view.findViewById(R.id.actvCustomer);
+        edtTown = (AutoCompleteTextView) view.findViewById(R.id.actvTown);
+        list = (ListView) view.findViewById(R.id.listView2);
+        layoutClander = (RelativeLayout) view.findViewById(R.id.relativeLayout_Dialog_calender);
+        txtfromDate = (TextView) view.findViewById(R.id.textViewDAteFrom);
+        txtToDate = (TextView) view.findViewById(R.id.textViewDateTo);
+
+        customerNameList = getNameList();
+        ArrayAdapter<String> customerListAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_dropdown_item_1line, customerNameList);
+        edtCustomer.setAdapter(customerListAdapter);
+
+        townNameList = getTownList();
+        ArrayAdapter<String> townListAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_dropdown_item_1line, townNameList);
+        edtTown.setAdapter(townListAdapter);
+
+
+
+
+        edtCustomer.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                cusNAme = adapterView.getItemAtPosition(i).toString();
+                edtTown.setText("");
+                if (fromDate == null) {
+                    fillGrid(cusNAme, "", "", "", 0);
+                } else {
+                    serachStatus = 1;
+                    fillGrid(cusNAme, "", fromDate, dateTo, 1);
+                }
+
+            }
+        });
+
+        edtTown.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                edtCustomer.setText("");
+                town = adapterView.getItemAtPosition(i).toString();
+                if (fromDate == null) {
+                    fillGrid("", town, "", "", 3);
+                } else {
+                    fillGrid("", town, fromDate, dateTo, 4);
+                }
+
+            }
+        });
+
+
+        layoutClander.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                fromDate = null;
+                dateTo = null;
+
+                txtfromDate.setText("From : ");
+                txtToDate.setText("To : ");
+
+                Calendar now = Calendar.getInstance();
+                DatePickerDialog dpd = new DatePickerDialog().newInstance(RetrunSalesFragment.this, now.get(Calendar.YEAR),
+                        now.get(Calendar.MONTH),
+                        now.get(Calendar.DAY_OF_MONTH)
+                );
+                final Activity activity = getActivity();
+                dpd.show(activity.getFragmentManager(), "Datepickerdialog");
+            }
+        });
+
+        return view;
+    }
+
+    @Override
+    public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth, int yearEnd, int monthOfYearEnd, int dayOfMonthEnd) {
+
+       String month,day,endmonth,enddate;
+
+
+        if(String.valueOf(dayOfMonth).length()==1){
+            day="0"+String.valueOf(dayOfMonth);
+        }else {
+            day=String.valueOf(dayOfMonth);
+        }
+
+        if(String.valueOf((monthOfYear+1)).length()==1){
+            month="0"+String.valueOf((monthOfYear+1));
+        }else {
+            month=String.valueOf((monthOfYear+1));
+        }
+
+        if(String.valueOf(dayOfMonthEnd).length()==1){
+            enddate="0"+String.valueOf(dayOfMonthEnd);
+        }else {
+            enddate=String.valueOf(dayOfMonthEnd);
+        }
+
+        if(String.valueOf(( monthOfYearEnd+1)).length()==1){
+            endmonth="0"+String.valueOf(( monthOfYearEnd+1));
+        }else {
+            endmonth=String.valueOf(( monthOfYearEnd+1));
+        }
+
+
+
+
+
+
+        fromDate = year + "-" + month+ "-" + day;
+        dateTo = yearEnd + "-" +endmonth + "-" + enddate;
+
+        txtfromDate.setText("From : " + fromDate);
+        txtToDate.setText("To : " + dateTo);
+
+        if (cusNAme == null) {
+            fillGrid("", town, fromDate, dateTo, 4);
+        } else if (town == null) {
+            fillGrid(cusNAme, "", fromDate, dateTo, 1);
+        } else {
+
+        }
+    }
+
+    public ArrayList<String> getNameList() {
+        Customers customersObject = new Customers(getActivity());
+        customersObject.openReadableDatabase();
+        ArrayList<String> customerNamesListArray = customersObject.getCustomerNames();
+        customersObject.closeDatabase();
+        customerNameList = customerNamesListArray;
+        return customerNamesListArray;
+    }
+
+    public ArrayList<String> getTownList() {
+        Customers customers = new Customers(getActivity());
+        customers.openReadableDatabase();
+        ArrayList<String> townList = customers.getTownList();
+        customers.closeDatabase();
+        townNameList = townList;
+        return townList;
+
+    }
+    public void fillGrid(String name, String twon, String toDAte, String fromDate, int ststus) {
+
+        ProductReturns returns = new ProductReturns(getContext());
+        returns.openReadableDatabase();
+        List<ReportList> dealerSaleList;
+        dealerSaleList = returns.getDataForReturn(name, twon, toDAte, fromDate, ststus);
+        returnSalseAdapter = new ReturnSalesAdapter(getActivity(), (ArrayList<ReportList>) dealerSaleList, ststus);
+        list.setAdapter(returnSalseAdapter);
+        returns.closeDatabase();
+    }
+
+}

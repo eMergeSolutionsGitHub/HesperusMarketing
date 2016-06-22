@@ -1,0 +1,290 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="100dp"
+        android:background="#27ae60"
+        android:id="@+id/relativeLayout28"
+        android:layout_marginRight="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="5dp">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:id="@+id/relativeLayout27"
+            android:layout_marginLeft="5dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text=" Dealer Name: "
+                android:id="@+id/textView9"
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:textColor="#ffffff" />
+
+            <AutoCompleteTextView
+                android:id="@+id/actvCustomer"
+                android:layout_width="300dp"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/textView9"
+                android:layout_toEndOf="@+id/textView9"
+                android:hint=" Dealer"
+                android:textColor="#ffffff"
+                android:textColorHint="#ffffff" />
+
+            <AutoCompleteTextView
+                android:layout_width="200dp"
+                android:layout_height="wrap_content"
+                android:id="@+id/actvTown"
+                android:hint="Town"
+                android:layout_centerVertical="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginRight="5dp"
+                android:textColor="#ffffff"
+                android:textColorHint="#ffffff" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Town:"
+                android:id="@+id/textView10"
+                android:layout_centerVertical="true"
+                android:layout_toLeftOf="@+id/actvTown"
+                android:layout_toStartOf="@+id/actvTown"
+                android:textColor="#ffffff" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/relativeLayout27"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true">
+
+            <RelativeLayout
+                android:layout_width="60dp"
+                android:layout_height="match_parent"
+                android:id="@+id/relativeLayout_Dialog_calender"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginLeft="5dp">
+
+                <com.HesperusMarketing.helpModel.TextViewFontAwesome
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:text="@string/fw_collection_calender"
+                    android:id="@+id/textView32"
+                    android:layout_centerVertical="true"
+                    android:layout_centerHorizontal="true"
+                    android:textSize="40dp"
+                    android:textColor="#ffffff" />
+
+            </RelativeLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="From : "
+                android:id="@+id/textViewDAteFrom"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/relativeLayout_Dialog_calender"
+                android:layout_toEndOf="@+id/relativeLayout_Dialog_calender"
+                android:layout_marginLeft="60dp"
+                android:textColor="#ffffff" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="To : "
+                android:id="@+id/textViewDateTo"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/textViewDAteFrom"
+                android:layout_toEndOf="@+id/textViewDAteFrom"
+                android:layout_marginLeft="30dp"
+                android:textColor="#ffffff" />
+
+            <RelativeLayout
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                android:id="@+id/relativeLayout29"></RelativeLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="D = Due   C = Collect"
+                android:id="@+id/textView12"
+                android:textColor="#ffffff"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginRight="5dp"
+                android:layout_marginTop="2dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="R = Return  S = Settle"
+                android:id="@+id/textView13"
+                android:textColor="#ffffff"
+                android:layout_alignBaseline="@+id/relativeLayout_Dialog_calender"
+                android:layout_alignBottom="@+id/relativeLayout_Dialog_calender"
+                android:layout_alignRight="@+id/textView12"
+                android:layout_alignEnd="@+id/textView12" />
+
+
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/relativeLayout28"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:background="#ffffff">
+        <RelativeLayout
+            android:id="@+id/relativeLayout"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@color/myGreen"
+            android:layout_marginTop="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp">
+
+            <TextView
+                android:id="@+id/textView11"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="5dp"
+                android:text="Invoice Date"
+                android:textColor="#ffffff" />
+
+            <TextView
+                android:id="@+id/textView29"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@+id/textView11"
+                android:layout_toRightOf="@+id/textView11"
+                android:text="Invoice No"
+                android:textColor="#ffffff"
+                android:layout_marginLeft="5dp" />
+
+            <TextView
+                android:id="@+id/textView31"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:text="Return Value"
+                android:textColor="#ffffff"
+                android:layout_toEndOf="@+id/textView29"
+                android:layout_toRightOf="@+id/textView29"
+                android:layout_marginLeft="5dp" />
+
+            <TextView
+                android:id="@+id/textView66"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@+id/textView31"
+                android:layout_toRightOf="@+id/textView31"
+                android:text="Value"
+                android:textColor="#ffffff"
+                android:layout_marginLeft="5dp" />
+
+            <TextView
+                android:id="@+id/textView33"
+                android:layout_width="60dp"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@+id/textView66"
+                android:layout_toRightOf="@+id/textView66"
+                android:text="Credit \nDuration"
+                android:textColor="#ffffff"
+                android:layout_marginLeft="5dp" />
+
+            <TextView
+                android:id="@+id/textView44"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@+id/textView33"
+                android:layout_toRightOf="@+id/textView33"
+                android:text="Due date"
+                android:textColor="#ffffff"
+                android:layout_marginLeft="5dp" />
+
+            <TextView
+                android:id="@+id/textView55"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@+id/textView44"
+                android:layout_toRightOf="@+id/textView44"
+                android:text="Status"
+                android:textColor="#ffffff"
+                android:layout_marginLeft="5dp" />
+
+            <TextView
+                android:id="@+id/textView65"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toEndOf="@+id/textView55"
+                android:layout_toRightOf="@+id/textView55"
+                android:text="Dealer Name"
+                android:textColor="#ffffff"
+                android:layout_marginLeft="5dp"
+                android:visibility="gone" />
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/relativeLayout"
+            android:layout_alignLeft="@+id/relativeLayout"
+            android:layout_alignStart="@+id/relativeLayout">
+
+
+            <ListView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/listView_dealerSales"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:visibility="visible"
+                android:layout_marginTop="2dp" />
+
+
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+   android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dip"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:background="@color/myBlue"
+        android:layout_margin="5dp"
+        android:id="@+id/relativeLayout8">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Brand"
+            android:id="@+id/textView21"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:textColor="@color/mywhite"
+            android:layout_marginLeft="10dip" />
+
+        <Spinner
+            android:layout_width="250dip"
+            android:layout_height="40dp"
+            android:id="@+id/spPrinciple"
+            android:textColor="#000000"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/textView21"
+            android:layout_toEndOf="@+id/textView21"
+            android:layout_marginLeft="15dp"
+            android:background="@color/mywhite" />
+
+        <Spinner
+            android:layout_width="250dp"
+            android:layout_height="40dp"
+            android:id="@+id/spCategory"
+            android:textColor="#000000"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="10dp"
+            android:background="@color/mywhite" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Category"
+            android:id="@+id/textView24"
+            android:layout_centerVertical="true"
+            android:layout_toLeftOf="@+id/spCategory"
+            android:layout_toStartOf="@+id/spCategory"
+            android:layout_marginRight="15dp"
+            android:textColor="@color/mywhite" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_below="@+id/relativeLayout8"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:background="#CCCCCC"
+        android:id="@+id/relativeLayout9"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp">
+
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:text="Code"
+            android:id="@+id/textViewCodet"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <TextView
+            android:layout_width="230dp"
+            android:layout_height="wrap_content"
+            android:text="Description "
+            android:id="@+id/textViewdescription"
+            android:layout_marginLeft="5dp"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/textViewCodet"
+            android:layout_toEndOf="@+id/textViewCodet"
+            android:textColor="@color/myBlue" />
+
+        <TextView
+            android:layout_width="70dip"
+            android:layout_height="wrap_content"
+            android:text="Batch"
+            android:id="@+id/textViewBatch"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/textViewdescription"
+            android:layout_toEndOf="@+id/textViewdescription"
+            android:layout_marginLeft="5dp" />
+
+        <TextView
+            android:layout_width="50dp"
+            android:layout_height="wrap_content"
+            android:text="Stock"
+            android:id="@+id/textViewStock"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/textViewBatch"
+            android:layout_toEndOf="@+id/textViewBatch"
+            android:layout_marginLeft="5dp"
+            android:textColor="@color/myRed" />
+
+        <TextView
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:text="Price"
+            android:id="@+id/textViewPrice"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/textViewStock"
+            android:layout_toEndOf="@+id/textViewStock"
+            android:layout_marginLeft="10dp"
+            android:textColor="@color/myGreen" />
+
+        <TextView
+            android:layout_width="70dip"
+            android:layout_height="wrap_content"
+            android:id="@+id/TextShelf"
+            android:text="Shelf"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/textViewPrice"
+            android:layout_toEndOf="@+id/textViewPrice"
+            android:layout_marginLeft="5dp" />
+
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/TextRequest"
+            android:text="Request"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/TextShelf"
+            android:layout_toEndOf="@+id/TextShelf"
+            android:layout_marginLeft="5dp" />
+
+        <TextView
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/TextOrder"
+            android:text="Order"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/TextRequest"
+            android:layout_toEndOf="@+id/TextRequest"
+            android:layout_marginLeft="5dp" />
+
+        <TextView
+            android:layout_width="70dp"
+            android:layout_height="wrap_content"
+            android:text="Free"
+            android:id="@+id/TextFree"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/TextOrder"
+            android:layout_toEndOf="@+id/TextOrder"
+            android:layout_marginLeft="5dp" />
+
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="Discount(%)"
+            android:id="@+id/editTextDiscount"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/TextFree"
+            android:layout_toEndOf="@+id/TextFree"
+            android:layout_marginLeft="5dp" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="330dp"
+        android:layout_below="@+id/relativeLayout9"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_margin="5dp"
+        android:id="@+id/relativeLayout11">
+
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="350dp"
+            android:id="@+id/scrollView"
+            android:padding="20dp"
+            android:scrollbarFadeDuration="0"
+            >
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/tblTest"
+                android:showDividers="middle"></TableLayout>
+
+
+
+        </ScrollView>
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_below="@+id/relativeLayout11"
+        android:layout_height="60dp"
+        android:layout_alignParentBottom="true"
+        android:background="@color/myBlue"
+        android:layout_marginRight="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+        <Button
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:text="Color Chart"
+            android:id="@+id/btnSearch"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:background="@color/mywhite"
+            android:layout_marginLeft="10dp" />
+
+        <Button
+            android:layout_width="100dp"
+            android:layout_height="50dp"
+            android:text="Next"
+            android:id="@+id/btnNextToPayment"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="10dp"
+            android:background="@color/mywhite" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/btnSearch"
+            android:layout_toLeftOf="@+id/btnNextToPayment"
+            android:layout_toStartOf="@+id/btnNextToPayment"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:background="#ffffff">
+
+            <EditText
+                   android:layout_width="100dp"
+                   android:layout_height="40dp"
+                   android:ems="10"
+                   android:id="@+id/editTextListDiscount"
+                   android:layout_centerVertical="true"
+                   android:layout_alignParentRight="true"
+                   android:layout_alignParentEnd="true"
+                   android:layout_marginRight="5dp"
+                   android:hint="Discount"
+                   android:inputType="numberDecimal" />
+
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

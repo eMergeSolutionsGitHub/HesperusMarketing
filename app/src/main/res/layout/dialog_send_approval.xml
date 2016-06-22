@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="700dip"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:id="@+id/relativeLayoutcusname"
+        android:layout_width="fill_parent"
+        android:layout_height="50dip"
+        android:layout_marginLeft="5dp">
+
+
+        <TextView
+            android:layout_width="450dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="asasas xaxasas axaa"
+            android:id="@+id/textView_dialogsendapproval_customername"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginTop="2dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Medium Text"
+            android:id="@+id/textView_tot_CreditLimit"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/textView_dialogsendapproval_customername"
+            android:layout_toEndOf="@+id/textView_dialogsendapproval_customername" />
+
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="450dp"
+        android:layout_height="80dip"
+        android:layout_below="@+id/relativeLayoutcusname"
+        android:layout_alignLeft="@+id/relativeLayoutcusname"
+        android:layout_alignStart="@+id/relativeLayoutcusname"
+        android:id="@+id/relativeLayout">
+
+        <Spinner
+            android:layout_width="200dip"
+            android:layout_height="wrap_content"
+            android:id="@+id/spinner_approve_person"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/textView18"
+            android:layout_toEndOf="@+id/textView18" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Approval Person :"
+            android:id="@+id/textView18"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="450dp"
+        android:layout_height="80dip"
+        android:layout_below="@+id/relativeLayout"
+        android:layout_alignLeft="@+id/relativeLayout"
+        android:layout_alignStart="@+id/relativeLayout"
+        android:id="@+id/relativeLayout2">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:id="@+id/textView17"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:text="Comment :" />
+
+        <EditText
+            android:layout_width="500dp"
+            android:layout_height="match_parent"
+            android:id="@+id/editText_dialogsendapproval_comment"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/textView17"
+            android:layout_marginRight="10dip"
+            android:hint="Comment" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Medium Text"
+            android:id="@+id/textView_dialogsendapproval_phoneNumber"
+            android:layout_marginLeft="133dp"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/textView17"
+            android:layout_toEndOf="@+id/textView17"
+            android:layout_marginStart="133dp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="450dp"
+        android:layout_height="80dip"
+        android:layout_below="@+id/relativeLayout2"
+        android:layout_alignLeft="@+id/relativeLayout2"
+        android:layout_alignStart="@+id/relativeLayout2"
+        android:id="@+id/relativeLayout3">
+
+        <EditText
+            android:layout_width="200dip"
+            android:layout_height="wrap_content"
+            android:id="@+id/editTextdialogsendapproval_code"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:hint="Code"
+            android:text="0000" />
+
+        <RelativeLayout
+            android:layout_width="200dip"
+            android:layout_height="match_parent"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:id="@+id/layout_dialogsendapproval_resend">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:text="Resend"
+                android:id="@+id/textView19"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                android:textColor="#2980b9" />
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="450dp"
+        android:layout_height="70dip"
+        android:layout_below="@+id/relativeLayout3"
+        android:layout_alignLeft="@+id/relativeLayout3"
+        android:layout_alignStart="@+id/relativeLayout3"
+        android:layout_marginBottom="10dip"
+        android:id="@+id/relativeLayout24">
+
+        <Button
+            android:layout_width="120dip"
+            android:layout_height="match_parent"
+            android:text="Continue"
+            android:id="@+id/buttondialogsendapproval_continue"
+            android:background="@drawable/button_green"
+            android:textColor="#ffffff"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <Button
+            android:layout_width="120dip"
+            android:layout_height="match_parent"
+            android:text="Send For Approval"
+            android:id="@+id/buttondialogsendapproval_send"
+            android:layout_alignParentTop="true"
+            android:layout_centerHorizontal="true"
+            android:textColor="#ffffff"
+            android:background="@drawable/button_blue"
+            android:layout_alignParentBottom="true" />
+
+        <Button
+            android:layout_width="120dip"
+            android:layout_height="match_parent"
+            android:text="Cancel"
+            android:id="@+id/buttondialogsendapproval_cancel"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:textColor="#ffffff"
+            android:background="@drawable/button_red"
+            android:layout_alignParentBottom="true"
+            android:layout_marginRight="5dp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_toRightOf="@+id/relativeLayout"
+        android:layout_toEndOf="@+id/relativeLayout"
+        android:layout_alignBottom="@+id/relativeLayout24"
+        android:layout_below="@+id/relativeLayoutcusname"
+        android:background="#d0cece"
+        android:id="@+id/relativeLayout26">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:background="@color/myGreen"
+            android:id="@+id/relativeLayout25">
+
+            <TextView
+                android:layout_width="40dp"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Invo"
+                android:id="@+id/textView_invno"
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:textColor="#ffffff"
+                android:layout_marginLeft="5dp" />
+
+            <TextView
+                android:layout_width="80dp"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Value "
+                android:id="@+id/textView_value"
+                android:layout_alignTop="@+id/textView_invno"
+                android:layout_toRightOf="@+id/textView_invno"
+                android:layout_toEndOf="@+id/textView_invno"
+                android:layout_marginLeft="5dp"
+                android:textColor="#ffffff" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Due Date"
+                android:id="@+id/textView46"
+                android:layout_alignTop="@+id/textView_value"
+                android:layout_toRightOf="@+id/textView_value"
+                android:layout_toEndOf="@+id/textView_value"
+                android:layout_marginLeft="20dip"
+                android:textColor="#ffffff" />
+        </RelativeLayout>
+
+        <ListView
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/listViewOutsatnding"
+            android:layout_below="@+id/relativeLayout25"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+    </RelativeLayout>
+
+</RelativeLayout>

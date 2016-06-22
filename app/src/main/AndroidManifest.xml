@@ -1,0 +1,386 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.HesperusMarketing.channelbridge" >
+
+
+    <uses-permission android:name="android.permission.SEND_SMS" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+
+    <application
+        android:icon="@drawable/cb_logo_icon"
+        android:label="@string/app_name"
+        android:theme="@android:style/Theme.Holo.Light.DarkActionBar">
+        <activity
+            android:name="com.HesperusMarketing.channelbridge.CBMainActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="landscape">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.HesperusMarketing.channelbridge.LoginActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="landscape">
+            <intent-filter>
+                <action android:name="com.HesperusMarketing.channelbridge.LOGINACTIVITY" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.HesperusMarketing.channelbridge.ItineraryList"
+            android:label="@string/app_name"
+            android:screenOrientation="landscape">
+            <intent-filter>
+                <action android:name="com.HesperusMarketing.channelbridge.ITINERARYLIST" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.HesperusMarketing.channelbridge.RepAttendance"
+            android:label="@string/app_name"
+            android:screenOrientation="landscape">
+            <intent-filter>
+                <action android:name="com.HesperusMarketing.channelbridge.RepAttendance" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.HesperusMarketing.channelbridge.AddCustomerActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="landscape">
+            <intent-filter>
+                <action android:name="com.HesperusMarketing.channelbridge.ADDCUSTOMERACTIVITY" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.HesperusMarketing.channelbridge.ExtraCustomerActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="landscape">
+            <intent-filter>
+                <action android:name="com.HesperusMarketing.channelbridge.EXTRACUSTOMERACTIVITY" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.HesperusMarketing.channelbridge.CustomerDetailsComments_TabWidget"
+            android:label="@string/app_name"
+            android:screenOrientation="landscape">
+            <intent-filter>
+                <action android:name="com.HesperusMarketing.channelbridge.CUSTOMERDETAILSCOMMENTSTABWIDGET" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.HesperusMarketing.channelbridge.RemarksActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="landscape">
+            <intent-filter>
+                <action android:name="com.HesperusMarketing.channelbridge.REMARKSACTIVITY" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.HesperusMarketing.channelbridge.CustomerDetailsActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="landscape">
+            <intent-filter>
+                <action android:name="com.HesperusMarketing.channelbridge.CUSTOMERDETAILSACTIVITY" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.HesperusMarketing.channelbridge.InvoiceGen1Activity"
+            android:label="@string/app_name"
+
+            android:screenOrientation="landscape">
+            <intent-filter>
+                <action android:name="com.HesperusMarketing.channelbridge.INVOICEGEN1ACTIVITY" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.HesperusMarketing.channelbridge.InvoiceGen1Alternate"
+            android:label="@string/app_name"
+            android:windowSoftInputMode="adjustPan"
+            android:screenOrientation="landscape">
+            <intent-filter>
+                <action android:name="com.HesperusMarketing.channelbridge.INVOICEGEN1ALTERNATE" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.HesperusMarketing.channelbridge.InvoiceGen2Activity"
+            android:label="@string/app_name"
+            android:screenOrientation="landscape">
+            <intent-filter>
+                <action android:name="com.HesperusMarketing.channelbridge.INVOICEGEN2ACTIVITY" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.HesperusMarketing.channelbridge.InvoiceGen3Activity"
+            android:label="@string/app_name"
+            android:screenOrientation="landscape">
+            <intent-filter>
+                <action android:name="com.HesperusMarketing.channelbridge.INVOICEGEN3ACTIVITY" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.HesperusMarketing.channelbridge.ReturnProductNoHistoryActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="landscape">
+            <intent-filter>
+                <action android:name="com.HesperusMarketing.channelbridge.RETURNPRODUCTNOHISTORYACTIVITY" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.HesperusMarketing.channelbridge.CompetitorProductsActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="landscape">
+            <intent-filter>
+                <action android:name="com.HesperusMarketing.channelbridge.COMPETITORPRODUCTACTIVITY" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".SettingsActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="landscape">
+            <intent-filter>
+                <action android:name="com.HesperusMarketing.channelbridge.SETTINGSACTIVITY" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.HesperusMarketing.channelbridge.ReturnInvoiceActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="landscape">
+            <intent-filter>
+                <action android:name="com.HesperusMarketing.channelbridge.RETURNINVOICEACTIVITY" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.HesperusMarketing.channelbridge.Preferences"
+            android:label="@string/app_name"
+            android:screenOrientation="landscape">
+            <intent-filter>
+                <action android:name="com.HesperusMarketing.channelbridge.PREF" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.HesperusMarketing.channelbridge.ProductRepStoreActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="landscape">
+            <intent-filter>
+                <action android:name="com.HesperusMarketing.channelbridge.PRODUCTREPSTOREACTIVITY" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.HesperusMarketing.channelbridge.CustomerImageGalleryActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="landscape">
+            <intent-filter>
+                <action android:name="com.HesperusMarketing.channelbridge.CUSTOMERIMAGEGALLERYACTIVITY" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.HesperusMarketing.channelbridge.PriceListActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="landscape">
+            <intent-filter>
+                <action android:name="com.HesperusMarketing.channelbridge.PRICELISTACTIVITY" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.HesperusMarketing.channelbridge.SyncronizePreference"
+            android:label="@string/app_name"
+            android:screenOrientation="landscape">
+            <intent-filter>
+                <action android:name="com.HesperusMarketing.channelbridge.SYNCRONIZEPREFERENCE" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.HesperusMarketing.channelbridge.LastInvoiceActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="landscape">
+            <intent-filter>
+                <action android:name="com.HesperusMarketing.channelbridge.LASTINVOICEACTIVITY" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.HesperusMarketing.channelbridge.InvoiceViewActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="landscape">
+            <intent-filter>
+                <action android:name="com.HesperusMarketing.channelbridge.INVOICEVIEWACTIVITY" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.HesperusMarketing.channelbridge.PrintUtility"
+            android:label="@string/app_name"
+            android:screenOrientation="landscape">
+            <intent-filter>
+                <action android:name="com.HesperusMarketing.channelbridge.PRINTUTILITY" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.HesperusMarketing.channelbridge.ReturnProductHistoryActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="landscape">
+            <intent-filter>
+                <action android:name="com.HesperusMarketing.channelbridge.RETURNPRODUCTHISTORYACTIVITY" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.HesperusMarketing.channelbridge.AboutApplication"
+            android:label="@string/app_name"
+            android:screenOrientation="landscape">
+            <intent-filter>
+                <action android:name="com.HesperusMarketing.channelbridge.ABOUTAPPLICATION" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.HesperusMarketing.channelbridge.AdministratorPreference"
+            android:label="@string/app_name"
+            android:screenOrientation="landscape">
+            <intent-filter>
+                <action android:name="com.HesperusMarketing.channelbridge.ADMINISTRATORPREFERENCE" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name="com.HesperusMarketing.channelbridge.InvoiceHistoryActivity"
+            android:label="@string/app_name"
+            android:screenOrientation="landscape">
+            <intent-filter>
+                <action android:name="com.HesperusMarketing.channelbridge.INVOICEHISTORYACTIVITY" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+
+        <activity
+            android:name="com.HesperusMarketing.channelbridgehelp.VideoListDemoActivity"
+            android:screenOrientation="landscape"
+            android:label="@string/app_name">
+
+            <intent-filter>
+                <action android:name="com.HesperusMarketing.channelbridge.VideoListDemo" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+
+        <activity
+            android:name="com.HesperusMarketing.channelbridge.Report"
+            android:screenOrientation="landscape"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="com.HesperusMarketing.channelbridge.Report" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
+
+
+
+        <service
+            android:name="com.HesperusMarketing.channelbridge.AutoSynchronize"
+            android:enabled="true"></service>
+        <service
+            android:name="com.HesperusMarketing.channelbridge.GPSAutoSynchronize"
+            android:enabled="true"></service>
+        <service android:name="com.HesperusMarketing.channelbridgebs.AutoBackupService"></service>
+        <service android:name="com.HesperusMarketing.channelbridgebs.UploadGPSTask"></service>
+
+        <receiver android:name="com.HesperusMarketing.channelbridge.AutoSyncronizeTimer">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+        <receiver android:name="com.HesperusMarketing.channelbridge.GPSAutoSyncronizeTimer">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+        <receiver android:name="com.HesperusMarketing.channelbridgebs.AutoBackupBroadcast">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+        <receiver android:name="com.HesperusMarketing.channelbridgebs.GPSBroadcast">
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+        </receiver>
+
+
+        <receiver android:name="com.HesperusMarketing.channelbridge.AutoSynchronizeStarter"></receiver>
+
+        <receiver  android:name="com.HesperusMarketing.channelbridge.GPSAutoSynchronizeStarter"></receiver>
+
+        <activity
+            android:name="com.HesperusMarketing.channelbridge.CollectionNote"
+            android:label="@string/title_activity_collection_note"
+            android:screenOrientation="landscape"></activity>
+    </application>
+
+</manifest>

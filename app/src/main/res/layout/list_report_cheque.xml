@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout13"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/relativeLayout12"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="5dp">
+
+        <TextView
+            android:id="@+id/textView11"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:text="Dealer Name"
+            android:textColor="#000000" />
+
+        <TextView
+            android:id="@+id/textView29"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@+id/textView11"
+            android:layout_toRightOf="@+id/textView11"
+            android:text="Collected Date"
+            android:textColor="#000000"
+            android:layout_marginLeft="5dp" />
+
+        <TextView
+            android:id="@+id/textView31"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="Collection No"
+            android:textColor="#000000"
+            android:layout_toEndOf="@+id/textView29"
+            android:layout_toRightOf="@+id/textView29"
+            android:layout_marginLeft="5dp" />
+
+        <TextView
+            android:id="@+id/textView66"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@+id/textView31"
+            android:layout_toRightOf="@+id/textView31"
+            android:text="Cheque Number"
+            android:textColor="#000000"
+            android:layout_marginLeft="5dp" />
+
+        <TextView
+            android:id="@+id/textView33"
+            android:layout_width="110dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@+id/textView66"
+            android:layout_toRightOf="@+id/textView66"
+            android:text="Invoice No"
+            android:textColor="#000000"
+            android:layout_marginLeft="5dp" />
+
+        <TextView
+            android:id="@+id/textView44"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/textView33"
+            android:text="Cheque Amount"
+            android:textColor="#000000"
+            android:layout_marginLeft="5dp"
+            android:visibility="visible"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+    </RelativeLayout>
+
+</LinearLayout>

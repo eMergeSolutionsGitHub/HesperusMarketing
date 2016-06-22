@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout13"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/relativeLayout12"
+        android:layout_marginLeft="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="5dp">
+
+        <TextView
+            android:id="@+id/tvDate1"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:text="Date"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#000000"
+            android:layout_marginLeft="5dp" />
+
+        <TextView
+            android:id="@+id/tvInvNo1"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@+id/tvDate1"
+            android:layout_toRightOf="@+id/tvDate1"
+            android:text="Invoice No"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#000000"
+            android:layout_marginLeft="5dp" />
+
+        <TextView
+            android:id="@+id/tvRValue1"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="Return Value "
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#000000"
+            android:layout_alignTop="@+id/tvInvNo1"
+            android:layout_toRightOf="@+id/tvInvNo1"
+            android:layout_toEndOf="@+id/tvInvNo1"
+            android:layout_marginLeft="5dp" />
+
+        <TextView
+            android:id="@+id/tvValue1"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="Value "
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#000000"
+            android:layout_alignTop="@+id/tvRValue1"
+            android:layout_toRightOf="@+id/tvRValue1"
+            android:layout_toEndOf="@+id/tvRValue1"
+            android:layout_marginLeft="5dp" />
+
+        <TextView
+            android:id="@+id/tvDuration1"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toEndOf="@+id/tvValue1"
+            android:layout_toRightOf="@+id/tvValue1"
+            android:text="Credit Duration"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#000000"
+            android:layout_marginLeft="5dp" />
+
+        <TextView
+            android:id="@+id/tvDueDate1"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="Due Date"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#000000"
+            android:layout_alignTop="@+id/tvValue1"
+            android:layout_toRightOf="@+id/tvDuration1"
+            android:layout_toEndOf="@+id/tvDuration1"
+            android:layout_marginLeft="5dp" />
+
+        <TextView
+            android:id="@+id/tvStatus1"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:text="Status"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#000000"
+            android:layout_alignTop="@+id/tvDueDate1"
+            android:layout_toRightOf="@+id/tvDueDate1"
+            android:layout_toEndOf="@+id/tvDueDate1"
+            android:layout_marginLeft="5dp" />
+
+        <TextView
+            android:id="@+id/tvname1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Dealer Name"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="#000000"
+            android:layout_alignTop="@+id/tvStatus1"
+            android:layout_toRightOf="@+id/tvStatus1"
+            android:layout_toEndOf="@+id/tvStatus1"
+            android:layout_marginLeft="5dp" />
+
+
+    </RelativeLayout>
+
+</LinearLayout>
