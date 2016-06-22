@@ -28,6 +28,7 @@ public class AboutApplication extends Activity {
 
         String version = getApplicationVersion();
         String appName = "Channel Bridge for Hesperus Marketing V1";
+        String appName2 = "Channel Bridge for Hesperus Marketing V1";
 
         tViewVersion.setText(version);
         tViewApplicationName.setText(appName);
