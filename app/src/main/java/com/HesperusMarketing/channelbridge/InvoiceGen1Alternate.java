@@ -146,6 +146,7 @@ public class InvoiceGen1Alternate extends Activity {
         editDiscount = (EditText) findViewById(R.id.editTextListDiscount);
 
 
+
         productController.openReadableDatabase();
         principleList = productController.getPrincipleList();
 
@@ -463,6 +464,8 @@ public class InvoiceGen1Alternate extends Activity {
                 final EditText edQuantity = new EditText(this);
                 final EditText edRequest = new EditText(this);
                 final EditText edDiscount = new EditText(this);
+
+
 
 
                 edSQuantity.setInputType(InputType.TYPE_CLASS_NUMBER);

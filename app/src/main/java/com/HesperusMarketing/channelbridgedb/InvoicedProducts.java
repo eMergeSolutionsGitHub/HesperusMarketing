@@ -492,10 +492,10 @@ public List<String[]> getInvoicedProductsByInvoiceIdFoBrand(String invoiceId,int
     List<String[]> invoicedProducts = new ArrayList<String[]>();
     Cursor  cursor;
     if(stat ==0){
-        cursor = database.rawQuery("SELECT p.principle,SUM(CAST(ip.normal as decimal)),SUM(CAST(ip.free as decimal)),((CAST(ip.discount as decimal))*(CAST(ip.price as decimal)))/100,SUM(  (CAST(ip.price as decimal))* (CAST(ip.normal as decimal))),ip.discount FROM invoiced_product ip inner join products p on ip.product_code = p.code WHERE invoice_id ='" + invoiceId + "' GROUP BY p.principle ", null);
+        cursor = database.rawQuery("SELECT p.principle,SUM(CAST(ip.normal as decimal)),SUM(CAST(ip.free as decimal)),((CAST(ip.discount as decimal))*  ((CAST(ip.price as decimal))*(CAST(ip.normal as decimal))))/100,SUM(  (CAST(ip.price as decimal))* (CAST(ip.normal as decimal))),ip.discount FROM invoiced_product ip inner join products p on ip.product_code = p.code WHERE invoice_id ='" + invoiceId + "' GROUP BY p.principle ", null);
 
     }else {
-        cursor = database.rawQuery("SELECT p.principle,SUM(CAST(ip.normal as decimal)),SUM(CAST(ip.free as decimal)),((CAST(ip.discount as decimal))*(CAST(p.retail_price as decimal)))/100,SUM(  (CAST(p.retail_price as decimal))* (CAST(ip.normal as decimal))),ip.discount FROM invoiced_product ip inner join products p on ip.product_code = p.code WHERE invoice_id ='" + invoiceId + "' GROUP BY p.principle ", null);
+        cursor = database.rawQuery("SELECT p.principle,SUM(CAST(ip.normal as decimal)),SUM(CAST(ip.free as decimal)),((CAST(ip.discount as decimal))*  ((CAST(p.retail_price as decimal)  )*(CAST (ip.normal as decimal)) ))/100,SUM(  (CAST(p.retail_price as decimal))* (CAST(ip.normal as decimal))),ip.discount FROM invoiced_product ip inner join products p on ip.product_code = p.code WHERE invoice_id ='" + invoiceId + "' GROUP BY p.principle ", null);
 
     }
 

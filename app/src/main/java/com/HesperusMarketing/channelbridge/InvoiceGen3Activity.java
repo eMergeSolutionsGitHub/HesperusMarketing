@@ -884,6 +884,7 @@ public class InvoiceGen3Activity extends Activity implements LocationListener {
                 "productsArray.size() : " + productsArray.size());
         TableRow tr;
         tblInvoice.setShrinkAllColumns(true);
+        double tempPrice;
 
         try {
 
@@ -894,8 +895,7 @@ public class InvoiceGen3Activity extends Activity implements LocationListener {
                 tr = new TableRow(this);
                 tr.setId(1000 + count);
                 tr.setPadding(4, 4, 4, 4);
-                tr.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,
-                        LayoutParams.WRAP_CONTENT));
+                tr.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
 
                 if (count % 2 != 0) {
                     tr.setBackgroundColor(Color.DKGRAY);
@@ -904,8 +904,7 @@ public class InvoiceGen3Activity extends Activity implements LocationListener {
 
                 TextView tvProductDescription = new TextView(this);
                 tvProductDescription.setId(200 + count);
-                tvProductDescription.setText(selectedProduct
-                        .getProductDescription());
+                tvProductDescription.setText(selectedProduct.getProductDescription());
                 tvProductDescription.setGravity(Gravity.LEFT);
                 tvProductDescription.setPadding(3, 3, 3, 3);
                 tvProductDescription.setTextColor(Color.WHITE);
@@ -913,7 +912,24 @@ public class InvoiceGen3Activity extends Activity implements LocationListener {
 
                 TextView tvPrice = new TextView(this);
                 tvPrice.setId(200 + count);
-                tvPrice.setText(String.valueOf(selectedProduct.getPrice()));
+
+                Double t = selectedProduct.getDiscount();
+
+                if(selectedProduct.getDiscount()>0.00){
+                    Products pro = new Products(this);
+                    pro.openReadableDatabase();
+                    Double retialsPrice=Double.parseDouble(pro.getRetailsPrice(selectedProduct.getProductCode()));
+                    tvPrice.setText(String.valueOf(retialsPrice));
+                    tempPrice = Double.parseDouble(String.valueOf(selectedProduct.getNormal() * retialsPrice)) * ((100 - selectedProduct.getDiscount()) / 100);
+
+                }else {
+                    tvPrice.setText(String.valueOf(selectedProduct.getPrice()));
+                    tempPrice = Double.parseDouble(String.valueOf(selectedProduct.getNormal() * selectedProduct.getPrice())) * ((100 - selectedProduct.getDiscount()) / 100);
+
+                }
+
+
+
                 tvPrice.setGravity(Gravity.LEFT);
                 tvPrice.setPadding(3, 3, 3, 3);
                 tvPrice.setTextColor(Color.WHITE);
@@ -937,8 +953,7 @@ public class InvoiceGen3Activity extends Activity implements LocationListener {
 
                 TextView tvDiscount = new TextView(this);
                 tvDiscount.setId(200 + count);
-                tvDiscount
-                        .setText(String.valueOf(selectedProduct.getDiscount()));
+                tvDiscount.setText(String.valueOf(selectedProduct.getDiscount()));
                 tvDiscount.setGravity(Gravity.LEFT);
                 tvDiscount.setPadding(3, 3, 3, 3);
                 tvDiscount.setTextColor(Color.WHITE);
@@ -955,10 +970,6 @@ public class InvoiceGen3Activity extends Activity implements LocationListener {
 
                 TextView tvTotal = new TextView(this);
                 tvTotal.setId(200 + count);
-                double tempPrice = Double.parseDouble(String
-                        .valueOf(selectedProduct.getNormal()
-                                * selectedProduct.getPrice()))
-                        * ((100 - selectedProduct.getDiscount()) / 100);
                 tvTotal.setText(String.format("%.2f", tempPrice));
                 tvTotal.setGravity(Gravity.LEFT);
                 tvTotal.setPadding(3, 3, 3, 3);
