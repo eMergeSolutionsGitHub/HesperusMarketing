@@ -183,6 +183,11 @@ import java.util.List;
                 textViewCustmomerNumber.setText(selectCusName[1]);
 
                 if (customerName.getText().toString().equals("") || tempreturnProducts.size() == 0) {
+
+                    editCash.setText("");
+                    textViewInvoiceCradite.setText("");
+                    textCheqe.setText("Cheque Ammount : 0.0");
+
                     cusName = selectCusName[0];
                     if (oustanding.get_rowcount() > 0) {
                         InvoiceNumberList.clear();
@@ -453,7 +458,6 @@ import java.util.List;
                         } else {
 
                         }
-
 
                         if (tempreturnProducts.size() == 0) {
                             returnDetails[0] = selectedInvoiceNum;
