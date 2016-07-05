@@ -130,7 +130,7 @@ import java.util.List;
         ArrayAdapter<String> customerAdapterList = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, CustomerNameList);
         customerName.setAdapter(customerAdapterList);
 
-       
+
 
         //click event
 
@@ -382,7 +382,6 @@ import java.util.List;
                             } else {
 
                             }
-                            // cheqbalance =Double.parseDouble(rBal[2]) - Double.parseDouble(textViewInvoiceCradite.getText().toString());
 
 
                         }
