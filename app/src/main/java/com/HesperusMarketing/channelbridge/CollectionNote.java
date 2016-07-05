@@ -980,13 +980,7 @@ import java.util.List;
                             cheqeValue=cheqeValue+Double.parseDouble(chaqeData[0]);
                         }
 
-                        textCheqe.setText("Cheque Ammount : " + String.valueOf(cheqeValue));
-                        /*textCheqe.setText("Cheque Ammount : " + editAmmount.getText().toString().trim());
-                        cheqAmmount = editAmmount.getText().toString().trim();
-                        cheqNumber = edtNumber.getText().toString().trim();
-                        cheqBank = bankTextView.getText().toString().trim();
-                        cheqBranch = edtBranch.getText().toString().trim();
-                        cheqRealizeDate = textViewRealizedate.getText().toString();*/
+                      
                         dialogBox.dismiss();
                     }
                 } else {
