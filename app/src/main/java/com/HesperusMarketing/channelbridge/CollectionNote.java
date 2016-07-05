@@ -962,17 +962,33 @@ import java.util.List;
                     } else {
 
 
-                        String[] chaqeDetails = new String[15];
-                       // chaqeDetails[0] =
+                        String[] chaqeDetail = new String[15];
+                        chaqeDetail[0] =editAmmount.getText().toString().trim();
+                        chaqeDetail[1]=edtNumber.getText().toString().trim();
+                        chaqeDetail[2] =bankTextView.getText().toString().trim();
+                        chaqeDetail[3]=edtBranch.getText().toString().trim();
+                        chaqeDetail[4] =textViewRealizedate.getText().toString().trim();
 
+                        if(chequeimageByte==null){
+                            chaqeDetail[5]="no image";
+                        }else {
+                            chaqeDetail[5]=chequeimageByte.toString();
+                        }
 
+                        cheqeDetails.add(chaqeDetail);
 
-                        textCheqe.setText("Cheque Ammount : " + editAmmount.getText().toString().trim());
+                        double cheqeValue=0.0;
+                        for (String[] chaqeData : cheqeDetails) {
+                            cheqeValue=cheqeValue+Double.parseDouble(chaqeData[0]);
+                        }
+
+                        textCheqe.setText("Cheque Ammount : " + String.valueOf(cheqeValue));
+                        /*textCheqe.setText("Cheque Ammount : " + editAmmount.getText().toString().trim());
                         cheqAmmount = editAmmount.getText().toString().trim();
                         cheqNumber = edtNumber.getText().toString().trim();
                         cheqBank = bankTextView.getText().toString().trim();
                         cheqBranch = edtBranch.getText().toString().trim();
-                        cheqRealizeDate = textViewRealizedate.getText().toString();
+                        cheqRealizeDate = textViewRealizedate.getText().toString();*/
                         dialogBox.dismiss();
                     }
                 } else {
