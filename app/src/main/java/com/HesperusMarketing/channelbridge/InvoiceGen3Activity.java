@@ -394,12 +394,10 @@ public class InvoiceGen3Activity extends Activity implements LocationListener {
                     double totalValue = Double.parseDouble(totalPrice);
 
                     if (totalValue >= targetValue) {
-                        invoiceComplete
-                                .setMessage("Your target has been achieved!");
+                        invoiceComplete.setMessage("Your target has been achieved!");
                         invoiceComplete.show();
                     } else if (totalValue < targetValue) {
-                        invoiceComplete
-                                .setMessage("Your target is not achieved!");
+                        invoiceComplete.setMessage("Your target is not achieved!");
                         invoiceComplete.show();
                     }
 
@@ -3385,8 +3383,7 @@ public class InvoiceGen3Activity extends Activity implements LocationListener {
 
                 Log.w("IG3", "total 332 " + count);
 
-                double needToPay = Float.parseFloat(invoiceValue)
-                        - totalDiscountedValue;
+                double needToPay = Float.parseFloat(invoiceValue) - totalDiscountedValue;
                 String needToPayString = String.format("%.2f", needToPay);
 
                 Log.w("IG3", "needToPay 332 " + needToPay);

@@ -21,7 +21,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-
+        CollectionNoteCheques.onCreate(db);
         ChequesDetails.onCreate(db);
         DiscountStructures.onCreate(db);
         TemporaryColorChart.onCreate(db);
@@ -67,6 +67,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+
+        CollectionNoteCheques.onCreate(db);
+        ChequesDetails.onCreate(db);
         DiscountStructures.onCreate(db);
         TemporaryColorChart.onCreate(db);
         UserLogin.onUpgrade(db, oldVersion, newVersion);

@@ -1470,7 +1470,7 @@ public class SyncronizePreference extends PreferenceActivity {
                                 custDetails[2]);
                         productRepStore.closeDatabase();
 
-                        if (!flag) {
+
                             productRepStore.openWritableDatabase();
                             Long result = productRepStore
                                     .insertProductRepStore(custDetails[0],
@@ -1486,35 +1486,7 @@ public class SyncronizePreference extends PreferenceActivity {
                             productRepStore.closeDatabase();
 
                             returnValue = 5;
-                        } else {
-                            productRepStore.openReadableDatabase();
-                            String qty = productRepStore
-                                    .getCurrentStockByBatch(custDetails[5]);
-                            productRepStore.closeDatabase();
-                            Log.w("QUANTITY", qty);
-                            Log.w("QUANTITY FROM SERVER", custDetails[3]);
 
-                            Log.w("Product ID", custDetails[0]);
-
-                            int quantity = Integer.parseInt(qty)
-                                    + Integer.parseInt(custDetails[3]);
-
-                            productRepStore.openWritableDatabase();
-                            long result = productRepStore
-                                    .updateProductRepstore(custDetails[5],
-                                            String.valueOf(quantity),
-                                            custDetails[4], timeStamp,
-                                            custDetails[0]);
-
-                            productRepStore.closeDatabase();
-
-                            if (result == -1) {
-                                returnValue = 7;
-                                break;
-                            }
-
-                            returnValue = 5;
-                        }
 
                     }
 
