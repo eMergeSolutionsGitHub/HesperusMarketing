@@ -130,8 +130,7 @@ import java.util.List;
         ArrayAdapter<String> customerAdapterList = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, CustomerNameList);
         customerName.setAdapter(customerAdapterList);
 
-       // final ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, InvoiceNumberList);
-
+       
 
         //click event
 
