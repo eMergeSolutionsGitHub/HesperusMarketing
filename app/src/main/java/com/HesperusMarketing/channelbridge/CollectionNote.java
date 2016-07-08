@@ -110,7 +110,7 @@ public class CollectionNote extends Activity implements DatePickerDialog.OnDateS
 
 
         returnProducts = new ArrayList<String[]>();
-        collectionNoteNumber = GenaterCollectionNoteNumber();
+
 
         //adapter
         listAdapter = new CollectionNoteAdapter(this, listCollectionNoteItem);
@@ -578,6 +578,8 @@ public class CollectionNote extends Activity implements DatePickerDialog.OnDateS
                 cns.openWritableDatabase();
                 String paymentType = null;
 
+                collectionNoteNumber = GenaterCollectionNoteNumber();
+
                 String chequeAmmount[] = textCheqe.getText().toString().split(":");
 
                 if (tempreturnProducts.isEmpty()) {
@@ -657,7 +659,7 @@ public class CollectionNote extends Activity implements DatePickerDialog.OnDateS
 
                     }
 
-
+                    noteCheques.closeDatabase();
 
 
                 }

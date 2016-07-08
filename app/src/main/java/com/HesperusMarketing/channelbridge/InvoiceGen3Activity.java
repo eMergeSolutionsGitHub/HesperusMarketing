@@ -412,10 +412,10 @@ public class InvoiceGen3Activity extends Activity implements LocationListener {
     private void saveChequeToCollectionNote() {
         //credit set to empty (request by frank)
         Log.i("referenceNumber ->", "" + referenceNumber);
-        aprove.openWritableDatabase();
+        /*aprove.openWritableDatabase();
         aprove.insertCollectionNoteSendToApprovel(collectNumber, referenceNumber, custName, creditAmount,
                 invoiceNumber, credit, selectedInvoOption, cash, cheque, chequeNumber, selectedBank, selectedBranch, collectionDate, releaseDate, chequeimage, seletedPaymentOptionCode, branchCode, customerNumber, "WO", credit);
-        aprove.closeDatabase();
+        aprove.closeDatabase();*/
     }
 
 

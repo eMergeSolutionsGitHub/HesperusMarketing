@@ -18,58 +18,35 @@ import java.util.ArrayList;
 import java.util.List;
 
 
- public class CollectionNoteSendToApprovel {
+public class CollectionNoteSendToApprovel {
 
     private static final String KEY_ROW_ID = "row_id";
     private static final String KEY_COLLECTION_NOTE_NO = "COLLECTION_NOTE_NO";
     private static final String KEY_REP_NO = "REP_NO";
-    private static final String KEY_CUSTOMER_NAME = "CUSTOMER_NAME";
+    private static final String KEY_CUSTOMER_CODE = "customer_code";
     private static final String KEY_CURRENT_OUTSTANDING = "CURRENT_OUTSTANDING";
     private static final String KEY_INVOICE_NO = "INVOICE_NO";
     private static final String KEY_CREDIT_AMOUNT = "CREDIT_AMOUNT";
     private static final String KEY_PAYMENT_TYPE = "PAYMENT_TYPE";
     private static final String KEY_CASH_AMOUNT = "CASH_AMOUNT";
-    private static final String KEY_CHEQUE_AMOUNT = "CHEQUE_AMOUNT";
-    private static final String KEY_CHEQUE_NUMBER = "CHEQUE_NUMBER";
-    private static final String KEY_BANK_NAME = "BANK_NAME";
-    private static final String KEY_BRANCH = "BRANCH";
-    private static final String KEY_COLLECT_DATE = "COLLECT_DATE";
-    private static final String KEY_REALIZE_DATE = "REALIZE_DATE";
-    private static final String KEY_CHEQUE_IMAGE = "CHEQUE_IMAGE";
     private static final String KEY_UPLOAD_STATUS = "upload_status";
-    private static final String KEY_PAYMENTTYPE_CODE = "paymentType_code";
-    private static final String KEY_BRANCH_CODE = "branch_code";
-    private static final String KEY_CUSTOMER_CODE = "customer_code";
-    private static final String KEY_TYPE = "TYPE";
     private static final String KEY_INVOICEBALNCE = "INV_Balance";
 
 
-    String[] columns = new String[]{KEY_ROW_ID, KEY_COLLECTION_NOTE_NO, KEY_REP_NO, KEY_CUSTOMER_NAME, KEY_CURRENT_OUTSTANDING, KEY_INVOICE_NO,
-            KEY_CREDIT_AMOUNT, KEY_PAYMENT_TYPE, KEY_CASH_AMOUNT, KEY_CHEQUE_AMOUNT, KEY_CHEQUE_NUMBER, KEY_BANK_NAME, KEY_BRANCH, KEY_COLLECT_DATE, KEY_REALIZE_DATE, KEY_CHEQUE_IMAGE, KEY_UPLOAD_STATUS,
-            KEY_PAYMENTTYPE_CODE, KEY_BRANCH_CODE, KEY_CUSTOMER_CODE, KEY_TYPE, KEY_INVOICEBALNCE};
+    String[] columns = new String[]{KEY_ROW_ID, KEY_COLLECTION_NOTE_NO, KEY_REP_NO, KEY_CUSTOMER_CODE, KEY_CURRENT_OUTSTANDING, KEY_INVOICE_NO,
+            KEY_CREDIT_AMOUNT, KEY_PAYMENT_TYPE, KEY_CASH_AMOUNT,KEY_UPLOAD_STATUS, KEY_INVOICEBALNCE};
     private static final String TABLE_NAME = "collection_note_send_approval";
     private static final String COLLECTION_NOTE_CREATE = "CREATE TABLE " + TABLE_NAME
             + " (" + KEY_ROW_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
             + KEY_COLLECTION_NOTE_NO + " TEXT NOT NULL,"
             + KEY_REP_NO + " TEXT ,"
-            + KEY_CUSTOMER_NAME + " TEXT ,"
+            + KEY_CUSTOMER_CODE + " TEXT ,"
             + KEY_CURRENT_OUTSTANDING + " TEXT ,"
             + KEY_INVOICE_NO + " TEXT ,"
             + KEY_CREDIT_AMOUNT + " TEXT ,"
             + KEY_PAYMENT_TYPE + " TEXT ,"
             + KEY_CASH_AMOUNT + " TEXT ,"
-            + KEY_CHEQUE_AMOUNT + " TEXT ,"
-            + KEY_CHEQUE_NUMBER + " TEXT,"
-            + KEY_BANK_NAME + " TEXT,"
-            + KEY_BRANCH + " TEXT,"
-            + KEY_COLLECT_DATE + " TEXT,"
-            + KEY_REALIZE_DATE + " TEXT,"
-            + KEY_CHEQUE_IMAGE + " BLOB,"
             + KEY_UPLOAD_STATUS + " TEXT, "
-            + KEY_PAYMENTTYPE_CODE + " TEXT, "
-            + KEY_BRANCH_CODE + " TEXT, "
-            + KEY_CUSTOMER_CODE + " TEXT,"
-            + KEY_TYPE + " TEXT,"
             + KEY_INVOICEBALNCE + " TEXT "
             + " );";
     public Context customerContext;
@@ -110,33 +87,20 @@ import java.util.List;
     }
 
 
-    public long insertCollectionNoteSendToApprovel(String KEY_COLLECTION_NOTE_NO1, String KEY_REP_NO1, String KEY_CUSTOMER_NAME1, String KEY_CURRENT_OUTSTANDING1, String KEY_INVOICE_NO1,
-                                                   String KEY_CREDIT_AMOUNT1, String KEY_PAYMENT_TYPE1, String KEY_CASH_AMOUNT1, String KEY_CHEQUE_AMOUNT1, String KEY_CHEQUE_NUMBER1,
-                                                   String KEY_BANK_NAME1, String KEY_BRANCH1, String KEY_COLLECT_DATE1, String KEY_REALIZE_DATE1, byte[] KEY_CHEQUE_IMAGE1, String Paymenttypecode
-            , String KEY_BRANCH_CODE1, String KEY_CUSTOMER_CODE1, String type, String InvBalnce) throws SQLException {
+    public long insertCollectionNoteSendToApprovel(String KEY_COLLECTION_NOTE_NO1, String KEY_REP_NO1, String KEY_CUSTOMER_CODE1, String KEY_CURRENT_OUTSTANDING1, String KEY_INVOICE_NO1,
+                                                   String KEY_CREDIT_AMOUNT1, String KEY_PAYMENT_TYPE1, String KEY_CASH_AMOUNT1,String InvBalnce ) throws SQLException {
 
         ContentValues cv = new ContentValues();
 
         cv.put(KEY_COLLECTION_NOTE_NO, KEY_COLLECTION_NOTE_NO1);
         cv.put(KEY_REP_NO, KEY_REP_NO1);
-        cv.put(KEY_CUSTOMER_NAME, KEY_CUSTOMER_NAME1);
+        cv.put(KEY_CUSTOMER_CODE, KEY_CUSTOMER_CODE1);
         cv.put(KEY_CURRENT_OUTSTANDING, KEY_CURRENT_OUTSTANDING1);
         cv.put(KEY_INVOICE_NO, KEY_INVOICE_NO1);
         cv.put(KEY_CREDIT_AMOUNT, KEY_CREDIT_AMOUNT1);
         cv.put(KEY_PAYMENT_TYPE, KEY_PAYMENT_TYPE1);
         cv.put(KEY_CASH_AMOUNT, KEY_CASH_AMOUNT1);
-        cv.put(KEY_CHEQUE_AMOUNT, KEY_CHEQUE_AMOUNT1);
-        cv.put(KEY_CHEQUE_NUMBER, KEY_CHEQUE_NUMBER1);
-        cv.put(KEY_BANK_NAME, KEY_BANK_NAME1);
-        cv.put(KEY_BRANCH, KEY_BRANCH1);
-        cv.put(KEY_COLLECT_DATE, KEY_COLLECT_DATE1);
-        cv.put(KEY_REALIZE_DATE, KEY_REALIZE_DATE1);
-        cv.put(KEY_CHEQUE_IMAGE, KEY_CHEQUE_IMAGE1);
         cv.put(KEY_UPLOAD_STATUS, "false");
-        cv.put(KEY_PAYMENTTYPE_CODE, Paymenttypecode);
-        cv.put(KEY_BRANCH_CODE, KEY_BRANCH_CODE1);
-        cv.put(KEY_CUSTOMER_CODE, KEY_CUSTOMER_CODE1);
-        cv.put(KEY_TYPE, type);
         cv.put(KEY_INVOICEBALNCE, InvBalnce);
 
 
@@ -160,20 +124,20 @@ import java.util.List;
             count = cur.getCount();
             cur.close();
 
-            if(count==0){
-                count=1;
+            if (count == 0) {
+                count = 1;
             }
 
-            finalCount=String.valueOf(count);
-           if(finalCount.length()==1){
-               finalCount="00"+finalCount;
-           }else if(finalCount.length()==1){
-               finalCount="0"+finalCount;
-           }
+            finalCount = String.valueOf(count);
+            if (finalCount.length() == 1) {
+                finalCount = "00" + finalCount;
+            } else if (finalCount.length() == 1) {
+                finalCount = "0" + finalCount;
+            }
 
             String splitDevicedID[] = deviceId.split("@");
 
-            Number = splitDevicedID[0] + "/" +"HES"+"/"+count;
+            Number = splitDevicedID[0] + "/" + "HES" + "/" + count;
             closeDatabase();
         } catch (Exception e) {
 
@@ -244,7 +208,7 @@ import java.util.List;
             invoiceData[20] = cursor.getString(20);//KEY_CUSTOMER_CODE
 
 
-            System.out.println("sxsssds : "+ invoiceData[19]);
+            System.out.println("sxsssds : " + invoiceData[19]);
 
 
             invoice.add(invoiceData);
@@ -267,23 +231,22 @@ import java.util.List;
 
     }
 
-    public ArrayList<ReportList> getDataForCollection(String customer, String town,String fromDate,String toDate,int searchStatus) {
+    public ArrayList<ReportList> getDataForCollection(String customer, String town, String fromDate, String toDate, int searchStatus) {
         ArrayList<ReportList> collection = new ArrayList<>();
 
         Cursor cursor = null;
 
-        if (searchStatus==0) {
-            cursor= database.rawQuery("SELECT COLLECT_DATE, COLLECTION_NOTE_NO,INVOICE_NO,CASH_AMOUNT, CHEQUE_AMOUNT FROM collection_note_send_approval col INNER JOIN customers cus on col.CUSTOMER_NAME = cus.customer_name where col.CUSTOMER_NAME = '" + customer + "' ORDER BY COLLECTION_NOTE_NO", null);
+        if (searchStatus == 0) {
+            cursor = database.rawQuery("SELECT COLLECT_DATE, COLLECTION_NOTE_NO,INVOICE_NO,CASH_AMOUNT, CHEQUE_AMOUNT FROM collection_note_send_approval col INNER JOIN customers cus on col.CUSTOMER_NAME = cus.customer_name where col.CUSTOMER_NAME = '" + customer + "' ORDER BY COLLECTION_NOTE_NO", null);
 
-        }else if(searchStatus==1){
-            cursor= database.rawQuery("SELECT COLLECT_DATE, COLLECTION_NOTE_NO,INVOICE_NO,CASH_AMOUNT, CHEQUE_AMOUNT FROM collection_note_send_approval col INNER JOIN customers cus on col.CUSTOMER_NAME = cus.customer_name where col.CUSTOMER_NAME = '" + customer + "' AND COLLECT_DATE BETWEEN '" + fromDate + "' AND '" + toDate + "'  ORDER BY COLLECTION_NOTE_NO", null);
+        } else if (searchStatus == 1) {
+            cursor = database.rawQuery("SELECT COLLECT_DATE, COLLECTION_NOTE_NO,INVOICE_NO,CASH_AMOUNT, CHEQUE_AMOUNT FROM collection_note_send_approval col INNER JOIN customers cus on col.CUSTOMER_NAME = cus.customer_name where col.CUSTOMER_NAME = '" + customer + "' AND COLLECT_DATE BETWEEN '" + fromDate + "' AND '" + toDate + "'  ORDER BY COLLECTION_NOTE_NO", null);
 
-        }else if (searchStatus==3){
-            cursor= database.rawQuery("SELECT COLLECT_DATE, COLLECTION_NOTE_NO,INVOICE_NO,CASH_AMOUNT, CHEQUE_AMOUNT,cus.customer_name  FROM collection_note_send_approval col INNER JOIN customers cus on col.CUSTOMER_NAME = cus.customer_name where cus.town = '" + town + "' ORDER BY COLLECTION_NOTE_NO",null);
-        }else if (searchStatus==4){
-            cursor= database.rawQuery("SELECT COLLECT_DATE, COLLECTION_NOTE_NO,INVOICE_NO,CASH_AMOUNT, CHEQUE_AMOUNT,cus.customer_name  FROM collection_note_send_approval col INNER JOIN customers cus on col.CUSTOMER_NAME = cus.customer_name where cus.town = '" + town + "'  AND COLLECT_DATE BETWEEN '" + fromDate + "' AND '" + toDate + "' ORDER BY COLLECTION_NOTE_NO",null);
+        } else if (searchStatus == 3) {
+            cursor = database.rawQuery("SELECT COLLECT_DATE, COLLECTION_NOTE_NO,INVOICE_NO,CASH_AMOUNT, CHEQUE_AMOUNT,cus.customer_name  FROM collection_note_send_approval col INNER JOIN customers cus on col.CUSTOMER_NAME = cus.customer_name where cus.town = '" + town + "' ORDER BY COLLECTION_NOTE_NO", null);
+        } else if (searchStatus == 4) {
+            cursor = database.rawQuery("SELECT COLLECT_DATE, COLLECTION_NOTE_NO,INVOICE_NO,CASH_AMOUNT, CHEQUE_AMOUNT,cus.customer_name  FROM collection_note_send_approval col INNER JOIN customers cus on col.CUSTOMER_NAME = cus.customer_name where cus.town = '" + town + "'  AND COLLECT_DATE BETWEEN '" + fromDate + "' AND '" + toDate + "' ORDER BY COLLECTION_NOTE_NO", null);
         }
-
 
 
         cursor.moveToFirst();
@@ -296,9 +259,9 @@ import java.util.List;
             dealerSaleEntity.setChequsAmmount(cursor.getString(4));//Check
 
 
-            if(searchStatus ==3||searchStatus ==4){
+            if (searchStatus == 3 || searchStatus == 4) {
                 dealerSaleEntity.setDelName(cursor.getString(5));
-            }else {
+            } else {
 
             }
 

@@ -80,7 +80,7 @@ public class CollectionNoteCheques {
         databaseHelper.close();
     }
 
-    public long insert_CollectionCheqes(String CollectionNo, String chequenumber,String cheqamount,String bankcode,String branchcode,String realizedDate,String image) throws SQLException {
+    public long insert_CollectionCheqes(String CollectionNo, String chequenumber,String cheqamount,String bankcode,String branchcode,String realizedDate,byte[] image) throws SQLException {
 
         SimpleDateFormat format = new SimpleDateFormat("MM-dd-yyyy");
         ContentValues cv = new ContentValues();
@@ -92,6 +92,9 @@ public class CollectionNoteCheques {
         cv.put(KEY_BRANCH, branchcode);
         cv.put(KEY_REALIZED_DATE, realizedDate);
         cv.put(KEY_CHEQUE_IMAGE, image);
+
+
+
 
 
         return database.insert(TABLE_NAME, null, cv);
