@@ -35,6 +35,7 @@ import com.HesperusMarketing.channelbridgeaddapters.CollectionNoteAdapter;
 import com.HesperusMarketing.channelbridgeaddapters.CollectionNoteList;
 import com.HesperusMarketing.channelbridgebs.UploadCollectionNoteTask;
 import com.HesperusMarketing.channelbridgedb.Branch;
+import com.HesperusMarketing.channelbridgedb.CollectionNoteCheques;
 import com.HesperusMarketing.channelbridgedb.CollectionNoteSendToApprovel;
 import com.HesperusMarketing.channelbridgedb.Customers;
 import com.HesperusMarketing.channelbridgedb.DEL_Outstandiing;
@@ -43,6 +44,7 @@ import com.borax12.materialdaterangepicker.date.DatePickerDialog;
 import com.jaredrummler.materialspinner.MaterialSpinner;
 
 import java.io.ByteArrayOutputStream;
+import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -50,7 +52,7 @@ import java.util.Date;
 import java.util.List;
 
 
- public class CollectionNote extends Activity implements DatePickerDialog.OnDateSetListener {
+public class CollectionNote extends Activity implements DatePickerDialog.OnDateSetListener {
 
     private static final int CAMERA_REQUEST = 1888;
 
@@ -67,10 +69,10 @@ import java.util.List;
     ArrayList<String[]> returnProducts;
     ArrayList<CollectionNoteList> listCollectionNoteItem = new ArrayList<CollectionNoteList>();
     ArrayList<String[]> tempreturnProducts;
-    List<String[]> cheqeDetails ;
+    List<String[]> cheqeDetails;
 
     String[] returnDetails;
-    String selectedInvoiceNum, cheqAmmount = "0", cheqNumber = "0", cheqBank = "0", cheqBranch = "0", cheqRealizeDate, cusName,collectionNoteNumber;
+    String selectedInvoiceNum, cheqAmmount = "0", cheqNumber = "0", cheqBank = "0", cheqBranch = "0", cheqRealizeDate, cusName, collectionNoteNumber;
     double balance = 0.0, cashBal = 0, cheqBal = 0, cashbalance = 0.0, cheqbalance = 0.0;
     boolean stsuts = false;
 
@@ -108,7 +110,7 @@ import java.util.List;
 
 
         returnProducts = new ArrayList<String[]>();
-        collectionNoteNumber =GenaterCollectionNoteNumber();
+        collectionNoteNumber = GenaterCollectionNoteNumber();
 
         //adapter
         listAdapter = new CollectionNoteAdapter(this, listCollectionNoteItem);
@@ -131,15 +133,14 @@ import java.util.List;
         customerName.setAdapter(customerAdapterList);
 
 
-
         //click event
 
         relativeLayoutCheque.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(tempreturnProducts.isEmpty()){
+                if (tempreturnProducts.isEmpty()) {
                     showChequeDialog();
-                }else {
+                } else {
                     AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(CollectionNote.this);
                     alertDialogBuilder.setTitle("Warring");
                     alertDialogBuilder
@@ -608,65 +609,56 @@ import java.util.List;
                         SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
                         String collectdate = df.format(c.getTime());
 
-                        if ((paymentType.equals("Cash+Cheque")) || (paymentType.equals("Cheque"))) {
-                            cns.insertCollectionNoteSendToApprovel(
-                                    collectionNoteNumber,
-                                    repId,
-                                    customerName.getText().toString(),
-                                    String.valueOf(OutStand_value),
-                                    cNoteDetail[0].toString(),
-                                    textViewInvoiceCradite.getText().toString(),
-                                    paymentType,
-                                    editCash.getText().toString(),
-                                    cheqAmmount,
-                                    cheqNumber,
-                                    cheqBank,
-                                    cheqBranch,
-                                    collectdate,
-                                    cheqRealizeDate,
-                                    chequeimageByte,
-                                    "",
-                                    "",
-                                    textViewCustmomerNumber.getText().toString(),
-                                    "",
-                                    cNoteDetail[3].toString());
-
+                        String cashAmount;
+                        if (editCash.getText().toString().equals("") || editCash.getText().toString().isEmpty()) {
+                            cashAmount = "0";
                         } else {
-                            cns.insertCollectionNoteSendToApprovel(
-                                    collectionNoteNumber,
-                                    repId,
-                                    customerName.getText().toString(),
-                                    String.valueOf(OutStand_value),
-                                    cNoteDetail[0].toString(),
-                                    textViewInvoiceCradite.getText().toString(),
-                                    paymentType,
-                                    editCash.getText().toString(),
-                                    "",
-                                    "",
-                                    "",
-                                    "",
-                                    "",
-                                    "",
-                                    chequeimageByte,
-                                    "",
-                                    "",
-                                    textViewCustmomerNumber.getText().toString(),
-                                    "",
-                                    cNoteDetail[3].toString());
+                            cashAmount = editCash.getText().toString();
                         }
+
+                        cns.insertCollectionNoteSendToApprovel(
+                                collectionNoteNumber,
+                                repId,
+                                textViewCustmomerNumber.getText().toString(),
+                                String.valueOf(OutStand_value),
+                                cNoteDetail[0].toString(),
+                                textViewInvoiceCradite.getText().toString(),
+                                paymentType,
+                                editCash.getText().toString(),
+                                cNoteDetail[3].toString());
+
 
                         Toast.makeText(CollectionNote.this, "Collection note save successfully", Toast.LENGTH_SHORT).show();
                         cns.closeDatabase();
                         valueclear();
 
 
-                        if (isNetworkAvailable() == true) {
+                       /* if (isNetworkAvailable() == true) {
                             upload();
 
-                        }
+                        }*/
 
 
                     }
+
+                    CollectionNoteCheques noteCheques = new CollectionNoteCheques(CollectionNote.this);
+                    noteCheques.openWritableDatabase();
+                    for (String[] chaqeData : cheqeDetails) {
+                        byte[] bytes;
+                        try {
+                            bytes = chaqeData[5].getBytes("UTF-8");
+                        } catch (UnsupportedEncodingException e) {
+                            e.printStackTrace();
+                            bytes=null;
+                        }
+
+                        noteCheques.insert_CollectionCheqes(collectionNoteNumber,chaqeData[0],chaqeData[1],chaqeData[2],chaqeData[3],chaqeData[4],bytes);
+
+
+                    }
+
+
+
 
                 }
 
@@ -732,7 +724,6 @@ import java.util.List;
         final TextView barnchCode = (TextView) dialogBox.findViewById(R.id.textView_barnchCode);
 
 
-
         if (!cheqAmmount.equals("0")) {
             editAmmount.setText(cheqAmmount);
             edtNumber.setText(cheqNumber);
@@ -760,8 +751,6 @@ import java.util.List;
         } else {
             btnChange.setEnabled(false);
         }
-
-
 
 
         //
@@ -797,12 +786,12 @@ import java.util.List;
                     bankCode.setText("Bank Code : " + banks.getBankCode((String) arg0.getItemAtPosition(arg2)));
                     banks.closeDatabase();
 
-                    if(edtBranch.getText().toString().equals("")){
+                    if (edtBranch.getText().toString().equals("")) {
 
-                    }else {
+                    } else {
                         Branch branch = new Branch(CollectionNote.this);
                         branch.openReadableDatabase();
-                        barnchCode.setText("Branch Code : " + branch.getBranchCodeForCollection((String) arg0.getItemAtPosition(arg2),edtBranch.getText().toString()));
+                        barnchCode.setText("Branch Code : " + branch.getBranchCodeForCollection((String) arg0.getItemAtPosition(arg2), edtBranch.getText().toString()));
                         branch.closeDatabase();
 
                     }
@@ -822,14 +811,13 @@ import java.util.List;
 
                     Branch branch = new Branch(CollectionNote.this);
                     branch.openReadableDatabase();
-                    barnchCode.setText("Branch Code : " + branch.getBranchCodeForCollection(bankTextView.getText().toString(),(String) arg0.getItemAtPosition(arg2)));
+                    barnchCode.setText("Branch Code : " + branch.getBranchCodeForCollection(bankTextView.getText().toString(), (String) arg0.getItemAtPosition(arg2)));
                     branch.closeDatabase();
 
 
+                    if (bankTextView.getText().toString().equals("")) {
 
-                    if(bankTextView.getText().toString().equals("")){
-
-                    }else {
+                    } else {
                         Master_Banks banks = new Master_Banks(CollectionNote.this);
                         banks.openReadableDatabase();
                         bankCode.setText("Bank Code : " + banks.getBankCode(bankTextView.getText().toString()));
@@ -961,26 +949,27 @@ import java.util.List;
 
 
                         String[] chaqeDetail = new String[15];
-                        chaqeDetail[0] =editAmmount.getText().toString().trim();
-                        chaqeDetail[1]=edtNumber.getText().toString().trim();
-                        chaqeDetail[2] =bankTextView.getText().toString().trim();
-                        chaqeDetail[3]=edtBranch.getText().toString().trim();
-                        chaqeDetail[4] =textViewRealizedate.getText().toString().trim();
+                        chaqeDetail[0] = editAmmount.getText().toString().trim();
+                        chaqeDetail[1] = edtNumber.getText().toString().trim();
+                        chaqeDetail[2] = bankTextView.getText().toString().trim();
+                        chaqeDetail[3] = edtBranch.getText().toString().trim();
+                        chaqeDetail[4] = textViewRealizedate.getText().toString().trim();
 
-                        if(chequeimageByte==null){
-                            chaqeDetail[5]="no image";
-                        }else {
-                            chaqeDetail[5]=chequeimageByte.toString();
+                        if (chequeimageByte == null) {
+                            chaqeDetail[5] = "no image";
+                        } else {
+                            chaqeDetail[5] = chequeimageByte.toString();
                         }
 
                         cheqeDetails.add(chaqeDetail);
 
-                        double cheqeValue=0.0;
+                        double cheqeValue = 0.0;
                         for (String[] chaqeData : cheqeDetails) {
-                            cheqeValue=cheqeValue+Double.parseDouble(chaqeData[0]);
+                            cheqeValue = cheqeValue + Double.parseDouble(chaqeData[0]);
                         }
+                        textCheqe.setText("Cheque Ammount : " + cheqeValue);
 
-                      
+
                         dialogBox.dismiss();
                     }
                 } else {
@@ -1011,20 +1000,18 @@ import java.util.List;
 
         Date dateSpecified = c.getTime();
         if (dateSpecified.after(today)) {
-            String month,day;
-            if(String.valueOf(dayOfMonth).length()==1){
-                day="0"+String.valueOf(dayOfMonth);
-            }else {
-                day=String.valueOf(dayOfMonth);
+            String month, day;
+            if (String.valueOf(dayOfMonth).length() == 1) {
+                day = "0" + String.valueOf(dayOfMonth);
+            } else {
+                day = String.valueOf(dayOfMonth);
             }
 
-            if(String.valueOf((monthOfYear+1)).length()==1){
-                month="0"+String.valueOf((monthOfYear+1));
-            }else {
-                month=String.valueOf((monthOfYear+1));
+            if (String.valueOf((monthOfYear + 1)).length() == 1) {
+                month = "0" + String.valueOf((monthOfYear + 1));
+            } else {
+                month = String.valueOf((monthOfYear + 1));
             }
-
-
 
 
             textViewRealizedate.setText(day + "-" + month + "-" + String.valueOf(year));
@@ -1063,10 +1050,10 @@ import java.util.List;
                 String chequeAmmount[] = textCheqe.getText().toString().split(":");
                 if ((tempreturnProducts.size() - 1) == i) {
                     String[] r2;
-                    if(tempreturnProducts.size()==1){
-                         r2 = tempreturnProducts.get(0);
-                    }else {
-                        r2 = tempreturnProducts.get(i-1);
+                    if (tempreturnProducts.size() == 1) {
+                        r2 = tempreturnProducts.get(0);
+                    } else {
+                        r2 = tempreturnProducts.get(i - 1);
                     }
 
                     if ((!chequeAmmount[1].toString().trim().equals("0.0")) && (!editCash.getText().toString().equals(""))) {
