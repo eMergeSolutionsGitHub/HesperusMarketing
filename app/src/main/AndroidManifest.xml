@@ -124,7 +124,7 @@
         <activity
             android:name="com.HesperusMarketing.channelbridge.InvoiceGen1Alternate"
             android:label="@string/app_name"
-            android:windowSoftInputMode="adjustPan"
+            android:windowSoftInputMode="stateAlwaysHidden"
             android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="com.HesperusMarketing.channelbridge.INVOICEGEN1ALTERNATE" />

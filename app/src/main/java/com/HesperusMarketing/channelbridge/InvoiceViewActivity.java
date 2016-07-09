@@ -1426,7 +1426,7 @@ public class InvoiceViewActivity extends Activity {
 
 
                     Double dicval=Double.parseDouble(discount);
-                    discount=String.format("%.2f", dicval);
+                    discount=String.format("%.1f", dicval);
 
                     int discriptionlength =discription.length();
 
@@ -1497,7 +1497,7 @@ public class InvoiceViewActivity extends Activity {
 
                 Double dictotval=Double.parseDouble(discountTot);
 
-                discountTot=String.format("%.2f", dictotval);
+                discountTot=String.format("%.1f", dictotval);
 
                 if (totqty.length() < 7) {
                     totqtyrem = 6- totqty.length();
@@ -1655,7 +1655,7 @@ public class InvoiceViewActivity extends Activity {
         // TODO Auto-generated method stub
         TableRow tr;
         tblInvoicedItems.setShrinkAllColumns(true);
-
+        double tempPrice;
         try {
 
             int count = 1;
@@ -1675,8 +1675,7 @@ public class InvoiceViewActivity extends Activity {
 
                 Products products = new Products(this);
                 products.openReadableDatabase();
-                String[] productdetail = products
-                        .getProductDetailsById(invoicedProduct[2]);
+                String[] productdetail = products.getProductDetailsById(invoicedProduct[2]);
                 products.closeDatabase();
 
                 TextView tvProductDescription = new TextView(this);
@@ -1689,7 +1688,22 @@ public class InvoiceViewActivity extends Activity {
 
                 TextView tvPrice = new TextView(this);
                 tvPrice.setId(200 + count);
-                tvPrice.setText(String.valueOf(invoicedProduct[9]));
+
+                System.out.println("productdetail[8] :" + productdetail[14]);
+
+                if(Double.parseDouble(invoicedProduct[6])>0.00){
+                    Products pro = new Products(this);
+                    pro.openReadableDatabase();
+                    Double retialsPrice=Double.parseDouble(productdetail[14]);
+                    tvPrice.setText(String.valueOf(retialsPrice));
+                    tempPrice = Double.parseDouble(invoicedProduct[7]) * retialsPrice  * ((100 - Double.parseDouble(invoicedProduct[6])) / 100);
+
+                }else {
+                    tvPrice.setText(String.valueOf(invoicedProduct[9]));
+                    tempPrice = Double.parseDouble(String.valueOf(Double.parseDouble(invoicedProduct[7]) * Double.parseDouble(invoicedProduct[9]))) * ((100 - Double.parseDouble(invoicedProduct[6])) / 100);
+
+                }
+
                 tvPrice.setGravity(Gravity.LEFT);
                 tvPrice.setPadding(3, 3, 3, 3);
                 tvPrice.setTextColor(Color.WHITE);
@@ -1733,17 +1747,8 @@ public class InvoiceViewActivity extends Activity {
                 tvTotal.setId(200 + count);
 
 
-                double tempPrice = Double.parseDouble(String.valueOf(Integer
-                        .parseInt(invoicedProduct[7])
-                        * Double.parseDouble(invoicedProduct[9])));
 
-                double discount = 0;
-
-                if (invoicedProduct[6] != null || invoicedProduct[6] != "") {
-                    discount = (tempPrice / 100) * Double.parseDouble(invoicedProduct[6]);
-                }
-
-                tvTotal.setText(String.format("%.2f", tempPrice - discount));
+                tvTotal.setText(String.format("%.2f", tempPrice));
                 tvTotal.setGravity(Gravity.LEFT);
                 tvTotal.setPadding(3, 3, 3, 3);
                 tvTotal.setTextColor(Color.WHITE);

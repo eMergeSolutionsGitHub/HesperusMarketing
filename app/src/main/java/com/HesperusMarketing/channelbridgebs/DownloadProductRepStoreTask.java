@@ -120,7 +120,7 @@ public class DownloadProductRepStoreTask extends
                             flag = productRepStore.isBatchAvailable(custDetails[5], custDetails[2]);
                             productRepStore.closeDatabase();
 
-                            if (!flag) {
+
                                 productRepStore.openWritableDatabase();
                                 Long result = productRepStore.insertProductRepStore(
                                         custDetails[0], custDetails[2], custDetails[5],
@@ -134,31 +134,7 @@ public class DownloadProductRepStoreTask extends
                                 productRepStore.closeDatabase();
 
                                 returnValue = 2;
-                            } else {
-                                productRepStore.openReadableDatabase();
-                                String qty = productRepStore
-                                        .getCurrentStockByBatch(custDetails[5]);
-                                productRepStore.closeDatabase();
-                                Log.w("QUANTITY", qty);
-                                Log.w("QUANTITY FROM SERVER", custDetails[3]);
 
-                                int quantity = Integer.parseInt(qty)
-                                        + Integer.parseInt(custDetails[3]);
-
-                                productRepStore.openWritableDatabase();
-                                long result = productRepStore.updateProductRepstore(
-                                        custDetails[5], String.valueOf(quantity),
-                                        custDetails[4], timeStamp, custDetails[0]);
-
-                                if (result == -1) {
-                                    returnValue = 7;
-                                    productRepStore.closeDatabase();
-                                    break;
-                                }
-                                productRepStore.closeDatabase();
-
-                                returnValue = 2;
-                            }
 
                         }
 

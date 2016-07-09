@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="500dp"
+    android:orientation="vertical" android:layout_width="800dp"
     android:layout_height="550dp"
     android:background="#00FFFFFF"
     android:id="@+id/relativeLayoutmain">
 
     <RelativeLayout
-        android:layout_width="match_parent"
+        android:layout_width="500dp"
         android:layout_height="50dp"
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
@@ -30,7 +30,7 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:layout_width="match_parent"
+        android:layout_width="500dp"
         android:layout_height="50dp"
         android:layout_below="@+id/relativeLayout17"
         android:layout_alignParentLeft="true"
@@ -65,7 +65,7 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:layout_width="match_parent"
+        android:layout_width="500dp"
         android:layout_height="50dp"
         android:layout_below="@+id/relativeLayout18"
         android:layout_alignParentLeft="true"
@@ -103,7 +103,7 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:layout_width="match_parent"
+        android:layout_width="500dp"
         android:layout_height="50dp"
         android:layout_below="@+id/relativeLayout19"
         android:layout_alignParentLeft="true"
@@ -142,7 +142,7 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:layout_width="match_parent"
+        android:layout_width="500dp"
         android:layout_height="50dp"
         android:layout_below="@+id/relativeLayout20"
         android:layout_alignParentLeft="true"
@@ -178,7 +178,7 @@
     </RelativeLayout>
 .................................
     <RelativeLayout
-        android:layout_width="match_parent"
+        android:layout_width="500dp"
         android:layout_height="50dp"
         android:layout_below="@+id/relativeLayout21"
         android:layout_alignParentLeft="true"
@@ -224,7 +224,7 @@
 
     //////////////////
     <RelativeLayout
-        android:layout_width="match_parent"
+        android:layout_width="500dp"
         android:layout_height="50dp"
         android:layout_below="@+id/relativeLayout30"
         android:layout_marginLeft="15dp"
@@ -281,7 +281,7 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:layout_width="match_parent"
+        android:layout_width="500dp"
         android:layout_height="120dp"
         android:layout_below="@+id/relativeLayout22"
         android:layout_alignParentLeft="true"
@@ -324,7 +324,7 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:layout_width="match_parent"
+        android:layout_width="500dp"
         android:layout_height="50dp"
         android:layout_below="@+id/relativeLayoutimage"
         android:layout_alignParentLeft="true"
@@ -337,7 +337,7 @@
         <Button
             android:layout_width="150dp"
             android:layout_height="40dp"
-            android:text="Done"
+            android:text="Add"
             android:id="@+id/button_dialog_done"
             android:background="@drawable/button_green"
             android:textColor="#ffffff"
@@ -368,5 +368,82 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:src="@drawable/tick_red" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignTop="@+id/relativeLayout17"
+        android:layout_toRightOf="@+id/relativeLayout17"
+        android:layout_toEndOf="@+id/relativeLayout17"
+        android:background="#ffffff">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:background="@color/myGreen"
+            android:id="@+id/relativeLayout32">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Cheque Details"
+                android:id="@+id/textView47"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                android:textColor="#ffffff" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_below="@+id/relativeLayout32"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="5dp"
+            android:background="@color/blue_grey_500"
+            android:id="@+id/relativeLayout33"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp">
+
+            <TextView
+                android:layout_width="140dp"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Cheque Number"
+                android:id="@+id/textView48"
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:textColor="#ffffff"
+                android:layout_marginLeft="5dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Amount"
+                android:id="@+id/textView_value"
+                android:layout_alignTop="@+id/textView48"
+                android:layout_toRightOf="@+id/textView48"
+                android:layout_toEndOf="@+id/textView48"
+                android:layout_marginLeft="40dp"
+                android:layout_marginStart="40dp"
+                android:textColor="#ffffff" />
+        </RelativeLayout>
+
+        <ListView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/listViewChewues"
+            android:layout_below="@+id/relativeLayout33"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:divider="#ffffff"
+            android:dividerHeight="5dp"
+            android:layout_margin="5dp" />
+    </RelativeLayout>
 
 </RelativeLayout>

@@ -394,12 +394,10 @@ public class InvoiceGen3Activity extends Activity implements LocationListener {
                     double totalValue = Double.parseDouble(totalPrice);
 
                     if (totalValue >= targetValue) {
-                        invoiceComplete
-                                .setMessage("Your target has been achieved!");
+                        invoiceComplete.setMessage("Your target has been achieved!");
                         invoiceComplete.show();
                     } else if (totalValue < targetValue) {
-                        invoiceComplete
-                                .setMessage("Your target is not achieved!");
+                        invoiceComplete.setMessage("Your target is not achieved!");
                         invoiceComplete.show();
                     }
 
@@ -414,10 +412,10 @@ public class InvoiceGen3Activity extends Activity implements LocationListener {
     private void saveChequeToCollectionNote() {
         //credit set to empty (request by frank)
         Log.i("referenceNumber ->", "" + referenceNumber);
-        aprove.openWritableDatabase();
+        /*aprove.openWritableDatabase();
         aprove.insertCollectionNoteSendToApprovel(collectNumber, referenceNumber, custName, creditAmount,
                 invoiceNumber, credit, selectedInvoOption, cash, cheque, chequeNumber, selectedBank, selectedBranch, collectionDate, releaseDate, chequeimage, seletedPaymentOptionCode, branchCode, customerNumber, "WO", credit);
-        aprove.closeDatabase();
+        aprove.closeDatabase();*/
     }
 
 
@@ -884,6 +882,7 @@ public class InvoiceGen3Activity extends Activity implements LocationListener {
                 "productsArray.size() : " + productsArray.size());
         TableRow tr;
         tblInvoice.setShrinkAllColumns(true);
+        double tempPrice;
 
         try {
 
@@ -894,8 +893,7 @@ public class InvoiceGen3Activity extends Activity implements LocationListener {
                 tr = new TableRow(this);
                 tr.setId(1000 + count);
                 tr.setPadding(4, 4, 4, 4);
-                tr.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT,
-                        LayoutParams.WRAP_CONTENT));
+                tr.setLayoutParams(new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT));
 
                 if (count % 2 != 0) {
                     tr.setBackgroundColor(Color.DKGRAY);
@@ -904,8 +902,7 @@ public class InvoiceGen3Activity extends Activity implements LocationListener {
 
                 TextView tvProductDescription = new TextView(this);
                 tvProductDescription.setId(200 + count);
-                tvProductDescription.setText(selectedProduct
-                        .getProductDescription());
+                tvProductDescription.setText(selectedProduct.getProductDescription());
                 tvProductDescription.setGravity(Gravity.LEFT);
                 tvProductDescription.setPadding(3, 3, 3, 3);
                 tvProductDescription.setTextColor(Color.WHITE);
@@ -913,7 +910,24 @@ public class InvoiceGen3Activity extends Activity implements LocationListener {
 
                 TextView tvPrice = new TextView(this);
                 tvPrice.setId(200 + count);
-                tvPrice.setText(String.valueOf(selectedProduct.getPrice()));
+
+                Double t = selectedProduct.getDiscount();
+
+                if(selectedProduct.getDiscount()>0.00){
+                    Products pro = new Products(this);
+                    pro.openReadableDatabase();
+                    Double retialsPrice=Double.parseDouble(pro.getRetailsPrice(selectedProduct.getProductCode()));
+                    tvPrice.setText(String.valueOf(retialsPrice));
+                    tempPrice = Double.parseDouble(String.valueOf(selectedProduct.getNormal() * retialsPrice)) * ((100 - selectedProduct.getDiscount()) / 100);
+
+                }else {
+                    tvPrice.setText(String.valueOf(selectedProduct.getPrice()));
+                    tempPrice = Double.parseDouble(String.valueOf(selectedProduct.getNormal() * selectedProduct.getPrice())) * ((100 - selectedProduct.getDiscount()) / 100);
+
+                }
+
+
+
                 tvPrice.setGravity(Gravity.LEFT);
                 tvPrice.setPadding(3, 3, 3, 3);
                 tvPrice.setTextColor(Color.WHITE);
@@ -937,8 +951,7 @@ public class InvoiceGen3Activity extends Activity implements LocationListener {
 
                 TextView tvDiscount = new TextView(this);
                 tvDiscount.setId(200 + count);
-                tvDiscount
-                        .setText(String.valueOf(selectedProduct.getDiscount()));
+                tvDiscount.setText(String.valueOf(selectedProduct.getDiscount()));
                 tvDiscount.setGravity(Gravity.LEFT);
                 tvDiscount.setPadding(3, 3, 3, 3);
                 tvDiscount.setTextColor(Color.WHITE);
@@ -955,10 +968,6 @@ public class InvoiceGen3Activity extends Activity implements LocationListener {
 
                 TextView tvTotal = new TextView(this);
                 tvTotal.setId(200 + count);
-                double tempPrice = Double.parseDouble(String
-                        .valueOf(selectedProduct.getNormal()
-                                * selectedProduct.getPrice()))
-                        * ((100 - selectedProduct.getDiscount()) / 100);
                 tvTotal.setText(String.format("%.2f", tempPrice));
                 tvTotal.setGravity(Gravity.LEFT);
                 tvTotal.setPadding(3, 3, 3, 3);
@@ -3374,8 +3383,7 @@ public class InvoiceGen3Activity extends Activity implements LocationListener {
 
                 Log.w("IG3", "total 332 " + count);
 
-                double needToPay = Float.parseFloat(invoiceValue)
-                        - totalDiscountedValue;
+                double needToPay = Float.parseFloat(invoiceValue) - totalDiscountedValue;
                 String needToPayString = String.format("%.2f", needToPay);
 
                 Log.w("IG3", "needToPay 332 " + needToPay);

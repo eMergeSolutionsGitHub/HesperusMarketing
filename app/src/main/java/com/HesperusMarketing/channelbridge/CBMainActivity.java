@@ -931,8 +931,6 @@ public class CBMainActivity extends Activity implements LocationListener {
             flag = productRepStore.isBatchAvailable(custDetails[5], custDetails[2]);
             productRepStore.closeDatabase();
 
-
-            if (!flag) {
                 productRepStore.openWritableDatabase();
                 Long result = productRepStore.insertProductRepStore(
                         custDetails[0], custDetails[2], custDetails[5],
@@ -945,23 +943,7 @@ public class CBMainActivity extends Activity implements LocationListener {
                 }
                 productRepStore.closeDatabase();
 
-            } else {
-                productRepStore.openReadableDatabase();
-                String qty = productRepStore.getCurrentStockByBatch(custDetails[5]);
-                productRepStore.closeDatabase();
 
-                int quantity = Integer.parseInt(qty) + Integer.parseInt(custDetails[3]);
-
-                productRepStore.openWritableDatabase();
-                long result = productRepStore.updateProductRepstore(custDetails[5], String.valueOf(quantity), custDetails[4], timeStamp, custDetails[0]);
-
-                if (result == -1) {
-                    rtnStr = "error";
-                    productRepStore.closeDatabase();
-                    break;
-                }
-                productRepStore.closeDatabase();
-            }
 
 
             rtnStr = "success";
