@@ -29,12 +29,13 @@ public class CollectionNoteSendToApprovel {
     private static final String KEY_CREDIT_AMOUNT = "CREDIT_AMOUNT";
     private static final String KEY_PAYMENT_TYPE = "PAYMENT_TYPE";
     private static final String KEY_CASH_AMOUNT = "CASH_AMOUNT";
+    private static final String KEY_CHEQES_AMOUNT = "CHEQES_AMOUNT";
     private static final String KEY_UPLOAD_STATUS = "upload_status";
     private static final String KEY_INVOICEBALNCE = "INV_Balance";
 
 
     String[] columns = new String[]{KEY_ROW_ID, KEY_COLLECTION_NOTE_NO, KEY_REP_NO, KEY_CUSTOMER_CODE, KEY_CURRENT_OUTSTANDING, KEY_INVOICE_NO,
-            KEY_CREDIT_AMOUNT, KEY_PAYMENT_TYPE, KEY_CASH_AMOUNT,KEY_UPLOAD_STATUS, KEY_INVOICEBALNCE};
+            KEY_CREDIT_AMOUNT, KEY_PAYMENT_TYPE, KEY_CASH_AMOUNT,KEY_CHEQES_AMOUNT,KEY_UPLOAD_STATUS, KEY_INVOICEBALNCE};
     private static final String TABLE_NAME = "collection_note_send_approval";
     private static final String COLLECTION_NOTE_CREATE = "CREATE TABLE " + TABLE_NAME
             + " (" + KEY_ROW_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
@@ -46,6 +47,7 @@ public class CollectionNoteSendToApprovel {
             + KEY_CREDIT_AMOUNT + " TEXT ,"
             + KEY_PAYMENT_TYPE + " TEXT ,"
             + KEY_CASH_AMOUNT + " TEXT ,"
+            + KEY_CHEQES_AMOUNT + " TEXT ,"
             + KEY_UPLOAD_STATUS + " TEXT, "
             + KEY_INVOICEBALNCE + " TEXT "
             + " );";
@@ -88,7 +90,7 @@ public class CollectionNoteSendToApprovel {
 
 
     public long insertCollectionNoteSendToApprovel(String KEY_COLLECTION_NOTE_NO1, String KEY_REP_NO1, String KEY_CUSTOMER_CODE1, String KEY_CURRENT_OUTSTANDING1, String KEY_INVOICE_NO1,
-                                                   String KEY_CREDIT_AMOUNT1, String KEY_PAYMENT_TYPE1, String KEY_CASH_AMOUNT1,String InvBalnce ) throws SQLException {
+                                                   String KEY_CREDIT_AMOUNT1, String KEY_PAYMENT_TYPE1, String KEY_CASH_AMOUNT1,String KEY_CHEQUE_AMOUNT1,String InvBalnce ) throws SQLException {
 
         ContentValues cv = new ContentValues();
 
@@ -100,6 +102,7 @@ public class CollectionNoteSendToApprovel {
         cv.put(KEY_CREDIT_AMOUNT, KEY_CREDIT_AMOUNT1);
         cv.put(KEY_PAYMENT_TYPE, KEY_PAYMENT_TYPE1);
         cv.put(KEY_CASH_AMOUNT, KEY_CASH_AMOUNT1);
+        cv.put(KEY_CHEQES_AMOUNT, KEY_CHEQUE_AMOUNT1);
         cv.put(KEY_UPLOAD_STATUS, "false");
         cv.put(KEY_INVOICEBALNCE, InvBalnce);
 
@@ -174,41 +177,23 @@ public class CollectionNoteSendToApprovel {
 //		Cursor cursor = database.query(TABLE_NAME,
 //				columns, KEY_UPLOADED_STATUS+" = ?", new String[]{status}, null, null, null);
 
-        Cursor cursor = database.query(TABLE_NAME,
-                columns, KEY_UPLOAD_STATUS + " = '" + status + "'", null, null, null, null);
+        Cursor cursor = database.query(TABLE_NAME, columns, KEY_UPLOAD_STATUS + " = '" + status + "'", null, null, null, null);
 
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-            String[] invoiceData = new String[21];
+            String[] invoiceData = new String[12];
             invoiceData[0] = cursor.getString(0);//KEY_ROW_ID
             invoiceData[1] = cursor.getString(1);//KEY_COLLECTION_NOTE_NO
             invoiceData[2] = cursor.getString(2);// KEY_REP_NO
-            invoiceData[3] = cursor.getString(3);//KEY_CUSTOMER_NAME
+            invoiceData[3] = cursor.getString(3);//customer_code
             invoiceData[4] = cursor.getString(4);//KEY_CURRENT_OUTSTANDING
             invoiceData[5] = cursor.getString(5);//KEY_INVOICE_NO
             invoiceData[6] = cursor.getString(6);//KEY_CREDIT_AMOUNT
             invoiceData[7] = cursor.getString(7);//KEY_PAYMENT_TYPE
             invoiceData[8] = cursor.getString(8);//KEY_CASH_AMOUNT
             invoiceData[9] = cursor.getString(9);//KEY_CHEQUE_AMOUNT
-            invoiceData[10] = cursor.getString(10);//KEY_CHEQUE_NUMBER
-            invoiceData[11] = cursor.getString(11);//KEY_BANK_NAME
-            invoiceData[12] = cursor.getString(12);//KEY_BRANCH
-            invoiceData[13] = cursor.getString(13);//KEY_COLLECT_DATE
-            invoiceData[14] = cursor.getString(14);//KEY_REALIZE_DATE
-            byte[] bb = cursor.getBlob(15);
+            invoiceData[10] = cursor.getString(10);//KEY_INVOICEBALNCE
 
-            if (bb != null)
-                invoiceData[15] = ConvertByteArryTobase64String(bb);//KEY_CHEQUE_IMAGE
-            else
-                invoiceData[15] = "";
-            invoiceData[16] = cursor.getString(16);//state
-            invoiceData[17] = cursor.getString(17);//KEY_PAYMENTTYPE_CODE
-            invoiceData[18] = cursor.getString(18);//KEY_BRANCH_CODE
-            invoiceData[19] = cursor.getString(19);//KEY_CUSTOMER_CODE
-            invoiceData[20] = cursor.getString(20);//KEY_CUSTOMER_CODE
-
-
-            System.out.println("sxsssds : " + invoiceData[19]);
 
 
             invoice.add(invoiceData);

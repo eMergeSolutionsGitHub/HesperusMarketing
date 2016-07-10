@@ -182,7 +182,7 @@ public class Master_Banks {
 
 
         } catch (Exception e) {
-            result = "No Bank Code";
+            result = "No Code";
         }
         cur.close();
         return result;

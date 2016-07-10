@@ -29,6 +29,7 @@ import com.HesperusMarketing.channelbridgebs.Download_Branch;
 import com.HesperusMarketing.channelbridgebs.Download_DEL_Outstanding;
 import com.HesperusMarketing.channelbridgebs.Download_Master_Banks;
 import com.HesperusMarketing.channelbridgebs.Download_PaymentType;
+import com.HesperusMarketing.channelbridgebs.UploadCollectionChequesTask;
 import com.HesperusMarketing.channelbridgebs.UploadCollectionNoteTask;
 import com.HesperusMarketing.channelbridgebs.UploadRetunHeaderTask;
 import com.HesperusMarketing.channelbridgedb.Approval_Persons;
@@ -532,6 +533,7 @@ public class SyncronizePreference extends PreferenceActivity {
              }else if (preference.getKey().equals("Upload_Collection_Note")) {
                 Log.w("Log", "PreferenceOnClickListener Upload Collection Note");
                 new UploadCollectionNoteTask(SyncronizePreference.this).execute();
+                new UploadCollectionChequesTask(SyncronizePreference.this).execute();
 
             }else if(preference.getKey().equals("DownloadDealerSales")){
                 new DownloadDealerSalesTask(SyncronizePreference.this).execute();

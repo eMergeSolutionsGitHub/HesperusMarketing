@@ -28,6 +28,7 @@ import android.widget.Toast;
 import com.HesperusMarketing.channelbridgebs.DownloadCustomersTask;
 import com.HesperusMarketing.channelbridgebs.Download_DEL_Outstanding;
 import com.HesperusMarketing.channelbridgebs.UploadCollectionNoteTask;
+import com.HesperusMarketing.channelbridgebs.UploadInvoiceChequesDetailsTask;
 import com.HesperusMarketing.channelbridgebs.UploadInvoiceHeaderTask;
 import com.HesperusMarketing.channelbridgebs.UploadInvoiceOutstandingTask;
 import com.HesperusMarketing.channelbridgebs.UploadInvoiceTask;
@@ -313,6 +314,7 @@ public class InvoiceGen3Activity extends Activity implements LocationListener {
                     updateShelfQuantityDB();
                     saveReturns();
                     updateInvoicedCheque();
+
                     if (Double.parseDouble(cash) > 0 || Double.parseDouble(cheque) > 0) {
                         saveChequeToCollectionNote();
                     }
@@ -375,6 +377,9 @@ public class InvoiceGen3Activity extends Activity implements LocationListener {
                                 .execute(deviceId,
                                         repId);
 
+                        new UploadInvoiceChequesDetailsTask(InvoiceGen3Activity.this).execute(
+                                deviceId, repId);
+
 
                     } else {
                         Toast noMatchesFound = Toast.makeText(getApplication(),
@@ -412,7 +417,13 @@ public class InvoiceGen3Activity extends Activity implements LocationListener {
     private void saveChequeToCollectionNote() {
         //credit set to empty (request by frank)
         Log.i("referenceNumber ->", "" + referenceNumber);
-        /*aprove.openWritableDatabase();
+
+        System.out.println("collectNumber : "+collectNumber);
+        System.out.println("referenceNumber : "+referenceNumber);
+        System.out.println("selectedInvoOption : "+selectedInvoOption);
+        System.out.println("seletedPaymentOptionCode : "+seletedPaymentOptionCode);
+
+       /* aprove.openWritableDatabase();
         aprove.insertCollectionNoteSendToApprovel(collectNumber, referenceNumber, custName, creditAmount,
                 invoiceNumber, credit, selectedInvoOption, cash, cheque, chequeNumber, selectedBank, selectedBranch, collectionDate, releaseDate, chequeimage, seletedPaymentOptionCode, branchCode, customerNumber, "WO", credit);
         aprove.closeDatabase();*/

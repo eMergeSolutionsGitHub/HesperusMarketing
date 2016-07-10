@@ -18,6 +18,7 @@ import android.preference.PreferenceManager;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
@@ -35,6 +36,7 @@ import com.HesperusMarketing.channelbridgeaddapters.CollectionChequeAdapter;
 import com.HesperusMarketing.channelbridgeaddapters.CollectionNoteAdapter;
 import com.HesperusMarketing.channelbridgeaddapters.CollectionNoteList;
 import com.HesperusMarketing.channelbridgeaddapters.ListCollectionCheque;
+import com.HesperusMarketing.channelbridgebs.UploadCollectionChequesTask;
 import com.HesperusMarketing.channelbridgebs.UploadCollectionNoteTask;
 import com.HesperusMarketing.channelbridgedb.Branch;
 import com.HesperusMarketing.channelbridgedb.CollectionNoteCheques;
@@ -46,6 +48,10 @@ import com.borax12.materialdaterangepicker.date.DatePickerDialog;
 import com.jaredrummler.materialspinner.MaterialSpinner;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -77,7 +83,7 @@ public class CollectionNote extends Activity implements DatePickerDialog.OnDateS
     String selectedInvoiceNum, cheqAmmount = "0", cheqNumber = "0", cheqBank = "0", cheqBranch = "0", cheqRealizeDate, cusName, collectionNoteNumber;
     double balance = 0.0, cashBal = 0, cheqBal = 0, cashbalance = 0.0, cheqbalance = 0.0;
     boolean stsuts = false;
-    int selectedCheq=-1;
+    int selectedCheq = -1;
 
     Bitmap photo;
     byte[] chequeimageByte;
@@ -619,7 +625,7 @@ public class CollectionNote extends Activity implements DatePickerDialog.OnDateS
                         } else {
                             cashAmount = editCash.getText().toString();
                         }
-
+                        String[] chqAmmount = textCheqe.getText().toString().split(":");
                         cns.insertCollectionNoteSendToApprovel(
                                 collectionNoteNumber,
                                 repId,
@@ -628,7 +634,7 @@ public class CollectionNote extends Activity implements DatePickerDialog.OnDateS
                                 cNoteDetail[0].toString(),
                                 textViewInvoiceCradite.getText().toString(),
                                 paymentType,
-                                editCash.getText().toString(),
+                                editCash.getText().toString(),chqAmmount[1],
                                 cNoteDetail[3].toString());
 
 
@@ -637,10 +643,10 @@ public class CollectionNote extends Activity implements DatePickerDialog.OnDateS
                         valueclear();
 
 
-                       /* if (isNetworkAvailable() == true) {
+                        if (isNetworkAvailable() == true) {
                             upload();
 
-                        }*/
+                        }
 
 
                     }
@@ -729,36 +735,7 @@ public class CollectionNote extends Activity implements DatePickerDialog.OnDateS
 
         final ListView cheqList = (ListView) dialogBox.findViewById(R.id.listViewChewues);
 
-       /* if (!cheqAmmount.equals("0")) {
-            editAmmount.setText(cheqAmmount);
-            edtNumber.setText(cheqNumber);
-            edtBranch.setText(cheqBranch);
-            bankTextView.setText(cheqBank);
-            textViewRealizedate.setText(cheqRealizeDate);
 
-            try {
-                Bitmap bmp = BitmapFactory.decodeByteArray(chequeimageByte, 0, chequeimageByte.length);
-                chequeimage.setImageBitmap(bmp);
-            } catch (NullPointerException n) {
-
-            }
-
-
-            editAmmount.setEnabled(false);
-            edtNumber.setEnabled(false);
-            edtBranch.setEnabled(false);
-            bankTextView.setEnabled(false);
-            calenderView.setEnabled(false);
-            layoutChequeImage.setEnabled(false);
-
-            btnChange.setEnabled(true);
-
-        } else {
-            btnChange.setEnabled(false);
-        }*/
-
-
-        //
         Master_Banks banks = new Master_Banks(this);
         banks.openReadableDatabase();
         bankList = banks.GetBank();
@@ -793,7 +770,7 @@ public class CollectionNote extends Activity implements DatePickerDialog.OnDateS
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
                 String[] c = cheqeDetails.get(i);
-                selectedCheq=i;
+                selectedCheq = i;
 
                 editAmmount.setText(c[0]);
                 edtNumber.setText(c[1]);
@@ -801,16 +778,8 @@ public class CollectionNote extends Activity implements DatePickerDialog.OnDateS
                 edtBranch.setText(c[3]);
                 textViewRealizedate.setText(c[4]);
 
-                byte[] bytes;
                 try {
-                    bytes = c[5].getBytes("UTF-8");
-                } catch (UnsupportedEncodingException e) {
-                    e.printStackTrace();
-                    bytes = null;
-                }
-                try {
-                    Bitmap bmp = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
-                    chequeimage.setImageBitmap(bmp);
+                    chequeimage.setImageBitmap(base64ToBitmap(c[5]));
                 } catch (NullPointerException n) {
 
                 }
@@ -897,16 +866,19 @@ public class CollectionNote extends Activity implements DatePickerDialog.OnDateS
                         .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int id) {
 
-                                if(cheqeDetails.isEmpty()){
+                                double cheqeValue = 0.0;
 
-                                }else if(selectedCheq == -1){
+                                if (cheqeDetails.isEmpty()) {
 
-                                }else {
+                                } else if (selectedCheq == -1) {
+
+                                } else {
                                     cheqeDetails.remove(selectedCheq);
                                     cheqLists.clear();
 
                                     for (String[] chaqeData : cheqeDetails) {
                                         cheqLists.add(new ListCollectionCheque(chaqeData[1], chaqeData[0]));
+                                        cheqeValue = cheqeValue + Double.parseDouble(chaqeData[0]);
                                     }
                                     cheqList.setAdapter(cheqAdapter);
                                     editAmmount.setText("");
@@ -917,8 +889,8 @@ public class CollectionNote extends Activity implements DatePickerDialog.OnDateS
                                     bankCode.setText("Bank Code :");
                                     barnchCode.setText("Branch Code : ");
                                     chequeimage.setImageDrawable(null);
+                                    textCheqe.setText("Cheque Ammount : " + cheqeValue);
                                 }
-
 
 
                             }
@@ -1004,24 +976,31 @@ public class CollectionNote extends Activity implements DatePickerDialog.OnDateS
                         Toast.makeText(CollectionNote.this, "Please enter the Bank Branch name!", Toast.LENGTH_LONG).show();
                     } else if (textViewRealizedate.getText().toString().equals("")) {
                         Toast.makeText(CollectionNote.this, "Please enter the Realize Date!", Toast.LENGTH_LONG).show();
-                    }
-                    else {
+                    } else {
                         String[] chaqeDetail = new String[15];
                         int cheqNumberStates = 0;
                         double cheqeValue = 0.0;
 
+
                         for (String[] chaqeData : cheqeDetails) {
                             cheqeValue = cheqeValue + Double.parseDouble(chaqeData[0]);
-                            if(edtNumber.getText().toString().trim().equals(chaqeDetail[1])){
-                                cheqNumberStates=1;
-                            }else {
-                                cheqNumberStates=0;
+                            if (edtNumber.getText().toString().trim().equals(chaqeData[1])) {
+                                cheqNumberStates = 1;
+                            } else {
+
                             }
                         }
 
-                        if(cheqNumberStates==1){
+
+                        if (cheqeDetails.isEmpty()) {
+                            cheqeValue = Double.parseDouble(editAmmount.getText().toString().trim());
+                        } else {
+                            cheqeValue = cheqeValue + Double.parseDouble(editAmmount.getText().toString().trim());
+                        }
+
+                        if (cheqNumberStates == 1) {
                             Toast.makeText(CollectionNote.this, "This cheque already added", Toast.LENGTH_LONG).show();
-                        }else {
+                        } else {
                             chaqeDetail[0] = editAmmount.getText().toString().trim();
                             chaqeDetail[1] = edtNumber.getText().toString().trim();
                             chaqeDetail[2] = bankTextView.getText().toString().trim();
@@ -1031,9 +1010,18 @@ public class CollectionNote extends Activity implements DatePickerDialog.OnDateS
                             if (chequeimageByte == null) {
                                 chaqeDetail[5] = "no image";
                             } else {
-                                chaqeDetail[5] = chequeimageByte.toString();
+                                try {
+
+                                    Bitmap bmp = BitmapFactory.decodeByteArray(chequeimageByte, 0, chequeimageByte.length);
+                                    chaqeDetail[5] = bitmapToBase64(bmp);
+
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+
                             }
 
+                            System.out.println("chequeimageByte String : " + chaqeDetail[5]);
                             String[] bankcode = bankCode.getText().toString().split(":");
                             chaqeDetail[6] = bankcode[1];
 
@@ -1041,9 +1029,26 @@ public class CollectionNote extends Activity implements DatePickerDialog.OnDateS
                             chaqeDetail[7] = branchcode[1];
                             cheqeDetails.add(chaqeDetail);
 
+                            editAmmount.setText("");
+                            edtNumber.setText("");
+                            bankTextView.setText("");
+                            edtBranch.setText("");
+                            textViewRealizedate.setText("");
+                            bankCode.setText("Bank Code :");
+                            barnchCode.setText("Branch Code : ");
+                            chequeimage.setImageDrawable(null);
+
+                            textCheqe.setText("Cheque Ammount : " + cheqeValue);
+
                         }
-                        textCheqe.setText("Cheque Ammount : " + cheqeValue);
-                        textCheqe.setText("Cheque Ammount : " + cheqeValue);
+
+
+                        cheqLists.clear();
+
+                        for (String[] chaqeData : cheqeDetails) {
+                            cheqLists.add(new ListCollectionCheque(chaqeData[1], chaqeData[0]));
+                        }
+                        cheqList.setAdapter(cheqAdapter);
 
 
                     }
@@ -1184,9 +1189,24 @@ public class CollectionNote extends Activity implements DatePickerDialog.OnDateS
 
             UploadCollectionNoteTask up = new UploadCollectionNoteTask(CollectionNote.this);
             up.execute();
+            UploadCollectionChequesTask upc = new UploadCollectionChequesTask(CollectionNote.this);
+            upc.execute();
+
         } catch (Exception e) {
 
         }
 
+    }
+
+    private String bitmapToBase64(Bitmap bitmap) {
+        ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
+        byte[] byteArray = byteArrayOutputStream.toByteArray();
+        return Base64.encodeToString(byteArray, Base64.DEFAULT);
+    }
+
+    private Bitmap base64ToBitmap(String b64) {
+        byte[] imageAsBytes = Base64.decode(b64.getBytes(), Base64.DEFAULT);
+        return BitmapFactory.decodeByteArray(imageAsBytes, 0, imageAsBytes.length);
     }
 }

@@ -10,6 +10,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.HesperusMarketing.channelbridgedb.CollectionNoteCheques;
 import com.HesperusMarketing.channelbridgedb.CollectionNoteSendToApprovel;
 import com.HesperusMarketing.channelbridgews.WebService;
 
@@ -19,25 +20,18 @@ import java.util.List;
 /**
  * Created by Puritha Dev on 12/3/2014.
  */
-public class UploadCollectionNoteTask extends AsyncTask<String, Integer, Integer> {
+public class UploadCollectionChequesTask extends AsyncTask<String, Integer, Integer> {
 
     private final Context context;
     ProgressDialog dialog;
 
-    public UploadCollectionNoteTask(Context context) {
+    public UploadCollectionChequesTask(Context context) {
         this.context = context;
     }
 
     @Override
     protected void onPreExecute() {
-        //  Looper.loop();
-     /*   dialog = new ProgressDialog(context);
-        dialog.setCancelable(false);
-        dialog.setMessage("Upload Collection Note data  to Server...");
-        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        dialog.setProgress(0);
-        dialog.setMax(100);
-        dialog.show();*/
+
 
     }
 
@@ -46,11 +40,10 @@ public class UploadCollectionNoteTask extends AsyncTask<String, Integer, Integer
         int returnValue = 1;
         if (isNetworkAvailable() == true) {
             try {
-                CollectionNoteSendToApprovel rtnProdObject = new CollectionNoteSendToApprovel(
-                        context);
+                CollectionNoteCheques rtnProdObject = new CollectionNoteCheques(context);
                 rtnProdObject.openReadableDatabase();
 
-                List<String[]> rtnProducts = rtnProdObject.getCollectionNoteByUploadStatus("false");
+                List<String[]> rtnProducts = rtnProdObject.getCollectionNoteByUploadStatus("0");
                 rtnProdObject.closeDatabase();
 
                 Log.w("Log", "rtnProducts size :  " + rtnProducts.size());
@@ -66,7 +59,7 @@ public class UploadCollectionNoteTask extends AsyncTask<String, Integer, Integer
                     Log.w("Log", "rtnProducts id :  " + rtnProdData[0]);
                     // Log.w("Log", "rtnProducts date :  " + rtnProdData[10]);
 
-                    String[] invoiceDetails = new String[12];
+                    String[] invoiceDetails = new String[10];
                     invoiceDetails[0] = rtnProdData[0];
                     invoiceDetails[1] = rtnProdData[1];
                     invoiceDetails[2] = rtnProdData[2];
@@ -76,10 +69,6 @@ public class UploadCollectionNoteTask extends AsyncTask<String, Integer, Integer
                     invoiceDetails[6] = rtnProdData[6];
                     invoiceDetails[7] = rtnProdData[7];
                     invoiceDetails[8] = rtnProdData[8];
-                    invoiceDetails[9] = rtnProdData[9];
-
-                    invoiceDetails[10] = rtnProdData[10];
-                    invoiceDetails[11] = rtnProdData[11];
 
 
 
@@ -89,8 +78,7 @@ public class UploadCollectionNoteTask extends AsyncTask<String, Integer, Integer
                         try {
 
                             WebService webService = new WebService();
-                            responseArr = webService.uploadCollectionNoteTask(
-                                    deviceId, repId, invoiceDetails);
+                            responseArr = webService.uploadCollectionChequeTask(repId, invoiceDetails);
 
                             Thread.sleep(100);
 
@@ -108,10 +96,9 @@ public class UploadCollectionNoteTask extends AsyncTask<String, Integer, Integer
                         // setCellectionNoteUpdatedStatus
 
 
-                        CollectionNoteSendToApprovel rtnProdObj = new CollectionNoteSendToApprovel(
-                                context);
+                        CollectionNoteCheques rtnProdObj = new CollectionNoteCheques(context);
                         rtnProdObj.openWritableDatabase();
-                        rtnProdObj.setCellectionNoteUpdatedStatus(rtnProdData[0], "true");
+                        rtnProdObj.setCellectionNoteChequeUpdatedStatus(rtnProdData[0], "1");
                         rtnProdObj.closeDatabase();
                         returnValue = 2;
 
@@ -148,22 +135,16 @@ public class UploadCollectionNoteTask extends AsyncTask<String, Integer, Integer
         super.onPostExecute(returnCode);
 
         if (returnCode == 2) {
-            Toast notificationToast = Toast
-                    .makeText(context, "Collection Note  uploaded to the server.",
-                            Toast.LENGTH_SHORT);
+            Toast notificationToast = Toast.makeText(context, "Collection Note Cheques uploaded to the server.", Toast.LENGTH_SHORT);
             notificationToast.show();
         } else if (returnCode == 1) {//unable to
-            Toast notificationToast = Toast.makeText(context,
-                    "Unable to Upload Collection Note to the server.", Toast.LENGTH_SHORT);
+            Toast notificationToast = Toast.makeText(context, "Unable to Upload Collection Note Cheques to the server.", Toast.LENGTH_SHORT);
             notificationToast.show();
         } else if (returnCode == 3) {
-            Toast notificationToast = Toast.makeText(context,
-                    "No new Collection Note data Upload to the server.", Toast.LENGTH_SHORT);
+            Toast notificationToast = Toast.makeText(context, "No new Collection Note Cheques data Upload to the server.", Toast.LENGTH_SHORT);
             notificationToast.show();
         }
-       /* if (dialog.isShowing()) {
-            dialog.dismiss();
-        }*/
+
 
     }
 

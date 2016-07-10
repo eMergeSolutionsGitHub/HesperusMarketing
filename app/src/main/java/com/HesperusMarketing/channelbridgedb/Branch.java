@@ -274,7 +274,7 @@ public class Branch {
 
 
         } catch (Exception e) {
-            result = "No Branch Code";
+            result = "No Code";
         }
         cur.close();
         return result;
