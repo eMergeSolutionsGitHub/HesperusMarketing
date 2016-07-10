@@ -325,7 +325,7 @@
                         android:layout_height="wrap_content"
                         android:ems="10"
                         android:hint="Retail Price"
-                        android:enabled="false"
+
                         android:inputType="numberDecimal" />
                 </LinearLayout>
                 <LinearLayout
