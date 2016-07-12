@@ -8,28 +8,19 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.ActivityInfo;
-import android.database.Cursor;
 import android.graphics.Color;
-import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Environment;
 import android.preference.PreferenceManager;
-import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
-import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.Gravity;
-import android.view.KeyEvent;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -37,40 +28,27 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.ListView;
-import android.widget.RadioButton;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
 import android.widget.TableLayout;
-import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.HesperusMarketing.Entity.Product;
-import com.HesperusMarketing.Entity.RepStock;
 import com.HesperusMarketing.Entity.TempInvoiceStock;
 import com.HesperusMarketing.channelbridgeaddapters.ListProduct;
-import com.HesperusMarketing.channelbridgeaddapters.ListProductAdapter;
 import com.HesperusMarketing.channelbridgeaddapters.ProductImages;
 import com.HesperusMarketing.channelbridgeaddapters.ProductImagesAdapter;
 import com.HesperusMarketing.channelbridgeaddapters.RecyclerListProductAdapter;
-import com.HesperusMarketing.channelbridgeaddapters.ReportList;
-import com.HesperusMarketing.channelbridgebs.InvocieTemporyLoadDataTask;
-import com.HesperusMarketing.channelbridgedb.DiscountStructures;
-import com.HesperusMarketing.channelbridgedb.ProductRepStore;
 import com.HesperusMarketing.channelbridgedb.Products;
 import com.HesperusMarketing.channelbridgedb.Sequence;
 import com.HesperusMarketing.channelbridgedb.ShelfQuantity;
 import com.HesperusMarketing.channelbridgedb.TemporaryInvoice;
 
 
-import java.io.File;
-import java.net.URL;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by Amila on 11/12/15.
@@ -104,13 +82,18 @@ public class InvoiceGen1Alternate extends Activity {
     ArrayAdapter<String> categoryAdapter;
     private ArrayList<String> principleList;
     private ArrayList<String> categoryList;
-    private ArrayList<Product> prductList;
+    private ArrayList<TempInvoiceStock> prductList;
     ArrayList<ReturnProduct> returnProductsArray;
     ArrayList<SelectedProduct> mergeList;
     ArrayList<String[]> itemCodeDetailList;
 
     private Products productController;
     TemporaryInvoice tempInvoiceStockController;
+
+    private RecyclerView recyclerView;
+    private List<ListProduct> albumList;
+    private RecyclerListProductAdapter adapter;
+    private RecyclerView.LayoutManager mLayoutManager;
 
 
     @Override
@@ -140,10 +123,19 @@ public class InvoiceGen1Alternate extends Activity {
 
         spPrinciple = (Spinner) findViewById(R.id.spPrinciple);
         spCategory = (Spinner) findViewById(R.id.spCategory);
-        tblTest = (TableLayout) findViewById(R.id.tblTest);
+
         btnAdd = (Button) findViewById(R.id.btnNextToPayment);
         btnSearch = (Button) findViewById(R.id.btnSearch);
         editDiscount = (EditText) findViewById(R.id.editTextListDiscount);
+        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        recyclerView.setHasFixedSize(true);
+
+        // use a linear layout manager
+        mLayoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(mLayoutManager);
+
+
+        albumList = new ArrayList<>();
 
 
 
@@ -384,7 +376,7 @@ public class InvoiceGen1Alternate extends Activity {
     public void productTablefill(int status) {
 
         prductList.clear();
-        categoryAdapter.notifyDataSetChanged();
+       /* categoryAdapter.notifyDataSetChanged();
         productController.openReadableDatabase();
 
         if (status == 0) {
@@ -393,14 +385,25 @@ public class InvoiceGen1Alternate extends Activity {
         } else if (status == 1) {
             String selectedCategory = spCategory.getSelectedItem().toString();
             prductList = productController.getProductsByPricipleAndCategory(selected, selectedCategory);
-        }
+        }*/
+
+        TemporaryInvoice tem = new TemporaryInvoice(InvoiceGen1Alternate.this);
+        tem.openReadableDatabase();
+        String selectedCategory = spCategory.getSelectedItem().toString();
+
+        prductList= tem.getTempDataForTable(selected, selectedCategory,status);
 
 
-        populateProductTable(prductList);
+        populateProductTableNew(prductList);
         productController.closeDatabase();
     }
+    private void populateProductTableNew(ArrayList<TempInvoiceStock> prductList) {
 
-    private void populateProductTable(ArrayList<Product> prductList) {
+        adapter = new RecyclerListProductAdapter(this,prductList);
+        recyclerView.setAdapter(adapter);
+
+    }
+  /*  private void populateProductTable(ArrayList<Product> prductList) {
 
         tblTest.removeAllViews();
         try {
@@ -865,7 +868,7 @@ public class InvoiceGen1Alternate extends Activity {
             Log.e("loading view error", "task error");
         }
         tempInvoiceStockController.closeDatabase();
-    }
+    }*/
 
     private void getDataFromPreviousActivity(Bundle extras) {
 
@@ -982,6 +985,7 @@ public class InvoiceGen1Alternate extends Activity {
         }
         shelfQuantity.closeDatabase();
     }
+
 
     public class ShelfQuantityTask extends AsyncTask<Void, Void, Void> {
 
@@ -1136,6 +1140,7 @@ public class InvoiceGen1Alternate extends Activity {
         }
 
 
+/*
         for (final Product product : prductList) {
             TempInvoiceStock stock = tempInvoiceStockController.getTempData(product.getCode(), product.getBatchNumber());
             File SNP01 = new File(Environment.getExternalStorageDirectory() + File.separator + "DCIM" + File.separator + "Channel_Bridge_Images" + File.separator + product.getCode() + ".jpg");
@@ -1144,6 +1149,7 @@ public class InvoiceGen1Alternate extends Activity {
 
 
         }
+*/
         temInvies.closeDatabase();
         gridView.setAdapter(productAdapter);
 
@@ -1686,6 +1692,7 @@ public class InvoiceGen1Alternate extends Activity {
                 albumItem.clear();
 
 
+/*
                 for (final Product product : prductList) {
                     tempInvoiceStockController.openReadableDatabase();
                     TempInvoiceStock newStock = tempInvoiceStockController.getTempData(product.getCode(), product.getBatchNumber());
@@ -1695,6 +1702,7 @@ public class InvoiceGen1Alternate extends Activity {
 
 
                 }
+*/
 
 
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -1764,6 +1772,13 @@ public class InvoiceGen1Alternate extends Activity {
 
     }
 
+    public void lodeSelectedProducutCode(String icode,String dis, String batch,String productStock,String price, String shelf, String request, String order, String free, String discount) {
+
+
+        System.out.println("sssssssssssssssds icode"+icode);
+
+
+    }
 
 
 

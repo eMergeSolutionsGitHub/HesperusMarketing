@@ -22,6 +22,24 @@ public class TempInvoiceStock {
     private String isFreeAllowed;
     private String isDiscountAllowed;
     private String retailsPrice;
+    private  String category;
+    private  String principle;
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    public String getPrinciple() {
+        return principle;
+    }
+
+    public void setPrinciple(String principle) {
+        this.principle = principle;
+    }
 
     public String getRetailsPrice() {
         return retailsPrice;

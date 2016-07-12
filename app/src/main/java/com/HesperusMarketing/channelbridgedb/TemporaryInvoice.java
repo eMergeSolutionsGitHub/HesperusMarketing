@@ -38,8 +38,12 @@ public class TemporaryInvoice {
     private static final String KEY_TIMESTAMP = "timestamp";
     private static final String KEY_IS_FREE_ALLOWED = "isFreeAllowed";
     private static final String KEY_IS_DISCOUNT_ALLOWED = "isDiscountAllowed";
+    private static final String KEY_CATEGORY = "category";
+    private static final String KEY_PRINCIPLE = "principle";
 
-    String[] columns = {KEY_ROW_ID, KEY_PRODUCT_ID, KEY_PRODUCT_CODE, KEY_BATCH_NO, KEY_SHELF_QUANTITY, KEY_REQUEST_QUANTITY, KEY_FREE_QUANTITY, KEY_NORMAL_QUANTITY, KEY_PRO_DES, KEY_SELLING_PRICE, KEY_DISCOUNT, KEY_DISCOUNT_RATE, KEY_STOCK, KEY_EXPIRY, KEY_TIMESTAMP, KEY_IS_FREE_ALLOWED, KEY_IS_DISCOUNT_ALLOWED};
+
+    String[] columns = {KEY_ROW_ID, KEY_PRODUCT_ID, KEY_PRODUCT_CODE, KEY_BATCH_NO, KEY_SHELF_QUANTITY, KEY_REQUEST_QUANTITY, KEY_FREE_QUANTITY, KEY_NORMAL_QUANTITY, KEY_PRO_DES, KEY_SELLING_PRICE, KEY_DISCOUNT, KEY_DISCOUNT_RATE, KEY_STOCK, KEY_EXPIRY, KEY_TIMESTAMP, KEY_IS_FREE_ALLOWED, KEY_IS_DISCOUNT_ALLOWED,
+            KEY_CATEGORY,KEY_PRINCIPLE};
     private static final String TABLE_NAME = "invoice_temporary";
     private static final String TEMPORARY_INVOICE_CREATE = "CREATE TABLE " + TABLE_NAME
             + " (" + KEY_ROW_ID + " INTEGER, "
@@ -58,7 +62,9 @@ public class TemporaryInvoice {
             + KEY_EXPIRY + " TEXT ,"
             + KEY_TIMESTAMP + " TEXT,"
             + KEY_IS_FREE_ALLOWED + " TEXT,"
-            + KEY_IS_DISCOUNT_ALLOWED + " TEXT"
+            + KEY_IS_DISCOUNT_ALLOWED + " TEXT,"
+            + KEY_CATEGORY + " TEXT,"
+            + KEY_PRINCIPLE + " TEXT"
             + " );";
 
 
@@ -123,6 +129,8 @@ public class TemporaryInvoice {
             cv.put(KEY_SELLING_PRICE, Double.toString(pro.getSellingPrice()));
             cv.put(KEY_IS_FREE_ALLOWED, Boolean.toString(true));
             cv.put(KEY_IS_DISCOUNT_ALLOWED, Boolean.toString(true));
+            cv.put(KEY_CATEGORY, pro.getCategory());
+            cv.put(KEY_PRINCIPLE, pro.getPrinciple());
 
             database.insert(TABLE_NAME, null, cv);
         } catch (SQLException e) {
@@ -165,6 +173,47 @@ public class TemporaryInvoice {
             Log.e("Temp invoice ---->", "Error deleting temp invoice stock");
         }
         closeDatabase();
+    }
+    public ArrayList<TempInvoiceStock> getTempDataForTable(String category, String principle,int stat) {
+
+        openReadableDatabase();
+        ArrayList<TempInvoiceStock> products = new ArrayList<>();
+        Cursor cursor;
+
+        if(stat==0){
+             cursor = database.rawQuery("select product_code,batch_number,pro_des,stock,shelf_quantity,request_quantity,free_quantity,normal_quantity,discount,selling_price from invoice_temporary where principle = ?", new String[]{principle});
+
+        }else {
+             cursor = database.rawQuery("select product_code,batch_number,pro_des,stock,shelf_quantity,request_quantity,free_quantity,normal_quantity,discount,selling_price from invoice_temporary where category = ?  and principle = ?", new String[]{category, principle});
+
+        }
+
+        cursor.moveToFirst();
+        TempInvoiceStock temp = null;
+        while (!cursor.isAfterLast()) {
+            temp = new TempInvoiceStock();
+
+
+            temp.setProductCode(cursor.getString(0));
+            temp.setBatchCode(cursor.getString(1));
+            temp.setProductDes(cursor.getString(2));
+            temp.setStock(Integer.parseInt(cursor.getString(3)));
+            temp.setShelfQuantity(cursor.getString(4));
+            temp.setRequestQuantity(cursor.getString(5));
+            temp.setFreeQuantity(cursor.getString(6));
+            temp.setNormalQuantity(cursor.getString(7));
+            temp.setPercentage(Double.parseDouble(cursor.getString(8)));
+            temp.setPrice(cursor.getString(9));
+
+
+            products.add(temp);
+            // principleList.add(principleName);
+            cursor.moveToNext();
+        }
+
+        cursor.close();
+        closeDatabase();
+        return products;
     }
 
 
