@@ -138,7 +138,6 @@ public class InvoiceGen1Alternate extends Activity {
         albumList = new ArrayList<>();
 
 
-
         productController.openReadableDatabase();
         principleList = productController.getPrincipleList();
 
@@ -309,8 +308,8 @@ public class InvoiceGen1Alternate extends Activity {
                 if (editable.toString().isEmpty() || editable.toString().equals("")) {
 
                 } else {
-                    int free =tempInvoiceStockController.getFreeTotle(selected,selectedCategory);
-                    if(free!=0){
+                    int free = tempInvoiceStockController.getFreeTotle(selected, selectedCategory);
+                    if (free != 0) {
                         AlertDialog.Builder builder = new AlertDialog.Builder(InvoiceGen1Alternate.this);
                         builder.setTitle("Free Issues");
                         builder.setMessage("Do you want to clear free data");
@@ -328,7 +327,7 @@ public class InvoiceGen1Alternate extends Activity {
                         });
                         AlertDialog dialog = builder.create();
                         dialog.show();
-                    }else {
+                    } else {
                         try {
                             if (Double.parseDouble(editable.toString()) > 20.0 && selected.equals("RESTORIA")) {
                                 Toast.makeText(InvoiceGen1Alternate.this, "Your exceed maximum discount level", Toast.LENGTH_LONG).show();
@@ -350,8 +349,6 @@ public class InvoiceGen1Alternate extends Activity {
                         }
 
                     }
-
-
 
 
                 }
@@ -391,15 +388,16 @@ public class InvoiceGen1Alternate extends Activity {
         tem.openReadableDatabase();
         String selectedCategory = spCategory.getSelectedItem().toString();
 
-        prductList= tem.getTempDataForTable(selected, selectedCategory,status);
+        prductList = tem.getTempDataForTable(selected, selectedCategory, status);
 
 
         populateProductTableNew(prductList);
         productController.closeDatabase();
     }
+
     private void populateProductTableNew(ArrayList<TempInvoiceStock> prductList) {
 
-        adapter = new RecyclerListProductAdapter(this,prductList);
+        adapter = new RecyclerListProductAdapter(this, prductList);
         recyclerView.setAdapter(adapter);
 
     }
@@ -1751,7 +1749,7 @@ public class InvoiceGen1Alternate extends Activity {
         colerchartProductFree = free;
         colerchartProductStock = stock;
 
-        selectProduct.setText("Selected Product : "+icode);
+        selectProduct.setText("Selected Product : " + icode);
 
         if (colerchartProductShelf.equals("0")) {
             editshelf.setText("");
@@ -1772,14 +1770,77 @@ public class InvoiceGen1Alternate extends Activity {
 
     }
 
-    public void lodeSelectedProducutCode(String icode,String dis, String batch,String productStock,String price, String shelf, String request, String order, String free, String discount) {
+    public void lodeSelectedProducutCode(final String icode, String dis, final String batch, String productStock, String price, String shelf, String request, String order, String free, String discount) {
+
+        RelativeLayout layout;
+        TextView textCode,textDiscr,textBatch,textStock,textPrice;
+        final EditText edtShelf,edtRequest,edtOrder,edtFree,edtDiscount;
 
 
-        System.out.println("sssssssssssssssds icode"+icode);
+        layout = (RelativeLayout) findViewById(R.id.relativeLayout99);
+
+        textCode=(TextView)findViewById(R.id.textViewCodeSingleProduct);
+        textDiscr=(TextView)findViewById(R.id.textViewdescriptionSingleProduct);
+        textBatch=(TextView)findViewById(R.id.textViewBatchSingleProduct);
+        textStock=(TextView)findViewById(R.id.txtStockSingleProduct);
+        textPrice=(TextView)findViewById(R.id.textViewPriceSingleProduct);
+
+        edtShelf=(EditText)findViewById(R.id.editTextShelfSingleProduct);
+        edtRequest=(EditText)findViewById(R.id.editTextRequestSingleProduct);
+        edtOrder=(EditText)findViewById(R.id.editTextOrderSingleProduct);
+        edtFree=(EditText)findViewById(R.id.editTextFreeSingleProduct);
+        edtDiscount=(EditText)findViewById(R.id.editTextDiscountSingleProduct);
+
+        textCode.setText(icode);
+        textDiscr.setText(dis);
+        textBatch.setText(batch);
+        textStock.setText(productStock);
+        textPrice.setText(price);
+
+        edtShelf.setText(shelf);
+        edtRequest.setText(request);
+        edtOrder.setText(order);
+        edtFree.setText(free);
+        edtDiscount.setText(discount);
 
 
+        if(order.equals("0")){
+            edtRequest.setEnabled(false);
+            edtOrder.setEnabled(false);
+            edtFree.setEnabled(false);
+            edtDiscount.setEnabled(false);
+        }else {
+            edtRequest.setEnabled(true);
+            edtOrder.setEnabled(true);
+            edtFree.setEnabled(true);
+            edtDiscount.setEnabled(true);
+        }
+
+        edtShelf.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                tempInvoiceStockController.openWritableDatabase();
+                if (s.toString().equals("")) {
+                    tempInvoiceStockController.updateShelfQuantity(icode, batch, s.toString());
+                } else {
+                    tempInvoiceStockController.updateShelfQuantity(icode, batch, "0");
+                }
+                tempInvoiceStockController.closeDatabase();
+            }
+        });
+
+
+        layout.setVisibility(View.VISIBLE);
     }
-
 
 
 }
