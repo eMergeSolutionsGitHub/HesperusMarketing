@@ -1,5 +1,6 @@
 package com.HesperusMarketing.channelbridgedb;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import android.content.ContentValues;
@@ -7,6 +8,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
+import android.os.Environment;
 import android.util.Log;
 
 import com.HesperusMarketing.Entity.Product;
@@ -715,12 +717,12 @@ public class ProductRepStore {
             productData.setRetailPrice(Double.parseDouble(cursor.getString(33)));// retail Price29
             productData.setBatchNumber(cursor.getString(28));//24
             productData.setQuantity(Integer.parseInt(cursor.getString(29)));//stock repstore25
-            Log.i("stock ->",cursor.getString(29));//25
             productData.setTimeStamp(cursor.getString(34));// timestamp30
             productData.setExpiryDate(cursor.getString(30));//26
 
+            File SNP01 = new File(Environment.getExternalStorageDirectory() + File.separator + "DCIM" + File.separator + "Channel_Bridge_Images" + File.separator + cursor.getString(2) + ".jpg");
 
-
+            productData.setImageUrl(String.valueOf(SNP01));
 
             products.add(productData);
             cursor.moveToNext();

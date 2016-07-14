@@ -24,6 +24,15 @@ public class TempInvoiceStock {
     private String retailsPrice;
     private  String category;
     private  String principle;
+    private  String proImage;
+
+    public String getProImage() {
+        return proImage;
+    }
+
+    public void setProImage(String proImage) {
+        this.proImage = proImage;
+    }
 
     public String getCategory() {
         return category;

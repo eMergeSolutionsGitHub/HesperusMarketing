@@ -87,8 +87,6 @@ public class RecyclerListProductAdapter extends RecyclerView.Adapter<RecyclerLis
         holder.productStock.setText(String.valueOf(albumList.get(i).getStock()));
         holder.price.setText(String.valueOf(albumList.get(i).getPrice()));
 
-     //   holder.layout.setBackgroundColor(mContext.getResources().getColor(R.color.myRed));
-    //    holder.layout2.setBackgroundColor(mContext.getResources().getColor(R.color.myBlue));
 
         holder.layout.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -139,23 +137,6 @@ public class RecyclerListProductAdapter extends RecyclerView.Adapter<RecyclerLis
 
 
 
-/*
-        holder.layout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                System.out.println("21515415515156sasss");
-
-
-                ((InvoiceGen1Alternate) mContext).lodeSelectedProducutCode(albumList.get(i).getProductCode(),albumList.get(i).getProductDes(),
-                        albumList.get(i).getBatchCode(),String.valueOf(albumList.get(i).getStock()),String.valueOf(albumList.get(i).getPrice()),
-                        String.valueOf(albumList.get(i).getShelfQuantity()),String.valueOf(albumList.get(i).getRequestQuantity()),
-                        String.valueOf(albumList.get(i).getNormalQuantity()),String.valueOf(albumList.get(i).getFreeQuantity()),
-                        String.valueOf(albumList.get(i).getPercentage()));
-
-            }
-        });
-*/
 
 
     }

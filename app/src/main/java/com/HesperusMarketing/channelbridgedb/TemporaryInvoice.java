@@ -40,10 +40,11 @@ public class TemporaryInvoice {
     private static final String KEY_IS_DISCOUNT_ALLOWED = "isDiscountAllowed";
     private static final String KEY_CATEGORY = "category";
     private static final String KEY_PRINCIPLE = "principle";
+    private static final String KEY_IMAGE = "productImage";
 
 
     String[] columns = {KEY_ROW_ID, KEY_PRODUCT_ID, KEY_PRODUCT_CODE, KEY_BATCH_NO, KEY_SHELF_QUANTITY, KEY_REQUEST_QUANTITY, KEY_FREE_QUANTITY, KEY_NORMAL_QUANTITY, KEY_PRO_DES, KEY_SELLING_PRICE, KEY_DISCOUNT, KEY_DISCOUNT_RATE, KEY_STOCK, KEY_EXPIRY, KEY_TIMESTAMP, KEY_IS_FREE_ALLOWED, KEY_IS_DISCOUNT_ALLOWED,
-            KEY_CATEGORY,KEY_PRINCIPLE};
+            KEY_CATEGORY,KEY_PRINCIPLE,KEY_IMAGE};
     private static final String TABLE_NAME = "invoice_temporary";
     private static final String TEMPORARY_INVOICE_CREATE = "CREATE TABLE " + TABLE_NAME
             + " (" + KEY_ROW_ID + " INTEGER, "
@@ -64,8 +65,8 @@ public class TemporaryInvoice {
             + KEY_IS_FREE_ALLOWED + " TEXT,"
             + KEY_IS_DISCOUNT_ALLOWED + " TEXT,"
             + KEY_CATEGORY + " TEXT,"
-            + KEY_PRINCIPLE + " TEXT"
-            + " );";
+            + KEY_PRINCIPLE + " TEXT,"
+            + KEY_IMAGE + " TEXT" + " );";
 
 
     public final Context context;
@@ -131,6 +132,7 @@ public class TemporaryInvoice {
             cv.put(KEY_IS_DISCOUNT_ALLOWED, Boolean.toString(true));
             cv.put(KEY_CATEGORY, pro.getCategory());
             cv.put(KEY_PRINCIPLE, pro.getPrinciple());
+            cv.put(KEY_IMAGE, pro.getImageUrl());
 
             database.insert(TABLE_NAME, null, cv);
         } catch (SQLException e) {
@@ -309,8 +311,7 @@ public class TemporaryInvoice {
 
 
     public void updateNormalQuantity(String productCode, String batchNO, String quantity) {
-        //  String strqu = "UPDATE " +TABLE_NAME+" SET "+KEY_CreditAmount+" = "+creditAmount+" WHERE "+KEY_CustomerNo+" = "+customerNo+" AND "+KEY_InvoiceNo+" = "+invoiceNo+";";
-        Log.i("update called", "----------------->");
+
         ContentValues cv = null;
         openWritableDatabase();
         try {
@@ -319,10 +320,9 @@ public class TemporaryInvoice {
             cv.put(KEY_NORMAL_QUANTITY, quantity);
 
             database.update(TABLE_NAME, cv, KEY_PRODUCT_CODE + " = ? AND " + KEY_BATCH_NO + " = ?", new String[]{productCode, batchNO});
-            Log.i("updated successfully", productCode + "_" + batchNO);
 
         } catch (SQLException e) {
-            Log.e("Temp invoice ---->", "Error updating temp request stock");
+
         }
         closeDatabase();
 

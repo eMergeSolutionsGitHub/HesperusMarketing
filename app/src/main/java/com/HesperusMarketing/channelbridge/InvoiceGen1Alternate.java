@@ -13,6 +13,8 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -91,9 +93,10 @@ public class InvoiceGen1Alternate extends Activity {
     private Products productController;
     TemporaryInvoice tempInvoiceStockController;
 
-    private RecyclerView recyclerView;
+    private RecyclerView recyclerView,recyclerViewImages;
     private List<ListProduct> albumList;
     private RecyclerListProductAdapter adapter;
+
     private RecyclerView.LayoutManager mLayoutManager;
 
 
@@ -144,7 +147,10 @@ public class InvoiceGen1Alternate extends Activity {
         btnSearch = (Button) findViewById(R.id.btnSearch);
         editDiscount = (EditText) findViewById(R.id.editTextListDiscount);
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+
         recyclerView.setHasFixedSize(true);
+
+
 
         // use a linear layout manager
         mLayoutManager = new LinearLayoutManager(this);
@@ -1059,10 +1065,19 @@ public class InvoiceGen1Alternate extends Activity {
         dialogBox.setContentView(R.layout.dialog_product_image);
         dialogBox.setCancelable(false);
 
+        recyclerViewImages = (RecyclerView)dialogBox.findViewById(R.id.gridView_album);
 
-        final ArrayList<ProductImages> albumItem = new ArrayList<ProductImages>();
+        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this,10);
+        recyclerViewImages.setLayoutManager(mLayoutManager);
+        recyclerViewImages.setItemAnimator(new DefaultItemAnimator());
+
+
+        final ArrayList<TempInvoiceStock> albumItem = new ArrayList<TempInvoiceStock>();
         albumItem.clear();
-        final ProductImagesAdapter productAdapter = new ProductImagesAdapter(this, itemCodeDetailList, albumItem);
+
+
+
+        final ProductImagesAdapter productAdapter = new ProductImagesAdapter(this,prductList);
 
         final TemporaryInvoice temInvies = new TemporaryInvoice(getApplicationContext());
         temInvies.openWritableDatabase();
@@ -1091,7 +1106,6 @@ public class InvoiceGen1Alternate extends Activity {
         layoutDefoult.setVisibility(View.VISIBLE);
         layoutRequest.setVisibility(View.INVISIBLE);
 
-        final GridView gridView = (GridView) dialogBox.findViewById(R.id.gridView_album);
         Button btnDone = (Button) dialogBox.findViewById(R.id.btnalldone);
 
 
@@ -1177,7 +1191,7 @@ public class InvoiceGen1Alternate extends Activity {
         }
 */
         temInvies.closeDatabase();
-        gridView.setAdapter(productAdapter);
+        recyclerViewImages.setAdapter(productAdapter);
 
 
         checkboxOne.setOnClickListener(new View.OnClickListener() {
@@ -1732,8 +1746,8 @@ public class InvoiceGen1Alternate extends Activity {
 
 
                 InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(gridView.getWindowToken(), 0);
-                gridView.setAdapter(productAdapter);
+                imm.hideSoftInputFromWindow(recyclerViewImages.getWindowToken(), 0);
+                recyclerViewImages.setAdapter(productAdapter);
             }
         });
 

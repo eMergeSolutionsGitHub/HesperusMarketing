@@ -31,8 +31,15 @@ public class Product implements Comparable<Product>{
     private  String discount;
     private  String priority;
     private  int sortOrder;
+    private  String imageUrl;
 
+    public String getImageUrl() {
+        return imageUrl;
+    }
 
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
 
     public String getExpiryDate() {
         return expiryDate;
