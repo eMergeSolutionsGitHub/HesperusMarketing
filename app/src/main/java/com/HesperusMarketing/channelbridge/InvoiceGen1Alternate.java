@@ -57,7 +57,7 @@ public class InvoiceGen1Alternate extends Activity {
 
     String selected, selectedCategory, rowId, pharmacyId, startTime, collectionDate = "", releaseDate = "", chequeNumber = "";
     String colerchartProductCode = "0", colerchartProductBatch = "0", colerchartProductShelf = "0", colerchartProductRequest = "0", colerchartProductOrder = "0", colerchartProductFree = "0", colerchartProductStock = "0";
-
+    String productCode, productBatch,productStock;
     private Boolean iswebApprovalActive = true;
     private Boolean isChanged = false;
     boolean chequeEnabled = false;
@@ -68,12 +68,13 @@ public class InvoiceGen1Alternate extends Activity {
     Spinner spPrinciple, spCategory;
     private TableLayout tblTest;
     private Button btnAdd, btnSearch;
-    EditText editDiscount, editshelf, editrequest, editfree;
+    EditText editDiscount, editshelf, editrequest, editfree, edtShelf, edtRequest, edtOrder, edtFree, edtDiscountProduct;
     Dialog dialogBox;
     CheckBox checkboxOne, checkboxTwo, checkboxThree;
-    TextView textViewtotal, textViewtotal2, textViewfree, textViewfree2, textViewreamingfree, textViewreamingfree2, selectProduct;
-    RelativeLayout layoutDefoult, layoutRequest;
+    TextView textViewtotal, textViewtotal2, textViewfree, textViewfree2, textViewreamingfree, textViewreamingfree2, selectProduct, textCode, textDiscr, textBatch, textStock, textPrice;
+    RelativeLayout layoutDefoult, layoutRequest, layout;
 
+    String[] productOdreDetail = new String[5];
 
     AlertDialog.Builder alertCancel;
 
@@ -121,6 +122,21 @@ public class InvoiceGen1Alternate extends Activity {
         mergeList = new ArrayList<>();
         itemCodeDetailList = new ArrayList<String[]>();
 
+
+        layout = (RelativeLayout) findViewById(R.id.relativeLayout99);
+
+        textCode = (TextView) findViewById(R.id.textViewCodeSingleProduct);
+        textDiscr = (TextView) findViewById(R.id.textViewdescriptionSingleProduct);
+        textBatch = (TextView) findViewById(R.id.textViewBatchSingleProduct);
+        textStock = (TextView) findViewById(R.id.txtStockSingleProduct);
+        textPrice = (TextView) findViewById(R.id.textViewPriceSingleProduct);
+
+        edtShelf = (EditText) findViewById(R.id.editTextShelfSingleProduct);
+        edtRequest = (EditText) findViewById(R.id.editTextRequestSingleProduct);
+        edtOrder = (EditText) findViewById(R.id.editTextOrderSingleProduct);
+        edtFree = (EditText) findViewById(R.id.editTextFreeSingleProduct);
+        edtDiscountProduct = (EditText) findViewById(R.id.editTextDiscountSingleProduct);
+
         spPrinciple = (Spinner) findViewById(R.id.spPrinciple);
         spCategory = (Spinner) findViewById(R.id.spCategory);
 
@@ -150,6 +166,7 @@ public class InvoiceGen1Alternate extends Activity {
         categoryList = productController.getCategoryListForPriciple(selected);
         categoryAdapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.single_list_item, categoryList);
         spCategory.setAdapter(categoryAdapter);
+        oderDetailsEdittextOntextChange();
 
 
         spPrinciple.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -188,7 +205,18 @@ public class InvoiceGen1Alternate extends Activity {
 
             }
         });
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+                layout.setVisibility(View.GONE);
+            }
 
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+            }
+        });
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -1770,77 +1798,259 @@ public class InvoiceGen1Alternate extends Activity {
 
     }
 
-    public void lodeSelectedProducutCode(final String icode, String dis, final String batch, String productStock, String price, String shelf, String request, String order, String free, String discount) {
+    public void lodeSelectedProducutCode(final String icode, String dis, final String batch, String productstock, String price, String shelf, String request, String order, String free, String discount) {
 
-        RelativeLayout layout;
-        TextView textCode,textDiscr,textBatch,textStock,textPrice;
-        final EditText edtShelf,edtRequest,edtOrder,edtFree,edtDiscount;
-
-
-        layout = (RelativeLayout) findViewById(R.id.relativeLayout99);
-
-        textCode=(TextView)findViewById(R.id.textViewCodeSingleProduct);
-        textDiscr=(TextView)findViewById(R.id.textViewdescriptionSingleProduct);
-        textBatch=(TextView)findViewById(R.id.textViewBatchSingleProduct);
-        textStock=(TextView)findViewById(R.id.txtStockSingleProduct);
-        textPrice=(TextView)findViewById(R.id.textViewPriceSingleProduct);
-
-        edtShelf=(EditText)findViewById(R.id.editTextShelfSingleProduct);
-        edtRequest=(EditText)findViewById(R.id.editTextRequestSingleProduct);
-        edtOrder=(EditText)findViewById(R.id.editTextOrderSingleProduct);
-        edtFree=(EditText)findViewById(R.id.editTextFreeSingleProduct);
-        edtDiscount=(EditText)findViewById(R.id.editTextDiscountSingleProduct);
+        productCode = icode;
+        productBatch = batch;
+        productStock = productstock;
 
         textCode.setText(icode);
         textDiscr.setText(dis);
         textBatch.setText(batch);
-        textStock.setText(productStock);
+        textStock.setText(productstock);
         textPrice.setText(price);
 
         edtShelf.setText(shelf);
         edtRequest.setText(request);
         edtOrder.setText(order);
         edtFree.setText(free);
-        edtDiscount.setText(discount);
+        edtDiscountProduct.setText(discount);
+
+        if(discount.equals("0.0")){
+            edtDiscountProduct.setEnabled(false);
+        }else {
+            edtDiscountProduct.setEnabled(true);
+        }
 
 
-        if(order.equals("0")){
+        if (order.equals("0")) {
             edtRequest.setEnabled(false);
             edtOrder.setEnabled(false);
             edtFree.setEnabled(false);
-            edtDiscount.setEnabled(false);
-        }else {
+
+        } else {
             edtRequest.setEnabled(true);
             edtOrder.setEnabled(true);
             edtFree.setEnabled(true);
-            edtDiscount.setEnabled(true);
+
         }
-
-        edtShelf.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                tempInvoiceStockController.openWritableDatabase();
-                if (s.toString().equals("")) {
-                    tempInvoiceStockController.updateShelfQuantity(icode, batch, s.toString());
-                } else {
-                    tempInvoiceStockController.updateShelfQuantity(icode, batch, "0");
-                }
-                tempInvoiceStockController.closeDatabase();
-            }
-        });
 
 
         layout.setVisibility(View.VISIBLE);
     }
 
+    public void oderDetailsEdittextOntextChange() {
+
+
+
+        edtShelf.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus == true) {
+                    edtShelf.setText("");
+                }
+            }
+        });
+        edtShelf.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                if ((!charSequence.toString().isEmpty() || !charSequence.toString().equals(""))) {
+                    edtDiscountProduct.setEnabled(true);
+                    tempInvoiceStockController.updateShelfQuantity(productCode, productBatch, charSequence.toString());
+                    edtRequest.setEnabled(true);
+                    edtOrder.setEnabled(true);
+                    edtFree.setEnabled(true);
+
+
+                } else {
+                    tempInvoiceStockController.updateShelfQuantity(productCode, productBatch, "0");
+
+                }
+                isChanged = true;
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
+
+        edtRequest.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus == true) {
+                    edtRequest.setText("");
+                }
+            }
+        });
+
+        edtRequest.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (!charSequence.toString().isEmpty() || !charSequence.toString().equals("")) {
+                    tempInvoiceStockController.updateRequestQuantity(productCode,productBatch, charSequence.toString());
+                   if (Double.parseDouble(textStock.getText().toString()) < Double.parseDouble(edtRequest.getText().toString())) {
+                        Toast.makeText(InvoiceGen1Alternate.this, "Enter valid quantity", Toast.LENGTH_LONG).show();
+                        edtOrder.setText(productStock);
+                    } else {
+                        edtOrder.setText(charSequence.toString());
+                    }
+                }else {
+//
+                    tempInvoiceStockController.updateRequestQuantity(productCode,productBatch, "0");
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
+        edtOrder.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus == true) {
+                    edtOrder.setText("");
+                }
+            }
+        });
+        edtOrder.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if ((!charSequence.toString().isEmpty() || !charSequence.toString().equals(""))) {
+                    tempInvoiceStockController.updateNormalQuantity(productCode, productBatch, charSequence.toString());
+                }else {
+                    tempInvoiceStockController.updateNormalQuantity(productCode, productBatch, "0");
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                productTablefill(1);
+            }
+        });
+
+        edtFree.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus == true) {
+                    edtFree.setText("");
+                }
+            }
+        });
+
+        edtFree.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                if ((!charSequence.toString().isEmpty() || !charSequence.toString().equals(""))) {
+                    int stock = Integer.parseInt(textStock.getText().toString());
+                    int request = 0;
+                    if (!edtOrder.getText().toString().equals("")) {
+                        request = Integer.parseInt(edtOrder.getText().toString());
+                    }
+                    int free = Integer.parseInt(edtFree.getText().toString());
+
+                    if (iswebApprovalActive == false) {
+                        if (stock - request >= free) { // check whether entered free quantity is smaller than stock -  requested
+                            tempInvoiceStockController.updateFreeQuantity(productCode,productBatch, charSequence.toString());
+
+                            edtDiscountProduct.setEnabled(false);
+                            tempInvoiceStockController.updateDiscountAlloed(productCode,productBatch, Boolean.toString(false));
+
+                        } else {
+                            Toast.makeText(InvoiceGen1Alternate.this, "Not enough quantity", Toast.LENGTH_LONG).show();
+                        }
+                    } else {
+                        tempInvoiceStockController.updateFreeQuantity(productCode,productBatch, charSequence.toString());
+                        edtDiscountProduct.setEnabled(false);
+                        tempInvoiceStockController.updateDiscountAlloed(productCode,productBatch, Boolean.toString(false));
+                    }
+
+
+                }else {
+                   tempInvoiceStockController.updateFreeQuantity(productCode,productBatch, "0");
+                    edtDiscountProduct.setEnabled(true);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                productTablefill(1);
+            }
+        });
+
+        edtDiscountProduct.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus == true) {
+                    edtDiscountProduct.setText("");
+                }
+            }
+        });
+
+        edtDiscountProduct.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if ((!charSequence.toString().isEmpty() || !charSequence.toString().equals(""))) {
+                    if (charSequence.length() < 4) {
+                        if (Double.parseDouble(charSequence.toString()) <= 100) {
+                            tempInvoiceStockController.updateDicount(productCode,productBatch, charSequence.toString());
+                            if (Double.parseDouble(charSequence.toString()) > 0) {
+
+                                edtFree.setEnabled(false);
+                                tempInvoiceStockController.updateFreeAlloed(productCode,productBatch, Boolean.toString(false));
+                            } else {
+                                tempInvoiceStockController.updateFreeAlloed(productCode,productBatch, Boolean.toString(true));
+                            }
+                        } else {
+                            Toast.makeText(InvoiceGen1Alternate.this, "Enter valid discount", Toast.LENGTH_LONG).show();
+                            edtDiscountProduct.setText("0.0");
+                        }
+                    } else {
+                        Toast.makeText(InvoiceGen1Alternate.this, "Enter valid amount", Toast.LENGTH_LONG).show();
+                        edtDiscountProduct.setText("0.0");
+                    }
+                }else {
+                    tempInvoiceStockController.updateDicount(productCode,productBatch,"0.0");
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                productTablefill(1);
+            }
+        });
+
+
+    }
 
 }
