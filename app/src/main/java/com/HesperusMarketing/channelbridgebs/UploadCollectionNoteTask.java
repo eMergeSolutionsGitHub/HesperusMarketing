@@ -30,14 +30,7 @@ public class UploadCollectionNoteTask extends AsyncTask<String, Integer, Integer
 
     @Override
     protected void onPreExecute() {
-        //  Looper.loop();
-     /*   dialog = new ProgressDialog(context);
-        dialog.setCancelable(false);
-        dialog.setMessage("Upload Collection Note data  to Server...");
-        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        dialog.setProgress(0);
-        dialog.setMax(100);
-        dialog.show();*/
+
 
     }
 
@@ -50,7 +43,7 @@ public class UploadCollectionNoteTask extends AsyncTask<String, Integer, Integer
                         context);
                 rtnProdObject.openReadableDatabase();
 
-                List<String[]> rtnProducts = rtnProdObject.getCollectionNoteByUploadStatus("false");
+                List<String[]> rtnProducts = rtnProdObject.getCollectionNoteByUploadStatus();
                 rtnProdObject.closeDatabase();
 
                 Log.w("Log", "rtnProducts size :  " + rtnProducts.size());
@@ -66,7 +59,7 @@ public class UploadCollectionNoteTask extends AsyncTask<String, Integer, Integer
                     Log.w("Log", "rtnProducts id :  " + rtnProdData[0]);
                     // Log.w("Log", "rtnProducts date :  " + rtnProdData[10]);
 
-                    String[] invoiceDetails = new String[12];
+                    String[] invoiceDetails = new String[9];
                     invoiceDetails[0] = rtnProdData[0];
                     invoiceDetails[1] = rtnProdData[1];
                     invoiceDetails[2] = rtnProdData[2];
@@ -74,13 +67,6 @@ public class UploadCollectionNoteTask extends AsyncTask<String, Integer, Integer
                     invoiceDetails[4] = rtnProdData[4];
                     invoiceDetails[5] = rtnProdData[5];
                     invoiceDetails[6] = rtnProdData[6];
-                    invoiceDetails[7] = rtnProdData[7];
-                    invoiceDetails[8] = rtnProdData[8];
-                    invoiceDetails[9] = rtnProdData[9];
-
-                    invoiceDetails[10] = rtnProdData[10];
-                    invoiceDetails[11] = rtnProdData[11];
-
 
 
                     publishProgress(2);
@@ -89,8 +75,7 @@ public class UploadCollectionNoteTask extends AsyncTask<String, Integer, Integer
                         try {
 
                             WebService webService = new WebService();
-                            responseArr = webService.uploadCollectionNoteTask(
-                                    deviceId, repId, invoiceDetails);
+                            responseArr = webService.uploadCollectionNoteTask(deviceId, repId, invoiceDetails);
 
                             Thread.sleep(100);
 
@@ -108,10 +93,9 @@ public class UploadCollectionNoteTask extends AsyncTask<String, Integer, Integer
                         // setCellectionNoteUpdatedStatus
 
 
-                        CollectionNoteSendToApprovel rtnProdObj = new CollectionNoteSendToApprovel(
-                                context);
+                        CollectionNoteSendToApprovel rtnProdObj = new CollectionNoteSendToApprovel(context);
                         rtnProdObj.openWritableDatabase();
-                        rtnProdObj.setCellectionNoteUpdatedStatus(rtnProdData[0], "true");
+                        rtnProdObj.setCellectionNoteUpdatedStatus(rtnProdData[7], "true");
                         rtnProdObj.closeDatabase();
                         returnValue = 2;
 

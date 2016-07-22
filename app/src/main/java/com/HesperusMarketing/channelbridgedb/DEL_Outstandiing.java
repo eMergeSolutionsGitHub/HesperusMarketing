@@ -385,6 +385,9 @@ public class DEL_Outstandiing {
     public ArrayList<String> loadOutSatingInvoiceNumber(String cusId) {
         ArrayList<String> loadInvoiceNumberList = new ArrayList();
         openReadableDatabase();
+
+        String strqu = "select " + KEY_InvoiceNo + "      from " + TABLE_NAME + " where  CreditAmount > 0";
+
         try {
           //  String strqu = "select " + KEY_InvoiceNo + "from " + TABLE_NAME + " where  CreditAmount > 0";
             Cursor cur = database.rawQuery("select InvoiceNo from DEL_Outstanding where CreditAmount > 0 and  CustomerNo ='" + cusId + "'", null);

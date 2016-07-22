@@ -46,7 +46,7 @@ public class RecyclerListProductAdapter extends RecyclerView.Adapter<RecyclerLis
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         TextView code, discripton, batch, productStock, price, shelf, request, order, free, discount;
-        RelativeLayout layout, layout2;
+        RelativeLayout layout, layout2, layoutBack;
 
         public MyViewHolder(View view) {
             super(view);
@@ -65,6 +65,7 @@ public class RecyclerListProductAdapter extends RecyclerView.Adapter<RecyclerLis
 
             layout = (RelativeLayout) view.findViewById(R.id.listProduct);
             layout2 = (RelativeLayout) view.findViewById(R.id.relativelayoutProduct);
+            layoutBack = (RelativeLayout) view.findViewById(R.id.listProduct);
 
         }
 
@@ -88,13 +89,16 @@ public class RecyclerListProductAdapter extends RecyclerView.Adapter<RecyclerLis
         holder.price.setText(String.valueOf(albumList.get(i).getPrice()));
 
 
+
+
+
         holder.layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                ((InvoiceGen1Alternate) mContext).lodeSelectedProducutCode(albumList.get(i).getProductCode(),albumList.get(i).getProductDes(),
-                        albumList.get(i).getBatchCode(),String.valueOf(albumList.get(i).getStock()),String.valueOf(albumList.get(i).getPrice()),
-                        String.valueOf(albumList.get(i).getShelfQuantity()),String.valueOf(albumList.get(i).getRequestQuantity()),
-                        String.valueOf(albumList.get(i).getNormalQuantity()),String.valueOf(albumList.get(i).getFreeQuantity()),
+                ((InvoiceGen1Alternate) mContext).lodeSelectedProducutCode(albumList.get(i).getProductCode(), albumList.get(i).getProductDes(),
+                        albumList.get(i).getBatchCode(), String.valueOf(albumList.get(i).getStock()), String.valueOf(albumList.get(i).getPrice()),
+                        String.valueOf(albumList.get(i).getShelfQuantity()), String.valueOf(albumList.get(i).getRequestQuantity()),
+                        String.valueOf(albumList.get(i).getNormalQuantity()), String.valueOf(albumList.get(i).getFreeQuantity()),
                         String.valueOf(albumList.get(i).getPercentage()));
             }
         });
@@ -134,7 +138,6 @@ public class RecyclerListProductAdapter extends RecyclerView.Adapter<RecyclerLis
             holder.discount.setText(String.valueOf(albumList.get(i).getPercentage()));
 
         }
-
 
 
 

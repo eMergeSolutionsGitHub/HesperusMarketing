@@ -21,6 +21,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+        CollectionNoteInvoice.onCreate(db);
         CollectionNoteCheques.onCreate(db);
         ChequesDetails.onCreate(db);
         DiscountStructures.onCreate(db);

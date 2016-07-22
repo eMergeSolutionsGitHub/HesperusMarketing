@@ -37,9 +37,11 @@ import com.HesperusMarketing.channelbridgeaddapters.CollectionNoteAdapter;
 import com.HesperusMarketing.channelbridgeaddapters.CollectionNoteList;
 import com.HesperusMarketing.channelbridgeaddapters.ListCollectionCheque;
 import com.HesperusMarketing.channelbridgebs.UploadCollectionChequesTask;
+import com.HesperusMarketing.channelbridgebs.UploadCollectionInvoicesTask;
 import com.HesperusMarketing.channelbridgebs.UploadCollectionNoteTask;
 import com.HesperusMarketing.channelbridgedb.Branch;
 import com.HesperusMarketing.channelbridgedb.CollectionNoteCheques;
+import com.HesperusMarketing.channelbridgedb.CollectionNoteInvoice;
 import com.HesperusMarketing.channelbridgedb.CollectionNoteSendToApprovel;
 import com.HesperusMarketing.channelbridgedb.Customers;
 import com.HesperusMarketing.channelbridgedb.DEL_Outstandiing;
@@ -210,7 +212,7 @@ public class CollectionNote extends Activity implements DatePickerDialog.OnDateS
                             }
 
                             invoiesdetails.close();
-                            if (InvoiceNumberList.size() == 0) {
+                            if (InvoiceNumberList.size() == 0 ||Double.parseDouble(outsatandingAmmountList.get(0))< 0.0) {
                                 Toast.makeText(CollectionNote.this, "No any outstanding for this Customer", Toast.LENGTH_LONG).show();
                                 InvoiceNumberList.add("No Invoice Numbers");
                                 invoiceNumbersSp.setItems(InvoiceNumberList);
@@ -584,15 +586,32 @@ public class CollectionNote extends Activity implements DatePickerDialog.OnDateS
 
                 CollectionNoteSendToApprovel cns = new CollectionNoteSendToApprovel(CollectionNote.this);
                 cns.openWritableDatabase();
+
+                CollectionNoteInvoice cninvoice = new CollectionNoteInvoice(CollectionNote.this);
+                cninvoice.openWritableDatabase();
+
                 String paymentType = null;
+                SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(CollectionNote.this);
+                String repId = sharedPreferences.getString("RepId", "-1");
 
                 collectionNoteNumber = GenaterCollectionNoteNumber();
 
-                String chequeAmmount[] = textCheqe.getText().toString().split(":");
+                String[] chqAmmount = textCheqe.getText().toString().split(":");
+                double OutStand_value = 0;
+                try {
+                    OutStand_value = customer.GetOustand_value(textViewCustmomerNumber.getText().toString());
+                } catch (Exception e) {
+
+                }
 
                 if (tempreturnProducts.isEmpty()) {
                     Toast.makeText(CollectionNote.this, "Empty Collection!", Toast.LENGTH_SHORT).show();
                 } else {
+
+                    cns.insertCollectionNoteSendToApprovel(collectionNoteNumber,repId, textViewCustmomerNumber.getText().toString(),
+                            String.valueOf(OutStand_value),editCash.getText().toString(),chqAmmount[1]);
+
+                    cns.closeDatabase();
                     for (int i = 0; i < tempreturnProducts.size(); i++) {
                         String cNoteDetail[] = tempreturnProducts.get(i);
 
@@ -603,51 +622,8 @@ public class CollectionNote extends Activity implements DatePickerDialog.OnDateS
                         } else if (!cNoteDetail[2].equals("0.0")) {
                             paymentType = "Cheque";
                         }
-                        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(CollectionNote.this);
-                        String repId = sharedPreferences.getString("RepId", "-1");
 
-                        double OutStand_value = 0;
-                        try {
-                            OutStand_value = customer.GetOustand_value(textViewCustmomerNumber.getText().toString());
-                        } catch (Exception e) {
-
-                        }
-
-                        Calendar c = Calendar.getInstance();
-                        System.out.println("Current time => " + c.getTime());
-
-                        SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
-                        String collectdate = df.format(c.getTime());
-
-                        String cashAmount;
-                        if (editCash.getText().toString().equals("") || editCash.getText().toString().isEmpty()) {
-                            cashAmount = "0";
-                        } else {
-                            cashAmount = editCash.getText().toString();
-                        }
-                        String[] chqAmmount = textCheqe.getText().toString().split(":");
-                        cns.insertCollectionNoteSendToApprovel(
-                                collectionNoteNumber,
-                                repId,
-                                textViewCustmomerNumber.getText().toString(),
-                                String.valueOf(OutStand_value),
-                                cNoteDetail[0].toString(),
-                                textViewInvoiceCradite.getText().toString(),
-                                paymentType,
-                                editCash.getText().toString(),chqAmmount[1],
-                                cNoteDetail[3].toString());
-
-
-                        Toast.makeText(CollectionNote.this, "Collection note save successfully", Toast.LENGTH_SHORT).show();
-                        cns.closeDatabase();
-                        valueclear();
-
-
-                        if (isNetworkAvailable() == true) {
-                            upload();
-
-                        }
-
+                        cninvoice.insert_CollectionInvoice(collectionNoteNumber,cNoteDetail[0],paymentType,cNoteDetail[1],cNoteDetail[2],textViewInvoiceCradite.getText().toString());
 
                     }
 
@@ -662,14 +638,23 @@ public class CollectionNote extends Activity implements DatePickerDialog.OnDateS
                             bytes = null;
                         }
 
-                        noteCheques.insert_CollectionCheqes(collectionNoteNumber, chaqeData[0], chaqeData[1], chaqeData[2], chaqeData[3], chaqeData[4], bytes);
+                        noteCheques.insert_CollectionCheqes(collectionNoteNumber, chaqeData[1], chaqeData[0], chaqeData[2], chaqeData[3], chaqeData[4], bytes);
 
 
                     }
-
                     noteCheques.closeDatabase();
 
+                    Toast.makeText(CollectionNote.this, "Collection note save successfully", Toast.LENGTH_SHORT).show();
+                    cns.closeDatabase();
+                    valueclear();
 
+
+                    if (isNetworkAvailable() == true) {
+                        upload();
+
+                    }else {
+
+                    }
                 }
 
 
@@ -1191,6 +1176,8 @@ public class CollectionNote extends Activity implements DatePickerDialog.OnDateS
             up.execute();
             UploadCollectionChequesTask upc = new UploadCollectionChequesTask(CollectionNote.this);
             upc.execute();
+            UploadCollectionInvoicesTask upci = new UploadCollectionInvoicesTask(CollectionNote.this);
+            upci.execute();
 
         } catch (Exception e) {
 

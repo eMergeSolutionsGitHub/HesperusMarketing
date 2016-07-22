@@ -1132,6 +1132,7 @@ public class ItineraryDetailsFragment extends Fragment implements LocationListen
             pharmacyId1 = pharmacyId;
 
             startInvoiceGen1.putExtras(bundleToView);
+            getActivity().finish();
             startActivity(startInvoiceGen1);
         }
     }

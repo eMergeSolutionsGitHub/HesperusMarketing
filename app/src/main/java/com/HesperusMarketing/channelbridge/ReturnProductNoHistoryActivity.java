@@ -582,25 +582,17 @@ public class ReturnProductNoHistoryActivity extends Activity implements Location
                           if(tempTotal > Double.parseDouble(credit)){
                               Builder alertNotSaved = new AlertDialog.Builder(ReturnProductNoHistoryActivity.this)
                                       .setTitle("Warning")
-                                      .setMessage("Total amount is greater than credit amount.Do you want to proceed?")
-                                      .setPositiveButton("Yes",
+                                      .setMessage("Total amount is greater than credit amount")
+                                      .setPositiveButton("Ok",
                                               new DialogInterface.OnClickListener() {
 
                                                   public void onClick(DialogInterface dialog,
                                                                       int which) {
                                                       // TODO Auto-generated method stub
-                                                      saveRturnIfOk( inList);
+                                                      dialog.dismiss();
 
                                                   }
-                                              })
-                                      .setNegativeButton("No", new DialogInterface.OnClickListener() {
-
-                                          public void onClick(DialogInterface dialog, int which) {
-                                              // TODO Auto-generated method stub
-                                              dialog.dismiss();
-                                              addBtnFlag = false;
-                                          }
-                                      });
+                                              });
                               alertNotSaved.show();
                           }else{
                               saveRturnIfOk(inList);

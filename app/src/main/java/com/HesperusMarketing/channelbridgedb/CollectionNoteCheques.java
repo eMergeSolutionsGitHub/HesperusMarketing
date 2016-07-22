@@ -21,14 +21,14 @@ import java.util.List;
 public class CollectionNoteCheques {
 
     private static final String KEY_ROW_ID = "row_id";
-    private static final String KEY_COLLECTIONNOTE_NO = "Collevtion_note_no";
+    private static final String KEY_COLLECTIONNOTE_NO = "collevtion_note_no";
     private static final String KEY_CHEQUENUMBER= "Cheque_number";
     private static final String KEY_CHEQUEAMOUNT= "Cheque_ammount";
-    private static final String KEY_COLLECT_DATE = "Collect_Date";
-    private static final String KEY_BANK = "Bank";
-    private static final String KEY_BRANCH= "Branch";
-    private static final String KEY_REALIZED_DATE= "Realized_Date";
-    private static final String KEY_CHEQUE_IMAGE = "Cheque_image";
+    private static final String KEY_COLLECT_DATE = "collect_date";
+    private static final String KEY_BANK = "bank";
+    private static final String KEY_BRANCH= "branch";
+    private static final String KEY_REALIZED_DATE= "realized_date";
+    private static final String KEY_CHEQUE_IMAGE = "cheque_image";
     private static final String KEY_UPLOAD_STATUS = "upload_status";
 
 
@@ -102,7 +102,7 @@ public class CollectionNoteCheques {
 
     }
 
-    public void setCellectionNoteChequeUpdatedStatus(String invoiceId, String status) {
+    public void setCellectionNoteChequeUpdatedStatus(String rowid, String status) {
 
         String updateQuery = "UPDATE " + TABLE_NAME
                 + " SET "
@@ -112,30 +112,32 @@ public class CollectionNoteCheques {
                 + "' WHERE "
                 + KEY_ROW_ID
                 + " = '"
-                + invoiceId
+                + rowid
                 + "'";
 
         database.execSQL(updateQuery);
-        Log.w("Upload service", "<Invoice> Set invoice uploaded status to :" + status + " of id : " + invoiceId + "");
+
     }
-    public List<String[]> getCollectionNoteByUploadStatus(String status) {
+    public List<String[]> getCollectionNoteByUploadStatus() {
         List<String[]> invoice = new ArrayList<String[]>();
 
+        String countQuery = "SELECT collection_note_number,Cheque_number,Cheque_ammount,collect_date,bank,branch,realized_date,cheque_image,row_id FROM CollectionNote_Cheque WHERE upload_status = '0' ";
 
-        Cursor cursor = database.query(TABLE_NAME, columns, KEY_UPLOAD_STATUS + " = '" + status + "'", null, null, null, null);
+        Cursor cursor =  database.rawQuery(countQuery, null);
 
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-            String[] invoiceData = new String[10];
-            invoiceData[0] = cursor.getString(0);//KEY_ROW_ID
-            invoiceData[1] = cursor.getString(1);//KEY_COLLECTIONNOTE_NO
-            invoiceData[2] = cursor.getString(2);// KEY_CHEQUENUMBER
-            invoiceData[3] = cursor.getString(3);//KEY_CHEQUEAMOUNT
-            invoiceData[4] = cursor.getString(4);//KEY_COLLECT_DATE
-            invoiceData[5] = cursor.getString(5);//KEY_BANK
-            invoiceData[6] = cursor.getString(6);//KEY_BRANCH
-            invoiceData[7] = cursor.getString(7);//KEY_REALIZED_DATE
-            invoiceData[8] = cursor.getString(8);//KEY_CHEQUE_IMAGE
+            String[] invoiceData = new String[9];
+            invoiceData[0] = cursor.getString(0);//KEY_COLLECTIONNOTE_NO
+            invoiceData[1] = cursor.getString(1);//KEY_CHEQUENUMBER
+            invoiceData[2] = cursor.getString(2);// KEY_CHEQUEAMOUNT
+            invoiceData[3] = cursor.getString(3);//KEY_COLLECT_DATE
+            invoiceData[4] = cursor.getString(4);//KEY_BANK
+            invoiceData[5] = cursor.getString(5);//KEY_BRANCH
+            invoiceData[6] = cursor.getString(6);//KEY_REALIZED_DATE
+            invoiceData[7] = cursor.getString(7);//KEY_CHEQUE_IMAGE
+            invoiceData[8] = cursor.getString(8);//ROWID
+
 
 
 

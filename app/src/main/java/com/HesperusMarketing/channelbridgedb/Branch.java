@@ -249,7 +249,7 @@ public class Branch {
 
         ArrayList<String> bankList = new  ArrayList<String>();
         openReadableDatabase();
-        Cursor cursor = database.rawQuery("select Town from Branch where isActive = ?",new String[]{"true"});
+        Cursor cursor = database.rawQuery("select Town from Branch ",null);
 
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {

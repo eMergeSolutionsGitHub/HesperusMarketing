@@ -14,4 +14,6 @@
     <color name="myRed">#fb0000</color>
     <color name="mywhite">#ffffff</color>
     <color name="myGreen">#2ecc71</color>
+    <color name="myOrange">#e67e22</color>
+
 </resources>

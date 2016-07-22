@@ -47,6 +47,7 @@ import com.HesperusMarketing.channelbridgedb.ShelfQuantity;
 import com.HesperusMarketing.channelbridgedb.TemporaryInvoice;
 
 
+import java.sql.SQLOutput;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -59,7 +60,7 @@ public class InvoiceGen1Alternate extends Activity {
 
     String selected, selectedCategory, rowId, pharmacyId, startTime, collectionDate = "", releaseDate = "", chequeNumber = "";
     String colerchartProductCode = "0", colerchartProductBatch = "0", colerchartProductShelf = "0", colerchartProductRequest = "0", colerchartProductOrder = "0", colerchartProductFree = "0", colerchartProductStock = "0";
-    String productCode, productBatch,productStock;
+    String productCode, productBatch, productStock;
     private Boolean iswebApprovalActive = true;
     private Boolean isChanged = false;
     boolean chequeEnabled = false;
@@ -90,10 +91,13 @@ public class InvoiceGen1Alternate extends Activity {
     ArrayList<SelectedProduct> mergeList;
     ArrayList<String[]> itemCodeDetailList;
 
+    ArrayList<TempInvoiceStock> prductListImage;
+    ProductImagesAdapter productAdapterImage;
+
     private Products productController;
     TemporaryInvoice tempInvoiceStockController;
 
-    private RecyclerView recyclerView,recyclerViewImages;
+    private RecyclerView recyclerView, recyclerViewImages;
     private List<ListProduct> albumList;
     private RecyclerListProductAdapter adapter;
 
@@ -149,7 +153,6 @@ public class InvoiceGen1Alternate extends Activity {
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
 
         recyclerView.setHasFixedSize(true);
-
 
 
         // use a linear layout manager
@@ -435,472 +438,6 @@ public class InvoiceGen1Alternate extends Activity {
         recyclerView.setAdapter(adapter);
 
     }
-  /*  private void populateProductTable(ArrayList<Product> prductList) {
-
-        tblTest.removeAllViews();
-        try {
-            for (final Product product : prductList) {
-
-                tempInvoiceStockController.openReadableDatabase();
-                final TempInvoiceStock stock = tempInvoiceStockController.getTempData(product.getCode(), product.getBatchNumber());
-                TableRow dataRow = new TableRow(this);
-                TableRow.LayoutParams lpInner = new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT, TableRow.LayoutParams.WRAP_CONTENT);
-                lpInner.weight = 1;
-                dataRow.setLayoutParams(lpInner);
-
-
-                final TextView proNumber = new TextView(this);
-                proNumber.setText(product.getCode());
-                proNumber.setTextColor(Color.BLACK);
-                proNumber.setMinWidth(100);
-                proNumber.setTextSize(12);
-
-
-                TextView proName = new TextView(this);
-                proName.setText(product.getProDes());
-                proName.setTextColor(Color.BLUE);
-                proName.setSingleLine(false);
-                proName.setMaxLines(3);
-                proName.setMinWidth(300);
-                proName.setWidth(300);
-                proName.setTextSize(12);
-                proName.setLines(3);
-
-
-                //2
-                TextView proBatch = new TextView(this);
-                proBatch.setText(product.getBatchNumber());
-                proBatch.setTextColor(Color.BLACK);
-                proName.setTypeface(null, Typeface.BOLD);
-                proBatch.setMinWidth(100);
-                proBatch.setTextSize(12);
-
-
-                //3
-
-
-                TextView proStock = new TextView(this);
-                proStock.setText("" + stock.getStock());
-                proStock.setTextColor(Color.RED);
-                proName.setTypeface(null, Typeface.BOLD);
-                proStock.setMinWidth(80);
-
-
-                //4
-                TextView proPrice = new TextView(this);
-                proPrice.setText("" + product.getSellingPrice());
-                proPrice.setTextColor(Color.RED);
-                proPrice.setMinWidth(60);
-                proPrice.setTypeface(null, Typeface.BOLD);
-
-
-                final EditText edSQuantity = new EditText(this);
-                final EditText edNormal = new EditText(this);
-                final EditText edQuantity = new EditText(this);
-                final EditText edRequest = new EditText(this);
-                final EditText edDiscount = new EditText(this);
-
-
-
-
-                edSQuantity.setInputType(InputType.TYPE_CLASS_NUMBER);
-                edSQuantity.setLayoutParams(lpInner);
-                edSQuantity.setBackgroundResource(R.drawable.cell_border);
-                edSQuantity.setText("" + stock.getShelfQuantity());
-                edSQuantity.setSelection(edSQuantity.getText().length());
-                edSQuantity.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-                    @Override
-                    public void onFocusChange(View v, boolean hasFocus) {
-                        if (hasFocus == true) {
-                            edSQuantity.setText("");
-                        }
-                    }
-                });
-                edSQuantity.setOnKeyListener(new View.OnKeyListener() {
-                    public boolean onKey(View v, int keyCode, KeyEvent event) {
-                        if (keyCode == 66) {
-                            if (edSQuantity.getText().toString().equals("")) {
-                                edSQuantity.setText("0");
-                            }
-                        }
-                        return false;
-                    }
-                });
-                edSQuantity.setMinWidth(80);
-                edSQuantity.addTextChangedListener(new TextWatcher() {
-                    @Override
-                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-                    }
-
-                    @Override
-                    public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                    }
-
-                    @Override
-                    public void afterTextChanged(Editable s) {
-
-                        TableRow row = (TableRow) edSQuantity.getParent();
-                        TextView tvDynaProNo = (TextView) row.getChildAt(0);
-                        TextView tvDynaBatchNo = (TextView) row.getChildAt(2);
-
-                        if ((!s.toString().isEmpty() || !s.toString().equals(""))) {
-                            tempInvoiceStockController.updateShelfQuantity(tvDynaProNo.getText().toString(), tvDynaBatchNo.getText().toString(), s.toString());
-                            ((EditText) row.getChildAt(6)).setEnabled(true);
-                            ((EditText) row.getChildAt(7)).setEnabled(true);
-                            ((EditText) row.getChildAt(8)).setEnabled(true);
-                            ((EditText) row.getChildAt(9)).setEnabled(true);
-                        }
-
-                        isChanged = true;
-                    }
-                });
-
-
-                edRequest.setInputType(InputType.TYPE_CLASS_NUMBER);
-                edRequest.setLayoutParams(lpInner);
-                edRequest.setBackgroundResource(R.drawable.cell_border);
-                if(stock.getRequestQuantity().equals("0")){
-                    edRequest.setEnabled(false);
-                }else {
-                    edRequest.setEnabled(true);
-                }
-
-                edRequest.setText("" + stock.getRequestQuantity());
-                edRequest.setSelection(edRequest.getText().length());
-                edRequest.setOnKeyListener(new View.OnKeyListener() {
-                    public boolean onKey(View v, int keyCode, KeyEvent event) {
-                        if (keyCode == 66) {
-                            if (edRequest.getText().toString().equals("")) {
-                                edRequest.setText("0");
-                            }
-                        }
-                        return false;
-                    }
-                });
-                edRequest.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-                    @Override
-                    public void onFocusChange(View v, boolean hasFocus) {
-                        if (hasFocus == true) {
-                            edRequest.setText("");
-                        }
-                    }
-                });
-                //check whether entered quantity is valid depend on the approval
-                edRequest.addTextChangedListener(new TextWatcher() {
-                    @Override
-                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-
-                    }
-
-                    @Override
-                    public void onTextChanged(CharSequence s, int start, int before, int count) {
-                        try {
-                            TableRow row = (TableRow) edRequest.getParent();
-                            TextView tvDynaProNo = (TextView) row.getChildAt(0);
-                            TextView tvDynaBatchNo = (TextView) row.getChildAt(2);
-
-                            TextView tvDynaStock = (TextView) row.getChildAt(3);
-                            EditText edDynaNormal = (EditText) row.getChildAt(7);
-                            if (!s.toString().isEmpty() || !s.toString().equals("")) {
-
-                                tempInvoiceStockController.updateRequestQuantity(tvDynaProNo.getText().toString(), tvDynaBatchNo.getText().toString(), s.toString());
-
-                                if (iswebApprovalActive == true) {
-
-                                    if (Double.parseDouble(tvDynaStock.getText().toString()) < Double.parseDouble(edRequest.getText().toString())) {
-                                        Toast toast = Toast.makeText(InvoiceGen1Alternate.this, "Enter valid quantity", Toast.LENGTH_SHORT);
-                                        toast.setGravity(Gravity.CENTER, 0, 0);
-                                        toast.show();
-                                        edDynaNormal.setText(tvDynaStock.getText().toString());
-                                    } else {
-                                        edDynaNormal.setText(s.toString());
-                                    }
-
-                                } else {
-                                    if (Double.parseDouble(tvDynaStock.getText().toString()) < Double.parseDouble(edRequest.getText().toString())) {
-                                        Toast toast = Toast.makeText(InvoiceGen1Alternate.this, "Enter valid quantity", Toast.LENGTH_SHORT);
-                                        toast.setGravity(Gravity.CENTER, 0, 0);
-                                        toast.show();
-                                        edDynaNormal.setText(tvDynaStock.getText().toString());
-
-                                    } else {
-                                        edDynaNormal.setText(s.toString());
-                                    }
-
-                                }
-
-                            } else {
-                                edDynaNormal.setText("0");
-                            }
-                            isChanged = true;
-                        } catch (Exception e) {
-
-                        }
-
-
-                    }
-
-                    @Override
-                    public void afterTextChanged(Editable s) {
-
-
-                    }
-                });
-                edRequest.setMinWidth(80);
-                edQuantity.setInputType(InputType.TYPE_CLASS_NUMBER);
-                edQuantity.setLayoutParams(lpInner);
-                edQuantity.setBackgroundResource(R.drawable.cell_border);
-                if(stock.getFreeQuantity().equals("0")){
-                    edQuantity.setEnabled(false);
-                }else {
-                    edQuantity.setEnabled(true);
-                }
-
-                edQuantity.setText("" + stock.getFreeQuantity());
-                edQuantity.setMinWidth(80);
-                edQuantity.setSelection(edQuantity.getText().length());
-                edQuantity.addTextChangedListener(new TextWatcher() {
-
-                    @Override
-                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-                    }
-
-                    @Override
-                    public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-
-                    }
-
-                    @Override
-                    public void afterTextChanged(Editable s) {
-                        TableRow row = (TableRow) edQuantity.getParent();
-
-                        TextView tvDynaProNo = (TextView) row.getChildAt(0);
-                        TextView tvDynaBatchNo = (TextView) row.getChildAt(2);
-                        TextView tvDynaStock = (TextView) row.getChildAt(3);
-                        EditText edDynaNormal = (EditText) row.getChildAt(7);
-
-                        if ((!s.toString().isEmpty() || !s.toString().equals(""))) {
-                            tempInvoiceStockController.openWritableDatabase();
-
-
-                            int stock = Integer.parseInt(tvDynaStock.getText().toString());
-                            int request = 0;
-                            if (!edDynaNormal.getText().toString().equals("")) {
-                                request = Integer.parseInt(edDynaNormal.getText().toString());
-                            }
-                            int free = Integer.parseInt(edQuantity.getText().toString());
-
-
-                            if (iswebApprovalActive == false) {
-                                if (stock - request >= free) { // check whether entered free quantity is smaller than stock -  requested
-                                    tempInvoiceStockController.updateFreeQuantity(tvDynaProNo.getText().toString(), tvDynaBatchNo.getText().toString(), s.toString());
-
-                                    ((EditText) row.getChildAt(9)).setEnabled(false);
-                                    tempInvoiceStockController.updateDiscountAlloed(tvDynaProNo.getText().toString(), tvDynaBatchNo.getText().toString(), Boolean.toString(false));
-
-                                } else {
-                                    Toast freeToast = Toast.makeText(InvoiceGen1Alternate.this, "Not enough quantity", Toast.LENGTH_SHORT);
-                                    freeToast.setGravity(Gravity.CENTER, 0, 0);
-                                    freeToast.show();
-
-                                }
-                            } else {
-                                tempInvoiceStockController.updateFreeQuantity(tvDynaProNo.getText().toString(), tvDynaBatchNo.getText().toString(), s.toString());
-                                ((EditText) row.getChildAt(9)).setEnabled(false);
-                                tempInvoiceStockController.updateDiscountAlloed(tvDynaProNo.getText().toString(), tvDynaBatchNo.getText().toString(), Boolean.toString(false));
-                            }
-
-                        } else {
-                            tempInvoiceStockController.updateFreeQuantity(tvDynaProNo.getText().toString(), tvDynaBatchNo.getText().toString(), "0");
-
-                        }
-
-
-                        isChanged = true;
-                    }
-                });
-
-
-                edNormal.setInputType(InputType.TYPE_CLASS_NUMBER);
-                edNormal.setLayoutParams(lpInner);
-                edNormal.setBackgroundResource(R.drawable.cell_border);
-                if(stock.getNormalQuantity().equals("0")){
-                    edNormal.setEnabled(false);
-                }else {
-                    edNormal.setEnabled(true);
-                }
-                edNormal.setText("" + stock.getNormalQuantity());
-                edNormal.setMinWidth(80);
-                edNormal.setSelection(edNormal.getText().length());
-                edNormal.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-                    @Override
-                    public void onFocusChange(View v, boolean hasFocus) {
-                        if (hasFocus == true) {
-                            edNormal.setText("");
-                        }
-                    }
-                });
-                edNormal.setOnKeyListener(new View.OnKeyListener() {
-                    public boolean onKey(View v, int keyCode, KeyEvent event) {
-                        if (keyCode == 66) {
-                            if (edNormal.getText().toString().equals("")) {
-                                edNormal.setText("0");
-                            }
-                        }
-                        return false;
-                    }
-                });
-                edNormal.addTextChangedListener(new TextWatcher() {
-                    @Override
-                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-                    }
-
-                    @Override
-                    public void onTextChanged(CharSequence s, int start, int before, int count) {
-                        TableRow row = (TableRow) edNormal.getParent();
-                        TextView tvDynaProNo = (TextView) row.getChildAt(0);
-                        TextView tvDynaBatchNo = (TextView) row.getChildAt(2);
-                        if ((!s.toString().isEmpty() || !s.toString().equals(""))) {
-                            tempInvoiceStockController.updateNormalQuantity(tvDynaProNo.getText().toString(), tvDynaBatchNo.getText().toString(), s.toString());
-
-
-                        }
-                        isChanged = true;
-                    }
-
-                    @Override
-                    public void afterTextChanged(Editable s) {
-
-                    }
-                });
-
-
-                edDiscount.setInputType(InputType.TYPE_CLASS_NUMBER | InputType.TYPE_NUMBER_FLAG_DECIMAL);
-                edDiscount.setLayoutParams(lpInner);
-                edDiscount.setBackgroundResource(R.drawable.cell_border);
-                if(stock.getPercentage()==0 ||stock.getPercentage()==0.0){
-                    edDiscount.setEnabled(false);
-                }else {
-                    edDiscount.setEnabled(true);
-                }
-                edDiscount.setText("" + stock.getPercentage());
-                edDiscount.setMinWidth(80);
-                edDiscount.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-                    @Override
-                    public void onFocusChange(View v, boolean hasFocus) {
-                        if (hasFocus == true) {
-                            edDiscount.setText("");
-                        }
-                    }
-                });
-                edDiscount.setSelection(edQuantity.getText().length());
-
-                edDiscount.setOnKeyListener(new View.OnKeyListener() {
-                    public boolean onKey(View v, int keyCode, KeyEvent event) {
-                        if (keyCode == 66) {
-                            if (edDiscount.getText().toString().equals("")) {
-                                edDiscount.setText("0.0");
-                            }
-                        }
-                        return false;
-                    }
-                });
-                edDiscount.addTextChangedListener(new TextWatcher() {
-                    @Override
-                    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-                    }
-
-                    @Override
-                    public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                    }
-
-                    @Override
-                    public void afterTextChanged(Editable s) {
-                        TableRow row = (TableRow) edDiscount.getParent();
-                        TextView tvDynaProNo = (TextView) row.getChildAt(0);
-                        TextView tvDynaBatchNo = (TextView) row.getChildAt(2);
-
-                        if ((!s.toString().isEmpty() || !s.toString().equals(""))) {
-
-
-                            if (s.length() < 4) {
-                                if (Double.parseDouble(s.toString()) <= 100) {
-                                    tempInvoiceStockController.updateDicount(tvDynaProNo.getText().toString(), tvDynaBatchNo.getText().toString(), s.toString());
-                                    if (Double.parseDouble(s.toString()) > 0) {
-                                        ((EditText) row.getChildAt(9)).setEnabled(false);
-                                        tempInvoiceStockController.updateFreeAlloed(tvDynaProNo.getText().toString(), tvDynaBatchNo.getText().toString(), Boolean.toString(false));
-                                    } else {
-                                        ((EditText) row.getChildAt(9)).setEnabled(true);
-                                        tempInvoiceStockController.updateFreeAlloed(tvDynaProNo.getText().toString(), tvDynaBatchNo.getText().toString(), Boolean.toString(true));
-                                    }
-                                } else {
-                                    Toast toast1 = Toast.makeText(InvoiceGen1Alternate.this, "Enter valid discount", Toast.LENGTH_LONG);
-                                    toast1.setGravity(Gravity.CENTER, 0, 0);
-                                    toast1.show();
-                                    edDiscount.setText("0.0");
-                                }
-                            } else {
-                                Toast toast1 = Toast.makeText(InvoiceGen1Alternate.this, "Enter valid amount", Toast.LENGTH_LONG);
-                                toast1.setGravity(Gravity.CENTER, 0, 0);
-                                toast1.show();
-                                edDiscount.setText("0.0");
-                            }
-
-
-                        }
-
-                        isChanged = true;
-                    }
-                });
-
-
-                if (iswebApprovalActive == false) {
-                    if (stock.getStock() == 0) {
-                        edQuantity.setEnabled(false);
-                        edNormal.setEnabled(false);
-                        edDiscount.setEnabled(false);
-                    }
-                } else {
-                    if (stock.getStock() == 0) {
-                        edQuantity.setEnabled(true);
-                        edNormal.setEnabled(true);
-                        edDiscount.setEnabled(true);
-                    }
-                }
-
-
-                dataRow.addView(proNumber, 0);
-                dataRow.addView(proName, 1);
-                dataRow.addView(proBatch, 2);
-                dataRow.addView(proStock, 3);
-                dataRow.addView(proPrice, 4);
-
-                dataRow.addView(edSQuantity, 5);
-                dataRow.addView(edRequest, 6);
-                dataRow.addView(edNormal, 7);
-                dataRow.addView(edQuantity, 8);
-                dataRow.addView(edDiscount, 9);
-
-
-                tblTest.addView(dataRow);
-
-
-            }
-
-
-        } catch (Exception e) {
-            Log.e("loading view error", "task error");
-        }
-        tempInvoiceStockController.closeDatabase();
-    }*/
 
     private void getDataFromPreviousActivity(Bundle extras) {
 
@@ -940,31 +477,33 @@ public class InvoiceGen1Alternate extends Activity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
-        alertCancel = new AlertDialog.Builder(this)
-                .setTitle("Warning")
-                .setMessage("Are you sure you want Cancel this Invoice?")
-                .setPositiveButton("Yes",
-                        new DialogInterface.OnClickListener() {
+       // super.onBackPressed();
 
-                            public void onClick(DialogInterface dialog,
-                                                int which) {
-                                // Intent customerItineraryListIntent = new Intent("com.HesperusMarketing.channelbridge.ITINERARYLIST");
-                                tempInvoiceStockController.openWritableDatabase();
-                                tempInvoiceStockController.deleteAllRecords();
-                                tempInvoiceStockController.closeDatabase();
-                                finish();
 
-                                //  startActivity(customerItineraryListIntent);
-                            }
-                        })
-                .setNegativeButton("No", new DialogInterface.OnClickListener() {
-
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
+        alertDialogBuilder.setTitle("Warning");
+        alertDialogBuilder.setMessage("Are you sure you want Cancel this Invoice?");
+        alertDialogBuilder.setPositiveButton("Yes",
+                new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                        return;
+                       tempInvoiceStockController.openWritableDatabase();
+                        tempInvoiceStockController.deleteAllRecords();
+                        tempInvoiceStockController.closeDatabase();
+
+                        Intent in = new Intent(InvoiceGen1Alternate.this,ItineraryList.class);
+                        finish();
+                        startActivity(in);
+
+
                     }
                 });
-        alertCancel.show();
+        alertDialogBuilder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int which) {
+                return;
+            }
+        });
+        alertDialogBuilder.show();
+
 
     }
 
@@ -1065,22 +604,20 @@ public class InvoiceGen1Alternate extends Activity {
         dialogBox.setContentView(R.layout.dialog_product_image);
         dialogBox.setCancelable(false);
 
-        recyclerViewImages = (RecyclerView)dialogBox.findViewById(R.id.gridView_album);
+        recyclerViewImages = (RecyclerView) dialogBox.findViewById(R.id.gridView_album);
 
-        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this,10);
+        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(this, 10);
         recyclerViewImages.setLayoutManager(mLayoutManager);
         recyclerViewImages.setItemAnimator(new DefaultItemAnimator());
 
-
-        final ArrayList<TempInvoiceStock> albumItem = new ArrayList<TempInvoiceStock>();
-        albumItem.clear();
-
-
-
-        final ProductImagesAdapter productAdapter = new ProductImagesAdapter(this,prductList);
-
         final TemporaryInvoice temInvies = new TemporaryInvoice(getApplicationContext());
         temInvies.openWritableDatabase();
+
+
+        prductListImage = new ArrayList<>();
+
+        prductListImage = temInvies.getTempDataForTable(selected, selectedCategory, 1);
+        productAdapterImage = new ProductImagesAdapter(this, prductListImage);
 
 
         final TextView shelf = (TextView) dialogBox.findViewById(R.id.textView20);
@@ -1091,6 +628,7 @@ public class InvoiceGen1Alternate extends Activity {
         checkboxOne = (CheckBox) dialogBox.findViewById(R.id.checkBox1);
         checkboxTwo = (CheckBox) dialogBox.findViewById(R.id.checkBox2);
         checkboxThree = (CheckBox) dialogBox.findViewById(R.id.checkBox3);
+
         textViewtotal = (TextView) dialogBox.findViewById(R.id.textViewtotal);
         textViewfree = (TextView) dialogBox.findViewById(R.id.textViewtotalfree);
         textViewreamingfree = (TextView) dialogBox.findViewById(R.id.textViewremaningFree);
@@ -1180,18 +718,8 @@ public class InvoiceGen1Alternate extends Activity {
         }
 
 
-/*
-        for (final Product product : prductList) {
-            TempInvoiceStock stock = tempInvoiceStockController.getTempData(product.getCode(), product.getBatchNumber());
-            File SNP01 = new File(Environment.getExternalStorageDirectory() + File.separator + "DCIM" + File.separator + "Channel_Bridge_Images" + File.separator + product.getCode() + ".jpg");
-            albumItem.add(new ProductImages(product.getCode(), product.getBatchNumber(), String.valueOf(SNP01), stock.getShelfQuantity(),
-                    stock.getRequestQuantity(), stock.getNormalQuantity(), stock.getFreeQuantity(), String.valueOf(stock.getStock())));
-
-
-        }
-*/
         temInvies.closeDatabase();
-        recyclerViewImages.setAdapter(productAdapter);
+        recyclerViewImages.setAdapter(productAdapterImage);
 
 
         checkboxOne.setOnClickListener(new View.OnClickListener() {
@@ -1438,7 +966,6 @@ public class InvoiceGen1Alternate extends Activity {
 
                 if (checkboxOne.isChecked() || checkboxTwo.isChecked()) {
                     if (freetot != 0) {
-
                         AlertDialog.Builder builder = new AlertDialog.Builder(InvoiceGen1Alternate.this);
                         builder.setTitle("Free Issues");
                         builder.setMessage("Do you want to clear free data");
@@ -1550,7 +1077,6 @@ public class InvoiceGen1Alternate extends Activity {
 
                 if (checkboxOne.isChecked() || checkboxTwo.isChecked()) {
                     if (freetot != 0) {
-
                         AlertDialog.Builder builder = new AlertDialog.Builder(InvoiceGen1Alternate.this);
                         builder.setTitle("Free Issues");
                         builder.setMessage("Do you want to clear free data");
@@ -1728,26 +1254,19 @@ public class InvoiceGen1Alternate extends Activity {
 
                 }
 
-
-                albumItem.clear();
-
-
-/*
-                for (final Product product : prductList) {
-                    tempInvoiceStockController.openReadableDatabase();
-                    TempInvoiceStock newStock = tempInvoiceStockController.getTempData(product.getCode(), product.getBatchNumber());
-                    File SNP01 = new File(Environment.getExternalStorageDirectory() + File.separator + "DCIM" + File.separator + "Channel_Bridge_Images" + File.separator + product.getCode() + ".jpg");
-                    albumItem.add(new ProductImages(product.getCode(), product.getBatchNumber(), String.valueOf(SNP01), newStock.getShelfQuantity(),
-                            newStock.getRequestQuantity(), newStock.getNormalQuantity(), newStock.getFreeQuantity(), String.valueOf(newStock.getStock())));
+                productTablefill(1);
 
 
-                }
-*/
+                final TemporaryInvoice temInvies = new TemporaryInvoice(getApplicationContext());
+                temInvies.openWritableDatabase();
 
-
-                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                prductListImage = temInvies.getTempDataForTable(selected, selectedCategory, 1);
+                productAdapterImage = new ProductImagesAdapter(InvoiceGen1Alternate.this, prductListImage);
+                temInvies.closeDatabase();
+                recyclerViewImages.setAdapter(productAdapterImage);
+              /*  InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(recyclerViewImages.getWindowToken(), 0);
-                recyclerViewImages.setAdapter(productAdapter);
+                recyclerViewImages.setAdapter(productAdapter);*/
             }
         });
 
@@ -1765,7 +1284,13 @@ public class InvoiceGen1Alternate extends Activity {
                     prosessStatus = 0;
                     btnSearch.setEnabled(true);
                     dialogBox.dismiss();
-
+                    final TemporaryInvoice temInvies = new TemporaryInvoice(getApplicationContext());
+                    temInvies.openWritableDatabase();
+                    prductListImage.clear();
+                    prductListImage = temInvies.getTempDataForTable(selected, selectedCategory, 1);
+                    productAdapterImage = new ProductImagesAdapter(InvoiceGen1Alternate.this, prductListImage);
+                    temInvies.closeDatabase();
+                    recyclerViewImages.setAdapter(productAdapterImage);
                     productTablefill(1);
                 }
 
@@ -1830,9 +1355,9 @@ public class InvoiceGen1Alternate extends Activity {
         edtFree.setText(free);
         edtDiscountProduct.setText(discount);
 
-        if(discount.equals("0.0")){
+        if (discount.equals("0.0")) {
             edtDiscountProduct.setEnabled(false);
-        }else {
+        } else {
             edtDiscountProduct.setEnabled(true);
         }
 
@@ -1856,7 +1381,6 @@ public class InvoiceGen1Alternate extends Activity {
     public void oderDetailsEdittextOntextChange() {
 
 
-
         edtShelf.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -1870,6 +1394,7 @@ public class InvoiceGen1Alternate extends Activity {
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
             }
+
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -1913,16 +1438,16 @@ public class InvoiceGen1Alternate extends Activity {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if (!charSequence.toString().isEmpty() || !charSequence.toString().equals("")) {
-                    tempInvoiceStockController.updateRequestQuantity(productCode,productBatch, charSequence.toString());
-                   if (Double.parseDouble(textStock.getText().toString()) < Double.parseDouble(edtRequest.getText().toString())) {
+                    tempInvoiceStockController.updateRequestQuantity(productCode, productBatch, charSequence.toString());
+                    if (Double.parseDouble(textStock.getText().toString()) < Double.parseDouble(edtRequest.getText().toString())) {
                         Toast.makeText(InvoiceGen1Alternate.this, "Enter valid quantity", Toast.LENGTH_LONG).show();
                         edtOrder.setText(productStock);
                     } else {
                         edtOrder.setText(charSequence.toString());
                     }
-                }else {
+                } else {
 //
-                    tempInvoiceStockController.updateRequestQuantity(productCode,productBatch, "0");
+                    tempInvoiceStockController.updateRequestQuantity(productCode, productBatch, "0");
                 }
 
             }
@@ -1951,7 +1476,7 @@ public class InvoiceGen1Alternate extends Activity {
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if ((!charSequence.toString().isEmpty() || !charSequence.toString().equals(""))) {
                     tempInvoiceStockController.updateNormalQuantity(productCode, productBatch, charSequence.toString());
-                }else {
+                } else {
                     tempInvoiceStockController.updateNormalQuantity(productCode, productBatch, "0");
                 }
             }
@@ -1990,23 +1515,23 @@ public class InvoiceGen1Alternate extends Activity {
 
                     if (iswebApprovalActive == false) {
                         if (stock - request >= free) { // check whether entered free quantity is smaller than stock -  requested
-                            tempInvoiceStockController.updateFreeQuantity(productCode,productBatch, charSequence.toString());
+                            tempInvoiceStockController.updateFreeQuantity(productCode, productBatch, charSequence.toString());
 
                             edtDiscountProduct.setEnabled(false);
-                            tempInvoiceStockController.updateDiscountAlloed(productCode,productBatch, Boolean.toString(false));
+                            tempInvoiceStockController.updateDiscountAlloed(productCode, productBatch, Boolean.toString(false));
 
                         } else {
                             Toast.makeText(InvoiceGen1Alternate.this, "Not enough quantity", Toast.LENGTH_LONG).show();
                         }
                     } else {
-                        tempInvoiceStockController.updateFreeQuantity(productCode,productBatch, charSequence.toString());
+                        tempInvoiceStockController.updateFreeQuantity(productCode, productBatch, charSequence.toString());
                         edtDiscountProduct.setEnabled(false);
-                        tempInvoiceStockController.updateDiscountAlloed(productCode,productBatch, Boolean.toString(false));
+                        tempInvoiceStockController.updateDiscountAlloed(productCode, productBatch, Boolean.toString(false));
                     }
 
 
-                }else {
-                   tempInvoiceStockController.updateFreeQuantity(productCode,productBatch, "0");
+                } else {
+                    tempInvoiceStockController.updateFreeQuantity(productCode, productBatch, "0");
                     edtDiscountProduct.setEnabled(true);
                 }
             }
@@ -2037,13 +1562,13 @@ public class InvoiceGen1Alternate extends Activity {
                 if ((!charSequence.toString().isEmpty() || !charSequence.toString().equals(""))) {
                     if (charSequence.length() < 4) {
                         if (Double.parseDouble(charSequence.toString()) <= 100) {
-                            tempInvoiceStockController.updateDicount(productCode,productBatch, charSequence.toString());
+                            tempInvoiceStockController.updateDicount(productCode, productBatch, charSequence.toString());
                             if (Double.parseDouble(charSequence.toString()) > 0) {
 
                                 edtFree.setEnabled(false);
-                                tempInvoiceStockController.updateFreeAlloed(productCode,productBatch, Boolean.toString(false));
+                                tempInvoiceStockController.updateFreeAlloed(productCode, productBatch, Boolean.toString(false));
                             } else {
-                                tempInvoiceStockController.updateFreeAlloed(productCode,productBatch, Boolean.toString(true));
+                                tempInvoiceStockController.updateFreeAlloed(productCode, productBatch, Boolean.toString(true));
                             }
                         } else {
                             Toast.makeText(InvoiceGen1Alternate.this, "Enter valid discount", Toast.LENGTH_LONG).show();
@@ -2053,8 +1578,8 @@ public class InvoiceGen1Alternate extends Activity {
                         Toast.makeText(InvoiceGen1Alternate.this, "Enter valid amount", Toast.LENGTH_LONG).show();
                         edtDiscountProduct.setText("0.0");
                     }
-                }else {
-                    tempInvoiceStockController.updateDicount(productCode,productBatch,"0.0");
+                } else {
+                    tempInvoiceStockController.updateDicount(productCode, productBatch, "0.0");
                 }
             }
 

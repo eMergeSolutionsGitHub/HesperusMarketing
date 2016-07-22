@@ -157,7 +157,7 @@ public class Master_Banks {
 
         ArrayList<String> bankList = new  ArrayList<String>();
         openReadableDatabase();
-        Cursor cursor = database.rawQuery("select BankName from Master_Bank where isActive = ?",new String[]{"true"});
+        Cursor cursor = database.rawQuery("select BankName from Master_Bank ",null);
 
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {

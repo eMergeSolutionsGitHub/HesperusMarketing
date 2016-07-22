@@ -62,7 +62,7 @@ public class InvoiceGen2Activity extends Activity {
     Dialog chequeDetailsPopup;
     Spinner spinCreditPeriod;//spInvoType
     EditText txtCheque, txtCash, txtCredit, txtDiscountPercentage, txtDiscountValue;
-    String rowId, pharmacyId,discountVal;
+    String rowId, pharmacyId, discountVal;
     ArrayList<String> creditList;
     ArrayList<String> bankList;
     ArrayList<String> branchList;
@@ -277,7 +277,6 @@ public class InvoiceGen2Activity extends Activity {
                         if ((discountPercentage >= 0)) {
 
 
-
                             double discountValue = (discountPercentage / 100) * totalAmount;
                             txtDiscountValue.setText(String.format("%.2f", discountValue));
                             double needToPayAmount = totalAmount - (discountValue);
@@ -413,7 +412,6 @@ public class InvoiceGen2Activity extends Activity {
                     }
 
                     if (!(discountValue == 0)) {
-
 
 
                         if (discountValue < totalAmount) {
@@ -673,12 +671,34 @@ public class InvoiceGen2Activity extends Activity {
                                                          @Override
                                                          public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                                                              selectedBranchIndex = position;
-                                                            // selectedBranch = spBranch.getSelectedItem().toString();
+                                                             // selectedBranch = spBranch.getSelectedItem().toString();
                                                              branchCode = branchController.GetBranchCode(selectedBranch);
                                                          }
 
                                                          @Override
                                                          public void onNothingSelected(AdapterView<?> parent) {
+
+                                                         }
+                                                     });
+
+                                                     txtChequeNumber.addTextChangedListener(new TextWatcher() {
+                                                         @Override
+                                                         public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+                                                         }
+
+                                                         @Override
+                                                         public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                                                             if (charSequence.length() > 6) {
+                                                                 Toast.makeText(InvoiceGen2Activity.this, "You exceed maximum characters", Toast.LENGTH_LONG).show();
+                                                                 txtChequeNumber.setText(charSequence.toString().substring(0, 6));
+                                                             } else {
+
+                                                             }
+                                                         }
+
+                                                         @Override
+                                                         public void afterTextChanged(Editable editable) {
 
                                                          }
                                                      });
@@ -777,8 +797,8 @@ public class InvoiceGen2Activity extends Activity {
                                                                  releaseDate = tViewRealizedDate.getText().toString();
                                                                  referenceNumber = txtRefNo.getText().toString();
                                                                  txtCheque.setText(cheque);
-                                                                // selectedBank = spBank.getSelectedItem().toString();
-                                                               //  selectedBranch = spBranch.getSelectedItem().toString();
+                                                                 // selectedBank = spBank.getSelectedItem().toString();
+                                                                 //  selectedBranch = spBranch.getSelectedItem().toString();
                                                                  Log.w("c day", collectionDate.substring(0, 2));
                                                                  Log.w("c month", collectionDate.substring(3, 5));
                                                                  Log.w("c year", collectionDate.substring(6, collectionDate.length()));
@@ -1013,8 +1033,6 @@ public class InvoiceGen2Activity extends Activity {
             sequence.closeDatabase();
 
 
-
-
             String invNum = String.valueOf(Integer.parseInt(lastInv) + 1);
 
             tViewInvoiceNo.setText(invNum);
@@ -1036,7 +1054,7 @@ public class InvoiceGen2Activity extends Activity {
                     Products pro = new Products(this);
                     pro.openReadableDatabase();
 
-                    double reteilsPrice =Double.parseDouble(pro.getRetailsPrice(selectedProduct.getProductCode()));
+                    double reteilsPrice = Double.parseDouble(pro.getRetailsPrice(selectedProduct.getProductCode()));
                     normalP = (selectedProduct.getNormal() * reteilsPrice);
                     discounted = normalP * ((100 - selectedProduct.getDiscount()) / 100);
                 }
@@ -1175,9 +1193,9 @@ public class InvoiceGen2Activity extends Activity {
         selectedBranchIndex = extras.getInt("selectedBranchIndex");
         selectedBankIndex = extras.getInt("selectedBankIndex");
         startTime = extras.getString("startTime");
-        discountVal=extras.getString("discountval");
-       // tViewReturnsDiscount.setText(extras.getString("discountval"));
-      //  tViewReturnsDiscount.setText("025");
+        discountVal = extras.getString("discountval");
+        // tViewReturnsDiscount.setText(extras.getString("discountval"));
+        //  tViewReturnsDiscount.setText("025");
         //On Log.i("time gen2 -e->",startTime);
         if (extras.containsKey("Cash")) {
             cash = extras.getString("Cash");

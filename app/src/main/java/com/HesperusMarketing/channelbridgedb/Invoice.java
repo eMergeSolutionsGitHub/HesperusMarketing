@@ -480,9 +480,9 @@ public class Invoice {
                 //Set status
                 Cursor cursor1 = database.rawQuery("select  delout.InvoiceNo " + "from Invoice inv INNER JOIN DEL_Outstanding delout " + "ON inv.row_id = delout.InvoiceNo where delout.InvoiceNo = ?", new String[]{invoiceNo});
 
-                Cursor cursor2 = database.rawQuery("select col.INVOICE_NO " +
-                        "from Invoice inv INNER JOIN collection_note_send_approval col " +
-                        "ON inv.row_id = col.INVOICE_NO where col.INVOICE_NO = ?", new String[]{invoiceNo});
+                Cursor cursor2 = database.rawQuery("select col.invoice_no " +
+                        "from Invoice inv INNER JOIN CollectionNote_Invoice col " +
+                        "ON inv.row_id = col.invoice_no where col.invoice_no = ?", new String[]{invoiceNo});
 
                 Cursor cursor3 = database.rawQuery("select rhd.invoiceNumber " +
                         "from Invoice inv INNER JOIN return_header rhd " +

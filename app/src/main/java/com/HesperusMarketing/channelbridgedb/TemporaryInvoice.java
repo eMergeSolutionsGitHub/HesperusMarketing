@@ -183,10 +183,10 @@ public class TemporaryInvoice {
         Cursor cursor;
 
         if(stat==0){
-             cursor = database.rawQuery("select product_code,batch_number,pro_des,stock,shelf_quantity,request_quantity,free_quantity,normal_quantity,discount,selling_price from invoice_temporary where principle = ?", new String[]{principle});
+             cursor = database.rawQuery("select product_code,batch_number,pro_des,stock,shelf_quantity,request_quantity,free_quantity,normal_quantity,discount,selling_price,productImage from invoice_temporary where principle = ?", new String[]{principle});
 
         }else {
-             cursor = database.rawQuery("select product_code,batch_number,pro_des,stock,shelf_quantity,request_quantity,free_quantity,normal_quantity,discount,selling_price from invoice_temporary where category = ?  and principle = ?", new String[]{category, principle});
+             cursor = database.rawQuery("select product_code,batch_number,pro_des,stock,shelf_quantity,request_quantity,free_quantity,normal_quantity,discount,selling_price,productImage from invoice_temporary where category = ?  and principle = ?", new String[]{category, principle});
 
         }
 
@@ -206,6 +206,8 @@ public class TemporaryInvoice {
             temp.setNormalQuantity(cursor.getString(7));
             temp.setPercentage(Double.parseDouble(cursor.getString(8)));
             temp.setPrice(cursor.getString(9));
+            temp.setProImage(cursor.getString(10));
+
 
 
             products.add(temp);

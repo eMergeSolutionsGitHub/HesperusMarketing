@@ -2479,11 +2479,86 @@ public class WebService {
         return repStoreDetailList;
 
     }
+    public String uploadCollectionInvoiceTask(String repId, String[] custDetails) throws SocketException {
+
+        String repStoreDetailList = "";
+
+        final String SOAP_ACTION = "http://tempuri.org/xmlSetCollectionInvoice";
+
+        final String OPERATION_NAME = "xmlSetCollectionInvoice";
+
+        SoapObject request = new SoapObject(WSDL_TARGET_NAMESPACE, OPERATION_NAME);
+
+
+
+        PropertyInfo pi2 = new PropertyInfo();
+        pi2.setName("RepID");
+        pi2.setValue(repId);
+        pi2.setType(String.class);
+        request.addProperty(pi2);
+
+        SoapObject dataset = new SoapObject(WSDL_TARGET_NAMESPACE, "NewDataSet");
+
+
+        SoapObject table = new SoapObject(WSDL_TARGET_NAMESPACE, "Table");
+
+        table.addProperty("KEY_COLLECTIONNOTE_NO", custDetails[0]);
+        table.addProperty("KEY_INVOICE_NO", custDetails[1]);
+        table.addProperty("KEY_PAYMENT_TYPE", custDetails[2]);
+        table.addProperty("KEY_CREDIT_AMOUNT", custDetails[3]);
+        table.addProperty("KEY_CASH_AMOUNT", custDetails[4]);
+        table.addProperty("KEY_CHEQES_AMOUNT", custDetails[5]);
+
+
+
+        dataset.addSoapObject(table);
+
+        SoapObject invoiceData = new SoapObject(WSDL_TARGET_NAMESPACE, "CollectionNote");
+        invoiceData.addSoapObject(dataset);
+        request.addSoapObject(invoiceData);
+
+        Log.w("Log", "request toString : " + request.toString());
+
+        SoapSerializationEnvelope envelope = new SoapSerializationEnvelope(SoapEnvelope.VER11);
+        envelope.dotNet = true;
+        envelope.setOutputSoapObject(request);
+
+
+        HttpTransportSE httpTransport = new HttpTransportSE(SOAP_ADDRESS);
+        SoapObject response;
+        try {
+
+            httpTransport.call(SOAP_ACTION, envelope);
+            response = (SoapObject) envelope.bodyIn;
+
+            Log.w("test123", "response : " + response.toString());
+
+            if (response != null && response.getPropertyCount() > 0) {
+                Log.w("Log", "response Str : " + response.toString());
+
+                repStoreDetailList = response.getProperty("xmlSetCollectionNoteResult").toString();
+
+            } else {
+                repStoreDetailList = "error";
+                Log.w("test123", "Error repStoreDetailList: 0 size xxx");
+            }
+
+        } catch (SocketException e) {
+            throw new SocketException(e.toString());
+        } catch (Exception exception) {
+
+            Log.w("test123", "Error repStoreDetailList: " + exception);
+        }
+
+        return repStoreDetailList;
+
+    }
+
     public String uploadCollectionChequeTask(String repId, String[] custDetails) throws SocketException {
 
         String repStoreDetailList = "";
 
-        final String SOAP_ACTION = "http://tempuri.org/xmlSetCollectionNote";
+        final String SOAP_ACTION = "http://tempuri.org/xmlSetCollectionCheque";
 
         final String OPERATION_NAME = "xmlSetCollectionCheque";
 
@@ -2502,15 +2577,15 @@ public class WebService {
 
 
         SoapObject table = new SoapObject(WSDL_TARGET_NAMESPACE, "Table");
-        table.addProperty("KEY_ROW_ID", custDetails[0]);
-        table.addProperty("KEY_COLLECTIONNOTE_NO", custDetails[1]);
-        table.addProperty("KEY_CHEQUENUMBER", custDetails[2]);
-        table.addProperty("KEY_CHEQUEAMOUNT", custDetails[3]);
-        table.addProperty("KEY_COLLECT_DATE", custDetails[4]);
-        table.addProperty("KEY_BANK", custDetails[5]);
-        table.addProperty("KEY_BRANCH", custDetails[6]);
-        table.addProperty("KEY_REALIZED_DATE", custDetails[7]);
-        table.addProperty("KEY_CHEQUE_IMAGE", custDetails[8]);
+        table.addProperty("KEY_COLLECTIONNOTE_NO", custDetails[0]);
+        table.addProperty("KEY_CHEQUENUMBER", custDetails[1]);
+        table.addProperty("KEY_CHEQUEAMOUNT", custDetails[2]);
+        table.addProperty("KEY_COLLECT_DATE", custDetails[3]);
+        table.addProperty("KEY_BANK", custDetails[4]);
+        table.addProperty("KEY_BRANCH", custDetails[5]);
+        table.addProperty("KEY_REALIZED_DATE", custDetails[6]);
+        table.addProperty("KEY_CHEQUE_IMAGE", custDetails[7]);
+
 
 
 
@@ -2571,14 +2646,6 @@ public class WebService {
         SoapObject request = new SoapObject(WSDL_TARGET_NAMESPACE,
                 OPERATION_NAME);
 
-        Log.w("Log", "deviceId : " + deviceId);
-        Log.w("Log", "repId : " + repId);
-
-      /*  PropertyInfo pi = new PropertyInfo();
-        pi.setName("DeviceID");
-        pi.setValue(deviceId);
-        pi.setType(String.class);
-        request.addProperty(pi);*/
 
         PropertyInfo pi2 = new PropertyInfo();
         pi2.setName("RepID");
@@ -2588,30 +2655,17 @@ public class WebService {
 
         SoapObject dataset = new SoapObject(WSDL_TARGET_NAMESPACE, "NewDataSet");
 
-        Log.w("Log", "rtnProducts 0 : " + custDetails[0]);
-        Log.w("Log", "rtnProducts 1 : " + custDetails[1]);
-        Log.w("Log", "rtnProducts 2 : " + custDetails[2]);
-        Log.w("Log", "rtnProducts 3 : " + custDetails[3]);
-        Log.w("Log", "rtnProducts 4 : " + custDetails[4]);
-        Log.w("Log", "rtnProducts 5 : " + custDetails[5]);
-        Log.w("Log", "rtnProducts 6 : " + custDetails[6]);
-        Log.w("Log", "rtnProducts 7 : " + custDetails[7]);
-        Log.w("Log", "rtnProducts 8 : " + custDetails[8]);
-        Log.w("Log", "rtnProducts 9 : " + custDetails[9]);
 
 
         SoapObject table = new SoapObject(WSDL_TARGET_NAMESPACE, "Table");
-        table.addProperty("KEY_ROW_ID", custDetails[0]);
-        table.addProperty("COLLECTION_NOTE_NO", custDetails[1]);
-        table.addProperty("REP_NO", custDetails[2]);
-        table.addProperty("CUSTOMER_NAME", custDetails[3]);
-        table.addProperty("CURRENT_OUTSTANDING", custDetails[4]);
-        table.addProperty("INVOICE_NO", custDetails[5]);
-        table.addProperty("CREDIT_AMOUNT", custDetails[6]);
-        table.addProperty("PAYMENT_TYPE", custDetails[7]);
-        table.addProperty("CASH_AMOUNT", custDetails[8]);
-        table.addProperty("CHEQUE_AMOUNT", custDetails[9]);
-        table.addProperty("INVOICEBALNCE", custDetails[10]);
+        table.addProperty("COLLECTION_NOTE_NO", custDetails[0]);
+        table.addProperty("REP_NO", custDetails[1]);
+        table.addProperty("CUSTOMER_NAME", custDetails[2]);
+        table.addProperty("CURRENT_OUTSTANDING", custDetails[3]);
+        table.addProperty("CHEQUE_AMOUNT", custDetails[4]);
+        table.addProperty("CASH_AMOUNT", custDetails[5]);
+        table.addProperty("KEY_DATE", custDetails[6]);
+
 
 
         dataset.addSoapObject(table);
@@ -4811,13 +4865,13 @@ public class WebService {
                         if (discountDetails.hasProperty("PAYMENTTYPE")) {
                             Details[4] = discountDetails.getProperty("PAYMENTTYPE").toString();
                         }
-
-                        if (discountDetails.hasProperty("CHEQUEAMOUNT")) {
-                            Details[5] = discountDetails.getProperty("CHEQUEAMOUNT").toString();
-                        }
                         if (discountDetails.hasProperty("CHEQUENUMBER")) {
-                            Details[6] = discountDetails.getProperty("CHEQUENUMBER").toString();
+                            Details[5] = discountDetails.getProperty("CHEQUENUMBER").toString();
                         }
+                        if (discountDetails.hasProperty("CHEQUEAMOUNT")) {
+                            Details[6] = discountDetails.getProperty("CHEQUEAMOUNT").toString();
+                        }
+
                         if (discountDetails.hasProperty("INSERTDATE")) {
                             Details[7] = discountDetails.getProperty("INSERTDATE").toString();
                         }

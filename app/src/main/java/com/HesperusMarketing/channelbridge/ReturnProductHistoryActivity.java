@@ -476,6 +476,9 @@ public class ReturnProductHistoryActivity extends Activity implements LocationLi
                 if(Integer.parseInt(free) > 0 ){
                     edDisNPercentage.setEnabled(false);
                     edDisNvalue.setEnabled(false);
+                }else {
+                    edDisNPercentage.setEnabled(true);
+                    edDisNvalue.setEnabled(true);
                 }
                 int lineQty = Integer.parseInt(qty) + Integer.parseInt(free);
                 tViewTotalReturns.setText(""+lineQty);
@@ -523,6 +526,8 @@ public class ReturnProductHistoryActivity extends Activity implements LocationLi
                 if(discPercentage > 0){
                     txtFree.setText("0");
                     txtFree.setEnabled(false);
+                }else {
+                    txtFree.setEnabled(true);
                 }
                 total = unitPrice * qty;
                 dicountValue = (total * discPercentage)/100;
@@ -767,24 +772,18 @@ public class ReturnProductHistoryActivity extends Activity implements LocationLi
                 if(tempTotal > Double.parseDouble(credit)){
                     Builder alertNotSaved = new AlertDialog.Builder(ReturnProductHistoryActivity.this)
                             .setTitle("Warning")
-                            .setMessage("Total amount is greater than credit amount.Do you want to proceed?")
-                            .setPositiveButton("Yes",
+                            .setMessage("Total amount is greater than credit amount")
+                            .setPositiveButton("OK",
                                     new DialogInterface.OnClickListener() {
 
                                         public void onClick(DialogInterface dialog,
                                                             int which) {
                                             // TODO Auto-generated method stub
-                                            saveRturnWithProceed();
+                                            dialog.dismiss();
 
                                         }
-                                    })
-                            .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                                    });
 
-                                public void onClick(DialogInterface dialog, int which) {
-                                    // TODO Auto-generated method stub
-                                    dialog.dismiss();
-                                }
-                            });
                     alertNotSaved.show();
                 }else{
                     saveRturnWithProceed();
@@ -1670,7 +1669,7 @@ public class ReturnProductHistoryActivity extends Activity implements LocationLi
             txtProduct.setText(null);
         }
         Boolean isChecked = cbHistory.isChecked();
-        checkHistoryValidation(isChecked);
+       // checkHistoryValidation(isChecked);
     }
 
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -2337,7 +2336,7 @@ public class ReturnProductHistoryActivity extends Activity implements LocationLi
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-        checkHistoryValidation(isChecked);
+      //  checkHistoryValidation(isChecked);
     }
 
 
@@ -2349,13 +2348,13 @@ public class ReturnProductHistoryActivity extends Activity implements LocationLi
                 try {
                     productList.clear();
                     productList = dealerSalesController.getAllProductsFromDealerSales(spinInvoiceNumber.getSelectedItem().toString());
-                    ArrayAdapter<String> productAdapterList = new ArrayAdapter<String>(this,
-                            android.R.layout.simple_dropdown_item_1line, productList);
+                    ArrayAdapter<String> productAdapterList = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, productList);
                     ((AutoCompleteTextView) txtProduct).setAdapter(productAdapterList);
                 }catch (Exception e){
 
                 }
             }else {
+                try {
                 productList.clear();
                 invoicedProducts.openReadableDatabase();
                 productList = invoicedProducts.getAllInvoicedProductsByInvoNO(spinInvoiceNumber.getSelectedItem().toString());
@@ -2364,6 +2363,9 @@ public class ReturnProductHistoryActivity extends Activity implements LocationLi
                 ArrayAdapter<String> productAdapterList = new ArrayAdapter<String>(this,
                         android.R.layout.simple_dropdown_item_1line, productList);
                 ((AutoCompleteTextView) txtProduct).setAdapter(productAdapterList);
+                }catch (Exception e){
+                    Toast.makeText(ReturnProductHistoryActivity.this, "No History", Toast.LENGTH_LONG).show();
+                }
             }
             // productList =
             //load invoice products

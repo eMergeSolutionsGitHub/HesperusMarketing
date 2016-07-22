@@ -11,7 +11,7 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.HesperusMarketing.channelbridgedb.CollectionNoteCheques;
-import com.HesperusMarketing.channelbridgedb.CollectionNoteSendToApprovel;
+import com.HesperusMarketing.channelbridgedb.CollectionNoteInvoice;
 import com.HesperusMarketing.channelbridgews.WebService;
 
 import java.util.ArrayList;
@@ -20,12 +20,12 @@ import java.util.List;
 /**
  * Created by Puritha Dev on 12/3/2014.
  */
-public class UploadCollectionChequesTask extends AsyncTask<String, Integer, Integer> {
+public class UploadCollectionInvoicesTask extends AsyncTask<String, Integer, Integer> {
 
     private final Context context;
     ProgressDialog dialog;
 
-    public UploadCollectionChequesTask(Context context) {
+    public UploadCollectionInvoicesTask(Context context) {
         this.context = context;
     }
 
@@ -40,11 +40,11 @@ public class UploadCollectionChequesTask extends AsyncTask<String, Integer, Inte
         int returnValue = 1;
         if (isNetworkAvailable() == true) {
             try {
-                CollectionNoteCheques rtnProdObject = new CollectionNoteCheques(context);
-                rtnProdObject.openReadableDatabase();
+                CollectionNoteInvoice collectionNote = new CollectionNoteInvoice(context);
+                collectionNote.openReadableDatabase();
 
-                List<String[]> rtnProducts = rtnProdObject.getCollectionNoteByUploadStatus();
-                rtnProdObject.closeDatabase();
+                List<String[]> rtnProducts = collectionNote.getCollectionNoteInvoiceByUploadStatus();
+                collectionNote.closeDatabase();
 
                 Log.w("Log", "rtnProducts size :  " + rtnProducts.size());
 
@@ -59,15 +59,13 @@ public class UploadCollectionChequesTask extends AsyncTask<String, Integer, Inte
                     Log.w("Log", "rtnProducts id :  " + rtnProdData[0]);
                     // Log.w("Log", "rtnProducts date :  " + rtnProdData[10]);
 
-                    String[] invoiceDetails = new String[10];
+                    String[] invoiceDetails = new String[7];
                     invoiceDetails[0] = rtnProdData[0];
                     invoiceDetails[1] = rtnProdData[1];
                     invoiceDetails[2] = rtnProdData[2];
                     invoiceDetails[3] = rtnProdData[3];
                     invoiceDetails[4] = rtnProdData[4];
                     invoiceDetails[5] = rtnProdData[5];
-                    invoiceDetails[6] = rtnProdData[6];
-                    invoiceDetails[7] = rtnProdData[7];
 
 
 
@@ -77,7 +75,7 @@ public class UploadCollectionChequesTask extends AsyncTask<String, Integer, Inte
                         try {
 
                             WebService webService = new WebService();
-                            responseArr = webService.uploadCollectionChequeTask(repId, invoiceDetails);
+                            responseArr = webService.uploadCollectionInvoiceTask(repId, invoiceDetails);
 
                             Thread.sleep(100);
 
@@ -95,9 +93,9 @@ public class UploadCollectionChequesTask extends AsyncTask<String, Integer, Inte
                         // setCellectionNoteUpdatedStatus
 
 
-                        CollectionNoteCheques rtnProdObj = new CollectionNoteCheques(context);
+                        CollectionNoteInvoice rtnProdObj = new CollectionNoteInvoice(context);
                         rtnProdObj.openWritableDatabase();
-                        rtnProdObj.setCellectionNoteChequeUpdatedStatus(rtnProdData[8], "1");
+                        rtnProdObj.setCellectionNoteInvoiceUpdatedStatus(rtnProdData[6], "1");
                         rtnProdObj.closeDatabase();
                         returnValue = 2;
 

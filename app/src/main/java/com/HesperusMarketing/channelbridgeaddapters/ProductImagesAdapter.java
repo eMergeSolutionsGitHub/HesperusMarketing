@@ -29,12 +29,11 @@ import java.util.ArrayList;
 /**
  * Created by Himanshu on 3/28/2016.
  */
-public class ProductImagesAdapter extends RecyclerView.Adapter<ProductImagesAdapter.MyViewHolder>  {
+public class ProductImagesAdapter extends RecyclerView.Adapter<ProductImagesAdapter.MyViewHolder> {
 
 
     private Context mContext;
     private ArrayList<TempInvoiceStock> albumList;
-
 
 
     public ProductImagesAdapter(Context mContext, ArrayList<TempInvoiceStock> albumList) {
@@ -47,15 +46,15 @@ public class ProductImagesAdapter extends RecyclerView.Adapter<ProductImagesAdap
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public ImageView img;
         public TextView title;
-        public LinearLayout layoutBack;
+        public RelativeLayout layoutBack, layoutSelectColor;
 
         public MyViewHolder(View view) {
             super(view);
 
             img = (ImageView) view.findViewById(R.id.image_gallery);
             title = (TextView) view.findViewById(R.id.text_gallery_title);
-            layoutBack = (LinearLayout) view.findViewById(R.id.layout_backgroun);
-
+            layoutBack = (RelativeLayout) view.findViewById(R.id.layout_backgroun);
+            layoutSelectColor = (RelativeLayout) view.findViewById(R.id.layout_select_color);
         }
 
 
@@ -70,9 +69,37 @@ public class ProductImagesAdapter extends RecyclerView.Adapter<ProductImagesAdap
     }
 
     @Override
-    public void onBindViewHolder(ProductImagesAdapter.MyViewHolder holder, int position) {
+    public void onBindViewHolder(ProductImagesAdapter.MyViewHolder holder, final int position) {
 
         holder.title.setText(albumList.get(position).getProductCode());
+
+
+        if ((Integer.parseInt(albumList.get(position).getNormalQuantity()) > 0) && (Integer.parseInt(albumList.get(position).getFreeQuantity()) > 0)) {
+            holder.layoutSelectColor.setBackgroundColor(mContext.getResources().getColor(R.color.myGreen));
+        } else {
+            if (Integer.parseInt(albumList.get(position).getNormalQuantity()) > 0) {
+                holder.layoutSelectColor.setBackgroundColor(mContext.getResources().getColor(R.color.myBlue));
+            } else {
+                if (Integer.parseInt(albumList.get(position).getFreeQuantity()) > 0) {
+                    holder.layoutSelectColor.setBackgroundColor(mContext.getResources().getColor(R.color.myRed));
+                } else {
+
+                }
+            }
+        }
+
+
+       /* if((Integer.parseInt(albumList.get(position).getNormalQuantity()) > 0)&&(Integer.parseInt(albumList.get(position).getFreeQuantity()) > 0)){
+            holder.layoutSelectColor.setBackgroundColor(mContext.getResources().getColor(R.color.myGreen));
+        }else if(Integer.parseInt(albumList.get(position).getNormalQuantity()) > 0) {
+            holder.layoutSelectColor.setBackgroundColor(mContext.getResources().getColor(R.color.myBlue));
+        }else if(Integer.parseInt(albumList.get(position).getFreeQuantity()) > 0){
+            holder.layoutSelectColor.setBackgroundColor(mContext.getResources().getColor(R.color.myRed));
+
+        }*/
+
+
+        //   holder.layoutBack.setBackgroundColor(mContext.getResources().getColor(R.color.myBlue));
 
         try {
             Bitmap bitmap = null;
@@ -81,6 +108,27 @@ public class ProductImagesAdapter extends RecyclerView.Adapter<ProductImagesAdap
         } catch (OutOfMemoryError a) {
 
         }
+
+
+
+      /*  System.out.println("ooooooo :"+albumList.get(position).getNormalQuantity());
+        if (Integer.parseInt(albumList.get(position).getNormalQuantity()) > 0) {
+            holder.layoutBack.setBackgroundColor(mContext.getResources().getColor(R.color.myBlue));
+
+        } else {
+
+        }*/
+
+        holder.layoutBack.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ((InvoiceGen1Alternate) mContext).lodeSelectCode(albumList.get(position).getProductCode(), albumList.get(position).getBatchCode(),
+                        String.valueOf(albumList.get(position).getShelfQuantity()), String.valueOf(albumList.get(position).getRequestQuantity()),
+                        String.valueOf(albumList.get(position).getNormalQuantity()), String.valueOf(albumList.get(position).getFreeQuantity()),
+                        String.valueOf(albumList.get(position).getStock()));
+            }
+        });
+
 
     }
 

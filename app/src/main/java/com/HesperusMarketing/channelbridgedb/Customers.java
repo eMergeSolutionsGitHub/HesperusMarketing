@@ -355,17 +355,17 @@ public class Customers {
     }
 
     public ArrayList<String> getCustomerNames() {
-
-        Cursor cursor = database.query(TABLE_NAME,
-                new String[]{KEY_CUSTOMER_NAME}, null, null, null, null,
-                null);
+        Cursor cursor = database.rawQuery("SELECT customer_name FROM customers",null);
         ArrayList<String> customerNames = new ArrayList<String>();
         cursor.moveToFirst();
+
+        int  b =cursor.getCount();
 
         while (!cursor.isAfterLast()) {
             customerNames.add(cursor.getString(0));
             cursor.moveToNext();
         }
+        int a =customerNames.size();
 
         return customerNames;
     }
