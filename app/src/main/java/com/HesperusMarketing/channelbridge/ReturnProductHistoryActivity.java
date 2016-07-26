@@ -301,6 +301,7 @@ public class ReturnProductHistoryActivity extends Activity implements LocationLi
                                     invoicedProducts.closeDatabase();
                                     spinBatches.setText(productDetails[2]);
                                     tViewUnitPrice.setText(productDetails[6]);
+                                    edrPrice.setText(loadRetailPrice(productId));
                                     spinReturnQuantity.setText(productDetails[3]);
                                     txtFree.setText(productDetails[4]);
                                     spinReturnQuantity.setEnabled(true);
@@ -1574,6 +1575,7 @@ public class ReturnProductHistoryActivity extends Activity implements LocationLi
         itinerary.openReadableDatabase();
         String status = itinerary.getItineraryStatus(itineraryId);
         itinerary.closeDatabase();
+        tvCrediAmount.setText(totalPrice);
 
         if (status.contentEquals("true")) {
             itinerary.openReadableDatabase();
@@ -1876,6 +1878,20 @@ public class ReturnProductHistoryActivity extends Activity implements LocationLi
         }
 
         setProductListAdapter(productList);
+    }
+
+    private String loadRetailPrice(String prodId) {
+        // TODO Auto-generated method stub
+
+        String unitPrice = "0";
+
+        Products productsObject = new Products(this);
+        productsObject.openReadableDatabase();
+        unitPrice = productsObject.getRetalPriceByProductCode(prodId);
+        productsObject.closeDatabase();
+
+
+        return unitPrice;
     }
 
     private void setProductListAdapter(ArrayList<String> pList) {
