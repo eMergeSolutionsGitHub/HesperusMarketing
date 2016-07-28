@@ -10,7 +10,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-public class AboutApplication extends Activity {
+public class  AboutApplication extends Activity {
 
     TextView tViewApplicationName, tViewVersion, tViewWebSite;
     Button btnDone;

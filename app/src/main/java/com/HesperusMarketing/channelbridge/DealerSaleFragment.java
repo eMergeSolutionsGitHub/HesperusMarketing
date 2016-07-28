@@ -49,7 +49,7 @@ public class DealerSaleFragment extends Fragment implements DatePickerDialog.OnD
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_dealersales, container, false);
 
-        int a;
+
 
         edtCustomer = (AutoCompleteTextView) view.findViewById(R.id.actvCustomer);
         edtTown = (AutoCompleteTextView) view.findViewById(R.id.actvTown);
