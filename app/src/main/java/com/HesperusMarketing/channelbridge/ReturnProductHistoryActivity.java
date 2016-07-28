@@ -132,7 +132,7 @@ public class ReturnProductHistoryActivity extends Activity implements LocationLi
         tViewDate = (TextView) findViewById(R.id.labelDate);
         tViewUnitPrice = (EditText) findViewById(R.id.edUnitPrice);
         tViewTotalReturns = (TextView) findViewById(R.id.tvReturnQty);
-       //tViewDiscount = (TextView) findViewById(R.id.tvDiscount);
+        //tViewDiscount = (TextView) findViewById(R.id.tvDiscount);
         txtProduct = (AutoCompleteTextView) findViewById(R.id.etProduct);
         btnCancel = (Button) findViewById(R.id.bCancel);
         btnAdd = (Button) findViewById(R.id.bAdd);
@@ -146,7 +146,7 @@ public class ReturnProductHistoryActivity extends Activity implements LocationLi
         txtFree = (EditText) findViewById(R.id.etFree);
         startTime = formatDate(new Date());
         edExpiryDateHistory = (EditText)findViewById(R.id.edExpiryDateHistory);
-      //  iBtnClearSearch = (ImageButton) findViewById(R.id.ibClearSearch);
+        //  iBtnClearSearch = (ImageButton) findViewById(R.id.ibClearSearch);
         tblProductReturns = (TableLayout) findViewById(R.id.tlItemsToRemove);
         tvCrediAmount = (TextView)findViewById(R.id.tvCrediAmountH);
         cbHistory = (CheckBox)findViewById(R.id.cbHistory);
@@ -204,8 +204,8 @@ public class ReturnProductHistoryActivity extends Activity implements LocationLi
         }
 
 
-       // getDataForInvoiceSpinner();
-       // getDataForProductsList();
+        // getDataForInvoiceSpinner();
+        // getDataForProductsList();
         productsObject = new Products(this);
         productsObject.openReadableDatabase();
 
@@ -225,10 +225,10 @@ public class ReturnProductHistoryActivity extends Activity implements LocationLi
 
         GetGPS();
         outstandiing  = new DEL_Outstandiing(ReturnProductHistoryActivity.this);
-         invoiceNumberList = new ArrayList<>();
+        invoiceNumberList = new ArrayList<>();
         invoiceNumberList =outstandiing.loadOutSatingInvoiceNumber(pharmacyId);
         ArrayAdapter<String> invoiceListAdapter = new ArrayAdapter<String>(getApplicationContext(),R.layout.single_list_item,invoiceNumberList);
-       // invoiceListAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        // invoiceListAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         spinInvoiceNumber.setAdapter(invoiceListAdapter);
         setInitialData();
@@ -264,11 +264,11 @@ public class ReturnProductHistoryActivity extends Activity implements LocationLi
                 ArrayList<String> nullBatchList = new ArrayList<String>();
                 ArrayList<String> nullInvoiceList = new ArrayList<String>();
                 //setBatchListAdapter(nullBatchList);
-               // setInvoiceNumberSpinnerAdapter(nullInvoiceList);
+                // setInvoiceNumberSpinnerAdapter(nullInvoiceList);
                 //setInvoiceQuantitySpinnerAdapter("0");
                 tViewUnitPrice.setText("0");
-      //          try {
-                    if(cbHistory.isChecked() == false){
+                //          try {
+                if(cbHistory.isChecked() == false){
                     for (String[] p : products) {
                         if (p[8].contentEquals(s.toString())) {
                             productId = p[2];
@@ -286,52 +286,52 @@ public class ReturnProductHistoryActivity extends Activity implements LocationLi
                             setBatchList();
                         }
                     }
-                  }else{
-                        String code = "";
-                        code = productsObject.getProductCodeByName(s.toString());
-                        productId = code;
-                        if(iswebApprovalActive == false) {
+                }else{
+                    String code = "";
+                    code = productsObject.getProductCodeByName(s.toString());
+                    productId = code;
+                    if(iswebApprovalActive == false) {
 
-                            String[] productDetails = new String[10];
+                        String[] productDetails = new String[10];
 
-                            if (!code.isEmpty()) {
-                                try {
-                                    invoicedProducts.openReadableDatabase();
-                                    productDetails = invoicedProducts.getSelectedInvoiceProduct(spinInvoiceNumber.getSelectedItem().toString(), code);
-                                    invoicedProducts.closeDatabase();
-                                    spinBatches.setText(productDetails[2]);
-                                    tViewUnitPrice.setText(productDetails[6]);
-                                    edrPrice.setText(loadRetailPrice(productId));
-                                    spinReturnQuantity.setText(productDetails[3]);
-                                    txtFree.setText(productDetails[4]);
-                                    spinReturnQuantity.setEnabled(true);
-                                    edDisNPercentage.setEnabled(true);
-                                    edDisNvalue.setEnabled(true);
-                                    // pid = productDetails[1];
-                                    spinInvoiceNumber.setClickable(false);
-                                }catch (Exception e){
-                                    Log.e("Error ->",e.toString());
-                                }
-
-                            }
-                        }else{
-                            if (!code.isEmpty()) {
-                                DealerSaleEntity entity = dealerSalesController.getProductById(code, spinInvoiceNumber.getSelectedItem().toString());
-
-                            spinBatches.setText(entity.getBatch());
-                                tViewUnitPrice.setText(entity.getUnitPrice());
-                                edrPrice.setText(entity.getrPrice());
-                                spinReturnQuantity.setText("" + entity.getQty());
+                        if (!code.isEmpty()) {
+                            try {
+                                invoicedProducts.openReadableDatabase();
+                                productDetails = invoicedProducts.getSelectedInvoiceProduct(spinInvoiceNumber.getSelectedItem().toString(), code);
+                                invoicedProducts.closeDatabase();
+                                spinBatches.setText(productDetails[2]);
+                                tViewUnitPrice.setText(productDetails[6]);
+                                edrPrice.setText(loadRetailPrice(productId));
+                                spinReturnQuantity.setText(productDetails[3]);
+                                txtFree.setText(productDetails[4]);
                                 spinReturnQuantity.setEnabled(true);
                                 edDisNPercentage.setEnabled(true);
                                 edDisNvalue.setEnabled(true);
+                                // pid = productDetails[1];
                                 spinInvoiceNumber.setClickable(false);
+                            }catch (Exception e){
+                                Log.e("Error ->",e.toString());
                             }
-                           // pid.
+
                         }
+                    }else{
+                        if (!code.isEmpty()) {
+                            DealerSaleEntity entity = dealerSalesController.getProductById(code, spinInvoiceNumber.getSelectedItem().toString());
 
-
+                            spinBatches.setText(entity.getBatch());
+                            tViewUnitPrice.setText(entity.getUnitPrice());
+                            edrPrice.setText(entity.getrPrice());
+                            spinReturnQuantity.setText("" + entity.getQty());
+                            spinReturnQuantity.setEnabled(true);
+                            edDisNPercentage.setEnabled(true);
+                            edDisNvalue.setEnabled(true);
+                            spinInvoiceNumber.setClickable(false);
+                        }
+                        // pid.
                     }
+
+
+                }
 
 //                } catch (Exception e) {
 //                    Log.w("error getting product info", e.toString());
@@ -356,7 +356,7 @@ public class ReturnProductHistoryActivity extends Activity implements LocationLi
                                        int arg2, long arg3) {
                 // TODO Auto-generated method stub
                 Object selectedBatch = spinBatches.getText().toString();
-               // getDataForInvoiceSpinner(selectedBatch.toString(), pharmacyId);
+                // getDataForInvoiceSpinner(selectedBatch.toString(), pharmacyId);
 
             }
 
@@ -371,12 +371,12 @@ public class ReturnProductHistoryActivity extends Activity implements LocationLi
             public void onItemSelected(AdapterView<?> arg0, View arg1,
                                        int arg2, long arg3) {
                 // TODO Auto-generated method stub
-              //  Object selectedInvoice = spinInvoiceNumber.getSelectedItem();
+                //  Object selectedInvoice = spinInvoiceNumber.getSelectedItem();
                 boolean isChecked = cbHistory.isChecked();
                 checkHistoryValidation(isChecked);
                 double creditAmount = Double.parseDouble(loadCreditAmount(spinInvoiceNumber.getSelectedItem().toString()));
                 tvCrediAmount.setText(String.format("%.2f",creditAmount));
-               // getDataForInvoice(selectedInvoice.toString());
+                // getDataForInvoice(selectedInvoice.toString());
 
             }
 
@@ -789,7 +789,7 @@ public class ReturnProductHistoryActivity extends Activity implements LocationLi
                 }else{
                     saveRturnWithProceed();
                 }
-               // saveRturnWithProceed();
+                // saveRturnWithProceed();
 
 
             }
@@ -1081,7 +1081,7 @@ public class ReturnProductHistoryActivity extends Activity implements LocationLi
 
                         String printDateTime = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss a").format(new Date());
 
-//						 boolean flag = true;	
+//						 boolean flag = true;
 
 
                         Reps reps = new Reps(ReturnProductHistoryActivity.this);
@@ -1404,9 +1404,9 @@ public class ReturnProductHistoryActivity extends Activity implements LocationLi
 
 //				1 - invoiceNumber
 //				2 - description
-//				3 - batch 
+//				3 - batch
 //				4 - unitPrice
-//				5 - returnQty 
+//				5 - returnQty
 //				6 - returnValue
 
                 TextView tvDescription = new TextView(this);
@@ -1664,14 +1664,14 @@ public class ReturnProductHistoryActivity extends Activity implements LocationLi
 
             ArrayList<String> nullBatchList = new ArrayList<String>();
             ArrayList<String> nullInvoiceList = new ArrayList<String>();
-           // setBatchListAdapter(nullBatchList);
+            // setBatchListAdapter(nullBatchList);
             //setInvoiceNumberSpinnerAdapter(nullInvoiceList);
             setInvoiceQuantitySpinnerAdapter("0");
             tViewUnitPrice.setText("0");
             txtProduct.setText(null);
         }
         Boolean isChecked = cbHistory.isChecked();
-       // checkHistoryValidation(isChecked);
+        // checkHistoryValidation(isChecked);
     }
 
     public boolean onKeyDown(int keyCode, KeyEvent event) {
@@ -1852,7 +1852,7 @@ public class ReturnProductHistoryActivity extends Activity implements LocationLi
         products = productsObject.getInvoicedProductsForCustomer(pharmacyId);
         productsObject.closeDatabase();
         Log.w("Product Size", products.size() + "");
-         productList = new ArrayList<String>();
+        productList = new ArrayList<String>();
         int i = 0;
         for (String[] p : products) {
             productsObject.openReadableDatabase();
@@ -1992,9 +1992,9 @@ public class ReturnProductHistoryActivity extends Activity implements LocationLi
         }
 
         if (invoicedProductDetails[6].isEmpty()) {
-           // tViewDiscount.setText("0");
+            // tViewDiscount.setText("0");
         } else {
-           // tViewDiscount.setText(String.valueOf(invoicedProductDetails[6]));
+            // tViewDiscount.setText(String.valueOf(invoicedProductDetails[6]));
         }
 
         String quantity = String.valueOf(Integer.parseInt(invoicedProductDetails[7]) - returnAmount);
@@ -2060,7 +2060,7 @@ public class ReturnProductHistoryActivity extends Activity implements LocationLi
 
                     product.setDescription(returnProduct[1]);
                     product.setBatch(returnProduct[2]);
-                   // product.setInvoiceNumber(returnProduct[0]);
+                    // product.setInvoiceNumber(returnProduct[0]);
                     product.setInvoiceNumber(tvReturnNoH.getText().toString());
 
                     product.setQuantity(Integer.parseInt(returnProduct[4]));
@@ -2085,10 +2085,10 @@ public class ReturnProductHistoryActivity extends Activity implements LocationLi
                 for (String[] returnDetails : returnProducts) {
                     ProductReturns productReturnObject = new ProductReturns(ReturnProductHistoryActivity.this);
                     productReturnObject.openWritableDatabase();
-                        //productReturnObject.insertProductReturn(productCode, batchNo, invoiceNo, timeStamp, normal, free, returnDate, customerNo, uploadedStatus)
+                    //productReturnObject.insertProductReturn(productCode, batchNo, invoiceNo, timeStamp, normal, free, returnDate, customerNo, uploadedStatus)
 
-                   //change invoice number
-                   //  productReturnObject.insertProductReturn(returnDetails[6], returnDetails[2], returnDetails[0], returnDetails[7], returnDetails[4], returnDetails[8], timeStamp, pharmacyId, "false", returnDetails[3], returnDetails[9], returnDetails[0], "true",Double.toString(lat),Double.toString(lng),onTimeOrNot);
+                    //change invoice number
+                    //  productReturnObject.insertProductReturn(returnDetails[6], returnDetails[2], returnDetails[0], returnDetails[7], returnDetails[4], returnDetails[8], timeStamp, pharmacyId, "false", returnDetails[3], returnDetails[9], returnDetails[0], "true",Double.toString(lat),Double.toString(lng),onTimeOrNot);
                     productReturnObject.insertProductReturn(returnDetails[6], returnDetails[2],tvReturnNoH.getText().toString(), returnDetails[7], returnDetails[4], returnDetails[8], timeStamp, pharmacyId, "false", returnDetails[3], returnDetails[9], returnDetails[0], "true",Double.toString(lat),Double.toString(lng),onTimeOrNot);
                     productReturnObject.closeDatabase();
 
@@ -2210,7 +2210,7 @@ public class ReturnProductHistoryActivity extends Activity implements LocationLi
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         tvHtotalAmount.setText(String.format("%.2f", savedInstanceState.getDouble("retTotal")));
-       // txtCredit.setText(savedInstanceState.getString("Credit"));
+        // txtCredit.setText(savedInstanceState.getString("Credit"));
     }
 
     private void setBundleData(Bundle bundlData) {
@@ -2266,12 +2266,12 @@ public class ReturnProductHistoryActivity extends Activity implements LocationLi
 //			returnDetails[2] = returns.getBatch();
 //			returnDetails[3] = String.valueOf(returns.getUnitPrice());
 //			returnDetails[4] = String.valueOf(returns.getQuantity());
-//			
-//			
+//
+//
 //			Log.w("Return Product: 123", "getDiscount : "+returns.getDiscount());
 //			Log.w("Return Product: 123", "getQuantity : "+returns.getQuantity());
 //			Log.w("Return Product: 123", "getUnitPrice : "+returns.getUnitPrice());
-//			
+//
 //			double value = 0.0;
 //			if (returns.getDiscount()>0) {
 //				double normalValue  = returns.getQuantity() * returns.getUnitPrice();
@@ -2279,9 +2279,9 @@ public class ReturnProductHistoryActivity extends Activity implements LocationLi
 //			} else {
 //				value = returns.getQuantity() * returns.getUnitPrice();
 //			}
-//			
+//
 //			Log.w("Return Product: 123", "value : "+value);
-//			
+//
 //			returnDetails[5] = String.valueOf(value);
 //			returnDetails[6] = returns.getProductId();
 //			returnDetails[7] = returns.getIssueMode();
@@ -2289,7 +2289,7 @@ public class ReturnProductHistoryActivity extends Activity implements LocationLi
 //			returnDetails[9] = String.valueOf(returns.getDiscount());
 //			returnProducts.btnAdd(returnDetails);
 //		}
-//		
+//
 //		returnProductsArray = new ArrayList<ReturnProduct>();
 
     }
@@ -2352,7 +2352,7 @@ public class ReturnProductHistoryActivity extends Activity implements LocationLi
 
     @Override
     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-      //  checkHistoryValidation(isChecked);
+        //  checkHistoryValidation(isChecked);
     }
 
 
@@ -2371,14 +2371,14 @@ public class ReturnProductHistoryActivity extends Activity implements LocationLi
                 }
             }else {
                 try {
-                productList.clear();
-                invoicedProducts.openReadableDatabase();
-                productList = invoicedProducts.getAllInvoicedProductsByInvoNO(spinInvoiceNumber.getSelectedItem().toString());
+                    productList.clear();
+                    invoicedProducts.openReadableDatabase();
+                    productList = invoicedProducts.getAllInvoicedProductsByInvoNO(spinInvoiceNumber.getSelectedItem().toString());
 
-                invoicedProducts.closeDatabase();
-                ArrayAdapter<String> productAdapterList = new ArrayAdapter<String>(this,
-                        android.R.layout.simple_dropdown_item_1line, productList);
-                ((AutoCompleteTextView) txtProduct).setAdapter(productAdapterList);
+                    invoicedProducts.closeDatabase();
+                    ArrayAdapter<String> productAdapterList = new ArrayAdapter<String>(this,
+                            android.R.layout.simple_dropdown_item_1line, productList);
+                    ((AutoCompleteTextView) txtProduct).setAdapter(productAdapterList);
                 }catch (Exception e){
                     Toast.makeText(ReturnProductHistoryActivity.this, "No History", Toast.LENGTH_LONG).show();
                 }
@@ -2402,17 +2402,17 @@ public class ReturnProductHistoryActivity extends Activity implements LocationLi
     private void setBatchList(){
 
         if(cbHistory.isChecked() == true){
-           // InvoicedProducts invoicedProductsObject = new InvoicedProducts(this);
+            // InvoicedProducts invoicedProductsObject = new InvoicedProducts(this);
 
-                invoicedProducts.openReadableDatabase();
-                ArrayList<String> batches = invoicedProducts.getInvoicedProductBatchesForCustomer(pharmacyId, productId);
-                invoicedProducts.closeDatabase();
-                batcAdapterList = new ArrayAdapter<String>(this,
-                        android.R.layout.simple_dropdown_item_1line, batches);
-                ((AutoCompleteTextView) spinBatches).setAdapter(batcAdapterList);
-                if (batches.size() > 0) {
-                    spinBatches.setText(batches.get(0));
-                }
+            invoicedProducts.openReadableDatabase();
+            ArrayList<String> batches = invoicedProducts.getInvoicedProductBatchesForCustomer(pharmacyId, productId);
+            invoicedProducts.closeDatabase();
+            batcAdapterList = new ArrayAdapter<String>(this,
+                    android.R.layout.simple_dropdown_item_1line, batches);
+            ((AutoCompleteTextView) spinBatches).setAdapter(batcAdapterList);
+            if (batches.size() > 0) {
+                spinBatches.setText(batches.get(0));
+            }
 
         }else{
 
@@ -2518,7 +2518,7 @@ public class ReturnProductHistoryActivity extends Activity implements LocationLi
                 Log.w("ReturnPRoductHistory spinReturnQty", e.toString());
                 freeAmt = 0;
             }
-           // String free = String.valueOf(freeAmt);
+            // String free = String.valueOf(freeAmt);
 
 
             if (!txtProduct.getText().toString().isEmpty()) {
