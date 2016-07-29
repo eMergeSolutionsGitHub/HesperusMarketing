@@ -25,6 +25,7 @@ import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -54,13 +55,14 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * Created by Amila on 11/12/15.
+ * Created by Amila on 11/12/15
  */
 public class InvoiceGen1Alternate extends Activity {
 
     String selected, selectedCategory, rowId, pharmacyId, startTime, collectionDate = "", releaseDate = "", chequeNumber = "";
     String colerchartProductCode = "0", colerchartProductBatch = "0", colerchartProductShelf = "0", colerchartProductRequest = "0", colerchartProductOrder = "0", colerchartProductFree = "0", colerchartProductStock = "0";
     String productCode, productBatch, productStock;
+    String actSelectedProduct = "test";
     private Boolean iswebApprovalActive = true;
     private Boolean isChanged = false;
     boolean chequeEnabled = false;
@@ -69,6 +71,7 @@ public class InvoiceGen1Alternate extends Activity {
 
 
     Spinner spPrinciple, spCategory;
+    AutoCompleteTextView actvCode;
     private TableLayout tblTest;
     private Button btnAdd, btnSearch;
     EditText editDiscount, editshelf, editrequest, editfree, edtShelf, edtRequest, edtOrder, edtFree, edtDiscountProduct;
@@ -81,9 +84,11 @@ public class InvoiceGen1Alternate extends Activity {
 
     AlertDialog.Builder alertCancel;
 
+    ArrayList<String> test;
 
     ArrayAdapter<String> principleAdapter;
     ArrayAdapter<String> categoryAdapter;
+    ArrayAdapter<String> productCodeAdapter;
     private ArrayList<String> principleList;
     private ArrayList<String> categoryList;
     private ArrayList<TempInvoiceStock> prductList;
@@ -123,6 +128,7 @@ public class InvoiceGen1Alternate extends Activity {
 
 
         principleList = new ArrayList<>();
+        test = new ArrayList<String>();
         categoryList = new ArrayList<>();
         prductList = new ArrayList<>();
         returnProductsArray = new ArrayList<ReturnProduct>();
@@ -146,6 +152,7 @@ public class InvoiceGen1Alternate extends Activity {
 
         spPrinciple = (Spinner) findViewById(R.id.spPrinciple);
         spCategory = (Spinner) findViewById(R.id.spCategory);
+        actvCode = (AutoCompleteTextView) findViewById(R.id.actvCode);
 
         btnAdd = (Button) findViewById(R.id.btnNextToPayment);
         btnSearch = (Button) findViewById(R.id.btnSearch);
@@ -173,10 +180,47 @@ public class InvoiceGen1Alternate extends Activity {
         selected = spPrinciple.getSelectedItem().toString();
 
         categoryList = productController.getCategoryListForPriciple(selected);
-        categoryAdapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.single_list_item, categoryList);
+        categoryAdapter = new ArrayAdapter<String>(InvoiceGen1Alternate.this, R.layout.single_list_item, categoryList);
         spCategory.setAdapter(categoryAdapter);
-        oderDetailsEdittextOntextChange();
 
+
+
+        productCodeAdapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.single_list_item, test);
+        actvCode.setAdapter(productCodeAdapter);
+
+
+        actvCode.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+               if(charSequence.toString().equals("")||charSequence.toString().isEmpty()){
+                   productTablefill(1);
+               }else {
+
+               }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
+
+        actvCode.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                actSelectedProduct = test.get(i).toString();
+                Toast.makeText(getApplicationContext(),"Selected: "+actSelectedProduct, Toast.LENGTH_SHORT).show();
+                productTablefill(2);
+            }
+        });
+
+        oderDetailsEdittextOntextChange();
 
         spPrinciple.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -425,7 +469,7 @@ public class InvoiceGen1Alternate extends Activity {
         tem.openReadableDatabase();
         String selectedCategory = spCategory.getSelectedItem().toString();
 
-        prductList = tem.getTempDataForTable(selected, selectedCategory, status);
+        prductList = tem.getTempDataForTable(selected, selectedCategory, actSelectedProduct, status);
 
 
         populateProductTableNew(prductList);
@@ -437,6 +481,12 @@ public class InvoiceGen1Alternate extends Activity {
         adapter = new RecyclerListProductAdapter(this, prductList);
         recyclerView.setAdapter(adapter);
 
+        test.clear();
+        for(int i=0;i<prductList.size();i++){
+            test.add(prductList.get(i).getProductCode());
+        }
+
+        System.out.println("Chamal: "+test.toString());
     }
 
     private void getDataFromPreviousActivity(Bundle extras) {
@@ -477,7 +527,7 @@ public class InvoiceGen1Alternate extends Activity {
 
     @Override
     public void onBackPressed() {
-       // super.onBackPressed();
+        // super.onBackPressed();
 
 
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(this);
@@ -486,11 +536,11 @@ public class InvoiceGen1Alternate extends Activity {
         alertDialogBuilder.setPositiveButton("Yes",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
-                       tempInvoiceStockController.openWritableDatabase();
+                        tempInvoiceStockController.openWritableDatabase();
                         tempInvoiceStockController.deleteAllRecords();
                         tempInvoiceStockController.closeDatabase();
 
-                        Intent in = new Intent(InvoiceGen1Alternate.this,ItineraryList.class);
+                        Intent in = new Intent(InvoiceGen1Alternate.this, ItineraryList.class);
                         finish();
                         startActivity(in);
 
@@ -616,7 +666,7 @@ public class InvoiceGen1Alternate extends Activity {
 
         prductListImage = new ArrayList<>();
 
-        prductListImage = temInvies.getTempDataForTable(selected, selectedCategory, 1);
+        prductListImage = temInvies.getTempDataForTable(selected, selectedCategory, actSelectedProduct, 1);
         productAdapterImage = new ProductImagesAdapter(this, prductListImage);
 
 
@@ -1260,7 +1310,7 @@ public class InvoiceGen1Alternate extends Activity {
                 final TemporaryInvoice temInvies = new TemporaryInvoice(getApplicationContext());
                 temInvies.openWritableDatabase();
 
-                prductListImage = temInvies.getTempDataForTable(selected, selectedCategory, 1);
+                prductListImage = temInvies.getTempDataForTable(selected, selectedCategory, actSelectedProduct, 1);
                 productAdapterImage = new ProductImagesAdapter(InvoiceGen1Alternate.this, prductListImage);
                 temInvies.closeDatabase();
                 recyclerViewImages.setAdapter(productAdapterImage);
@@ -1287,7 +1337,7 @@ public class InvoiceGen1Alternate extends Activity {
                     final TemporaryInvoice temInvies = new TemporaryInvoice(getApplicationContext());
                     temInvies.openWritableDatabase();
                     prductListImage.clear();
-                    prductListImage = temInvies.getTempDataForTable(selected, selectedCategory, 1);
+                    prductListImage = temInvies.getTempDataForTable(selected, selectedCategory, actSelectedProduct, 1);
                     productAdapterImage = new ProductImagesAdapter(InvoiceGen1Alternate.this, prductListImage);
                     temInvies.closeDatabase();
                     recyclerViewImages.setAdapter(productAdapterImage);

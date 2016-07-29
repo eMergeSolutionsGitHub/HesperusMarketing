@@ -53,7 +53,7 @@ import java.util.List;
 import java.util.Locale;
 
 //
-public class ExtraCustomerActivity extends Activity implements LocationListener{
+public class ExtraCustomerActivity extends Activity implements LocationListener {
 
     TableLayout tblLayoutCustomerTable;
     Button btnSaveExtraCustomer, btnCancel;
@@ -544,7 +544,7 @@ public class ExtraCustomerActivity extends Activity implements LocationListener{
  */
                                         getGPS();
                                         remarksObject.openWritableDatabase();
-                                        remarksObject.insertRemark(String.valueOf(itineraryRowId), txtReason.getText().toString(), timeStamp, currentDate, customerDetails[1], repId, RemarksType.EXTAR_CUSTOMER.toString(), "0", tempITenararyID,Double.toString(lng),Double.toString(lat));
+                                        remarksObject.insertRemark(String.valueOf(itineraryRowId), txtReason.getText().toString(), timeStamp, currentDate, customerDetails[1], repId, RemarksType.EXTAR_CUSTOMER.toString(), "0", tempITenararyID, Double.toString(lng), Double.toString(lat));
                                         remarksObject.closeDatabase();
 
 
@@ -674,7 +674,7 @@ public class ExtraCustomerActivity extends Activity implements LocationListener{
         location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
 
-        if (location != null){
+        if (location != null) {
 
 
             lat = (double) (location.getLatitude());

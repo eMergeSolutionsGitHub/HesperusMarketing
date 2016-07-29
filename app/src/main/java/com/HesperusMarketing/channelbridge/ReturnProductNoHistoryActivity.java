@@ -258,6 +258,8 @@ public class ReturnProductNoHistoryActivity extends Activity implements Location
                             getDataForBatchList(productId, pharmacyId);
                             txtUnitPrice.setText(loadUnitPrice(productId));
                             edRetailPrice.setText(loadRetailPrice(productId));
+                            System.out.println("Chamal!!!");
+                            System.out.println(loadRetailPrice(productId));
                             NewunitPrice = "";
                             NewunitPrice = txtUnitPrice.getText().toString();
                             txtReturnQuantity.setEnabled(true);
@@ -1535,6 +1537,7 @@ public class ReturnProductNoHistoryActivity extends Activity implements Location
         itinerary.openReadableDatabase();
         String status = itinerary.getItineraryStatus(itineraryId);
         itinerary.closeDatabase();
+        tvCrediAmount.setText(totalPrice);
 
         if (status.contentEquals("true")) {
             itinerary.openReadableDatabase();
