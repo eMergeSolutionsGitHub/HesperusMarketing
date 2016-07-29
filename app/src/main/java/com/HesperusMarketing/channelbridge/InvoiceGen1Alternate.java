@@ -443,7 +443,13 @@ public class InvoiceGen1Alternate extends Activity {
             public void onClick(View view) {
 
                 btnSearch.setEnabled(false);
-                showDialogProductImage(InvoiceGen1Alternate.this);
+
+                if(prductList.isEmpty()||prductList.size()==0){
+                    Toast.makeText(InvoiceGen1Alternate.this, "No Products", Toast.LENGTH_LONG).show();
+                }else {
+                    showDialogProductImage(InvoiceGen1Alternate.this);
+                }
+
 
             }
         });

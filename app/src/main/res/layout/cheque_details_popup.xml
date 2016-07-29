@@ -47,6 +47,7 @@
                 android:id="@+id/etChequeNumber"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:inputType="number"
                 android:ems="10"
                 android:hint="@string/cheque_number" />
         </LinearLayout>
@@ -208,5 +209,6 @@
             android:padding="10dp"
             android:text="@string/cancel" />
     </LinearLayout>
+
 
 </LinearLayout>

@@ -59,7 +59,7 @@ public class ChequeRetrunAdapter extends BaseAdapter {
         viewHolder.textAmount = (TextView) view.findViewById(R.id.textView44);
 
         viewHolder.textNAme.setText(String.valueOf(chequesReturnsDetailList.get(i).getDelName()));
-        viewHolder.textcollectedDate.setText(String.valueOf(chequesReturnsDetailList.get(i).getCollectedDate()));
+        viewHolder.textcollectedDate.setText(String.valueOf(chequesReturnsDetailList.get(i).getCollectedDate()).substring(0,10));
         viewHolder.textCollectionNo.setText(String.valueOf(chequesReturnsDetailList.get(i).getCollectionNo()));
         viewHolder.textChequeNumber.setText(String.valueOf(chequesReturnsDetailList.get(i).getChequeNum()));
         viewHolder.textInvoicesNo.setText(String.valueOf(chequesReturnsDetailList.get(i).getInvoiceNo()));

@@ -107,7 +107,7 @@ public class ReturnProductNoHistoryActivity extends Activity implements Location
         super.onCreate(savedInstanceState);
         setContentView(R.layout.return_product_no_history);
         startTime = formatDate(new Date());
-                tViewCustomerName = (TextView) findViewById(R.id.tvCustomerName);
+        tViewCustomerName = (TextView) findViewById(R.id.tvCustomerName);
         tViewDate = (TextView) findViewById(R.id.labelDate);
         tViewTotalReturns = (TextView) findViewById(R.id.tvReturnQty);
         txtProduct = (AutoCompleteTextView) findViewById(R.id.etProduct);
@@ -126,7 +126,7 @@ public class ReturnProductNoHistoryActivity extends Activity implements Location
         tblProductReturns = (TableLayout) findViewById(R.id.tlItemsToRemove);
         spInvoiceNumber = (Spinner)findViewById(R.id.spInvoiceNumber);
         spInvoiceNumber.setOnItemSelectedListener(this);
-                edExpiryDate = (EditText)findViewById(R.id.edExpiryDate);
+        edExpiryDate = (EditText)findViewById(R.id.edExpiryDate);
         edRetailPrice = (EditText)findViewById(R.id.edRetailPrice);
         tvTotalAmount  = (TextView)findViewById(R.id.lblTotalAmount);
         edDisPercentage = (EditText)findViewById(R.id.edDisPercentage);
@@ -141,7 +141,7 @@ public class ReturnProductNoHistoryActivity extends Activity implements Location
         dateSetListener = new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-            calendar.set(Calendar.YEAR,year);
+                calendar.set(Calendar.YEAR,year);
                 calendar.set(Calendar.MONTH,monthOfYear);
                 calendar.set(Calendar.DAY_OF_MONTH,dayOfMonth);
                 updateLabel();
@@ -263,7 +263,7 @@ public class ReturnProductNoHistoryActivity extends Activity implements Location
                             NewunitPrice = "";
                             NewunitPrice = txtUnitPrice.getText().toString();
                             txtReturnQuantity.setEnabled(true);
-                             spInvoiceNumber.setClickable(false);
+                            spInvoiceNumber.setClickable(false);
 //                            edDisPercentage.setEnabled(true);
 //                            edPercentagevalue.setEnabled(true);
                         }
@@ -398,7 +398,7 @@ public class ReturnProductNoHistoryActivity extends Activity implements Location
                             bundleToView.putString("InvoiceNumber", invoiceNumber);
                             bundleToView.putParcelableArrayList("SelectedProducts", selectedProductsArray);
                             bundleToView.putParcelableArrayList("ReturnProducts", returnProductsArray);
-                         //   bundleToView.putString("MarketReturns", marketReturns);
+                            //   bundleToView.putString("MarketReturns", marketReturns);
                             startInvoiceGen2.putExtras(bundleToView);
                             startActivity(startInvoiceGen2);
                             finish();
@@ -442,7 +442,7 @@ public class ReturnProductNoHistoryActivity extends Activity implements Location
                                                         bundleToView.putString("NeedToPay", needToPay);
                                                         bundleToView.putString("PaymentOption", paymentOption);
                                                         bundleToView.putString("TotalPrice", totalPrice);
-                                                      //  bundleToView.putString("MarketReturns", marketReturns);
+                                                        //  bundleToView.putString("MarketReturns", marketReturns);
                                                         bundleToView.putString("TotalQuantity", totalQuantity);
                                                         bundleToView.putParcelableArrayList("SelectedProducts", selectedProductsArray);
                                                         bundleToView.putParcelableArrayList("ReturnProducts", returnProductsArray);
@@ -483,7 +483,7 @@ public class ReturnProductNoHistoryActivity extends Activity implements Location
                                                 bundleToView.putString("ReleaseDate", releaseDate);
                                             }
                                             bundleToView.putString("startTime", startTime);
-                                           // bundleToView.putString("MarketReturns", marketReturns);
+                                            // bundleToView.putString("MarketReturns", marketReturns);
                                             bundleToView.putString("NeedToPay", needToPay);
                                             bundleToView.putString("Discount", discount);
                                             bundleToView.putString("PaymentOption", paymentOption);
@@ -518,7 +518,7 @@ public class ReturnProductNoHistoryActivity extends Activity implements Location
                             bundleToView.putString("ReleaseDate", releaseDate);
                         }
                         bundleToView.putString("NeedToPay", needToPay);
-                      //  bundleToView.putString("MarketReturns", marketReturns);
+                        //  bundleToView.putString("MarketReturns", marketReturns);
                         bundleToView.putString("PaymentOption", paymentOption);
                         bundleToView.putString("Discount", discount);
                         bundleToView.putString("TotalPrice", totalPrice);
@@ -563,14 +563,14 @@ public class ReturnProductNoHistoryActivity extends Activity implements Location
 //                            txtReturnQuantity.setEnabled(false);
 //                            invoiceNumber = tViewInvoiceNumber.getText().toString();
 //                            String description = txtProduct.getText().toString();
- //                           String batch = txtBatches.getText().toString();
+                            //                           String batch = txtBatches.getText().toString();
                             String unitPrice = txtUnitPrice.getText().toString();
-                           // String returnQty = txtReturnQuantity.getText().toString();
+                            // String returnQty = txtReturnQuantity.getText().toString();
                             String dicountValue = edPercentagevalue.getText().toString();
                             String credit = tvCrediAmount.getText().toString();
 
                             if(dicountValue.isEmpty()){
-                                 dicountValue = "0";
+                                dicountValue = "0";
                             }
                             if(credit.isEmpty()){
                                 credit = "0";
@@ -581,24 +581,24 @@ public class ReturnProductNoHistoryActivity extends Activity implements Location
 
 
                             double tempTotal = retrunTotal + retVal;
-                          if(tempTotal > Double.parseDouble(credit)){
-                              Builder alertNotSaved = new AlertDialog.Builder(ReturnProductNoHistoryActivity.this)
-                                      .setTitle("Warning")
-                                      .setMessage("Total amount is greater than credit amount")
-                                      .setPositiveButton("Ok",
-                                              new DialogInterface.OnClickListener() {
+                            if(tempTotal > Double.parseDouble(credit)){
+                                Builder alertNotSaved = new AlertDialog.Builder(ReturnProductNoHistoryActivity.this)
+                                        .setTitle("Warning")
+                                        .setMessage("Total amount is greater than credit amount")
+                                        .setPositiveButton("Ok",
+                                                new DialogInterface.OnClickListener() {
 
-                                                  public void onClick(DialogInterface dialog,
-                                                                      int which) {
-                                                      // TODO Auto-generated method stub
-                                                      dialog.dismiss();
+                                                    public void onClick(DialogInterface dialog,
+                                                                        int which) {
+                                                        // TODO Auto-generated method stub
+                                                        dialog.dismiss();
 
-                                                  }
-                                              });
-                              alertNotSaved.show();
-                          }else{
-                              saveRturnIfOk(inList);
-                          }
+                                                    }
+                                                });
+                                alertNotSaved.show();
+                            }else{
+                                saveRturnIfOk(inList);
+                            }
 
 
 
@@ -914,7 +914,7 @@ public class ReturnProductNoHistoryActivity extends Activity implements Location
                                     String printDateTime = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss a").format(new Date());
 
 
-//					     				 boolean flag = true;	
+//					     				 boolean flag = true;
 
                                     Reps reps = new Reps(ReturnProductNoHistoryActivity.this);
                                     reps.openReadableDatabase();
@@ -1368,9 +1368,9 @@ public class ReturnProductNoHistoryActivity extends Activity implements Location
 
 //				1 - invoiceNumber
 //				2 - description
-//				3 - batch 
+//				3 - batch
 //				4 - unitPrice
-//				5 - returnQty 
+//				5 - returnQty
 //				6 - returnValue
 
 
@@ -1503,7 +1503,7 @@ public class ReturnProductNoHistoryActivity extends Activity implements Location
             if (extras.containsKey("InvoiceNumber")) {
                 flagFromInvoiceGen = true;
             }
-          //  marketReturns = extras.getString("MarketReturns");
+            //  marketReturns = extras.getString("MarketReturns");
             SharedPreferences preferences = PreferenceManager
                     .getDefaultSharedPreferences(getBaseContext());
             chequeEnabled = preferences.getBoolean("cbPrefEnableCheckDetails", true);
@@ -1664,7 +1664,7 @@ public class ReturnProductNoHistoryActivity extends Activity implements Location
                         bundleToView.putString("Cash", cash);
                         bundleToView.putString("Credit", credit);
                         bundleToView.putString("Cheque", cheque);
-                    //    bundleToView.putString("MarketReturns", marketReturns);
+                        //    bundleToView.putString("MarketReturns", marketReturns);
                         if (chequeEnabled) {
                             bundleToView.putString("ChequeNumber", chequeNumber);
                             bundleToView.putString("CollectionDate", collectionDate);
@@ -1719,7 +1719,7 @@ public class ReturnProductNoHistoryActivity extends Activity implements Location
                                                     }
                                                     bundleToView.putString("NeedToPay", needToPay);
                                                     bundleToView.putString("Discount", discount);
-                                                  //  bundleToView.putString("MarketReturns", marketReturns);
+                                                    //  bundleToView.putString("MarketReturns", marketReturns);
                                                     bundleToView.putString("PaymentOption", paymentOption);
                                                     bundleToView.putString("TotalPrice", totalPrice);
                                                     bundleToView.putString("startTime", startTime);
@@ -1762,7 +1762,7 @@ public class ReturnProductNoHistoryActivity extends Activity implements Location
                                             bundleToView.putString("CollectionDate", collectionDate);
                                             bundleToView.putString("ReleaseDate", releaseDate);
                                         }
-                                      //  bundleToView.putString("MarketReturns", marketReturns);
+                                        //  bundleToView.putString("MarketReturns", marketReturns);
                                         bundleToView.putString("NeedToPay", needToPay);
                                         bundleToView.putString("startTime", startTime);
                                         bundleToView.putString("PaymentOption", paymentOption);
@@ -1799,7 +1799,7 @@ public class ReturnProductNoHistoryActivity extends Activity implements Location
                     }
                     bundleToView.putString("startTime", startTime);
                     bundleToView.putString("NeedToPay", needToPay);
-                //    bundleToView.putString("MarketReturns", marketReturns);
+                    //    bundleToView.putString("MarketReturns", marketReturns);
                     bundleToView.putString("PaymentOption", paymentOption);
                     bundleToView.putString("Discount", discount);
                     bundleToView.putString("TotalPrice", totalPrice);
@@ -1840,11 +1840,11 @@ public class ReturnProductNoHistoryActivity extends Activity implements Location
     private void getDataForBatchList(String productId, String pharmacyId) {
         // TODO Auto-generated method stub
 
-       // ProductRepStore productRepStore = new ProductRepStore(this);
-       // productRepStore.openReadableDatabase();
+        // ProductRepStore productRepStore = new ProductRepStore(this);
+        // productRepStore.openReadableDatabase();
         Products podController = new Products(ReturnProductNoHistoryActivity.this);
         batches = podController.getProductForceByCode(productId);
-       // productRepStore.closeDatabase();
+        // productRepStore.closeDatabase();
         Log.w("batch list sizeaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", batches.size() + "");
         setBatchListAdapter(batches);
     }
@@ -2137,7 +2137,7 @@ public class ReturnProductNoHistoryActivity extends Activity implements Location
         outState.putString("totalQuantity", totalQuantity);
         outState.putString("cheque", cheque);
         outState.putString("invoiceNumber", invoiceNumber);
-     //   outState.putString("MarketReturns", marketReturns);
+        //   outState.putString("MarketReturns", marketReturns);
 
         outState.putString("issueMode", issueMode);
         outState.putString("collectionDate", collectionDate);
@@ -2185,7 +2185,7 @@ public class ReturnProductNoHistoryActivity extends Activity implements Location
         releaseDate = bundlData.getString("releaseDate");
         chequeNumber = bundlData.getString("chequeNumber");
         creditDuration = bundlData.getString("creditDuration");
-      //  marketReturns = bundlData.getString("MarketReturns");
+        //  marketReturns = bundlData.getString("MarketReturns");
 
         flagFromInvoiceGen = bundlData.getBoolean("flagFromInvoiceGen");
         isReturnSaved = bundlData.getBoolean("isReturnSaved");
@@ -2216,7 +2216,7 @@ public class ReturnProductNoHistoryActivity extends Activity implements Location
 
 
 //		Log.w("returnProducts","################ 2:"+ returnProducts.size() + "");
-//		
+//
 //		Log.w("returnProductsArray","################ 2:"+ returnProductsArray.size() + "");
     }
     private String GetGPS() {
@@ -2272,9 +2272,9 @@ public class ReturnProductNoHistoryActivity extends Activity implements Location
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-       // if(parent.getId() == R.id.spInvoiceNumber) {
-            tvCrediAmount.setText(loadCreditAmount(spInvoiceNumber.getSelectedItem().toString()));
-       // }
+        // if(parent.getId() == R.id.spInvoiceNumber) {
+        tvCrediAmount.setText(loadCreditAmount(spInvoiceNumber.getSelectedItem().toString()));
+        // }
     }
 
     @Override
