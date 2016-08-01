@@ -82,11 +82,18 @@ public class ProductRepStore {
 
         ContentValues cv = new ContentValues();
 
-        Cursor cursor = database.rawQuery("SELECT row_id FROM productRepStore WHERE product_code =? AND batch_number =? AND expiry_date =? AND price_purchase =? AND price_selling =? AND price_retail =?", new String[]{productCode,batchNo,expiryDate,pPrice,sellPrice,retailPrice});
+
+        //Cursor cursor = database.rawQuery("SELECT row_id FROM productRepStore WHERE product_code =? AND batch_number =? AND expiry_date =? AND price_purchase =? AND price_selling =? AND price_retail =?", new String[]{productCode,batchNo,expiryDate,pPrice,sellPrice,retailPrice});
+        Cursor cursor = database.rawQuery("SELECT row_id FROM productRepStore WHERE product_code = ?", new String[]{productCode});
 
         if(cursor.getCount()>0){
             cv.put(KEY_QUANTITY, quantity);
-            return database.update(TABLE_NAME, cv, KEY_BATCH_NO + "=?", new String[]{batchNo});
+            cv.put(KEY_EXPIRY_DATE, expiryDate);
+            cv.put(KEY_PURCHASE_PRICE,pPrice);
+            cv.put(KEY_SELLING_PRICE,sellPrice);
+            cv.put(KEY_RETAIL_PRICE,retailPrice);
+
+            return database.update(TABLE_NAME, cv, KEY_PRODUCT_CODE + "=?", new String[]{productCode});
         }else {
             cv.put(KEY_PRODUCT_ID, productId);
             cv.put(KEY_PRODUCT_CODE, productCode);
@@ -100,11 +107,6 @@ public class ProductRepStore {
 
             return database.insert(TABLE_NAME, null, cv);
         }
-
-
-
-
-
     }
 
     /**

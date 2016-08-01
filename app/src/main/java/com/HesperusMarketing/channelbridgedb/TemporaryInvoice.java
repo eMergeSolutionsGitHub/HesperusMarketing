@@ -176,7 +176,7 @@ public class TemporaryInvoice {
         }
         closeDatabase();
     }
-    public ArrayList<TempInvoiceStock> getTempDataForTable(String category, String principle,int stat) {
+    public ArrayList<TempInvoiceStock> getTempDataForTable(String category, String principle, String pCode, int stat) {
 
         openReadableDatabase();
         ArrayList<TempInvoiceStock> products = new ArrayList<>();
@@ -185,10 +185,14 @@ public class TemporaryInvoice {
         if(stat==0){
              cursor = database.rawQuery("select product_code,batch_number,pro_des,stock,shelf_quantity,request_quantity,free_quantity,normal_quantity,discount,selling_price,productImage from invoice_temporary where principle = ?", new String[]{principle});
 
-        }else {
+        }else if(stat==1) {
              cursor = database.rawQuery("select product_code,batch_number,pro_des,stock,shelf_quantity,request_quantity,free_quantity,normal_quantity,discount,selling_price,productImage from invoice_temporary where category = ?  and principle = ?", new String[]{category, principle});
 
+        }else{
+            cursor = database.rawQuery("select product_code,batch_number,pro_des,stock,shelf_quantity,request_quantity,free_quantity,normal_quantity,discount,selling_price,productImage from invoice_temporary where category = ?  and principle = ? and product_code = ?", new String[]{category, principle, pCode});
         }
+
+
 
         cursor.moveToFirst();
         TempInvoiceStock temp = null;

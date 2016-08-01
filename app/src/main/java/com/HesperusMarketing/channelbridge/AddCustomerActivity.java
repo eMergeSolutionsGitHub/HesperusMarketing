@@ -62,7 +62,7 @@ public class AddCustomerActivity extends Activity implements LocationListener {
     AutoCompleteTextView txtArea, txtTown, txtCustomerStatus, txtAddress, txtTelephone, txtBrNo, txtFax;
     ImageButton iBtnCalendar;
     Button btnSave, btnCancel, btsetGps;
-    Builder alertCancel, alertSave;
+    Builder alertCancel, alertSave, alertSuccess;
     AlertDialog alertDialog;
     Intent ItineraryListIntent = new Intent("com.HesperusMarketing.channelbridge.ITINERARYLIST");
     Intent cameraIntent;
@@ -248,9 +248,9 @@ public class AddCustomerActivity extends Activity implements LocationListener {
                                 pharmCode, pharmCode,
                                 txtName.getText().toString(), "0", "2", timeStamp, "true", "true", "true");
                         itineraryObject.closeDatabase();
-                        startActivity(ItineraryListIntent);
+                       /* startActivity(ItineraryListIntent);
                         Clear();
-                        finish();
+                        finish();*/
                     }
                 })
                 .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -258,8 +258,8 @@ public class AddCustomerActivity extends Activity implements LocationListener {
                     public void onClick(DialogInterface dialog,
                                         int which) {
 
-                        startActivity(ItineraryListIntent);
-                        Clear();
+                        //startActivity(ItineraryListIntent);
+                        //Clear();
                         finish();
                     }
                 });
@@ -284,6 +284,23 @@ public class AddCustomerActivity extends Activity implements LocationListener {
                         return;
                     }
                 });
+
+        alertSuccess = new AlertDialog.Builder(this)
+                .setTitle("Message")
+                .setMessage(
+                        "Changes have successfully saved")
+                .setPositiveButton("Ok",
+                        new DialogInterface.OnClickListener() {
+
+                            public void onClick(DialogInterface dialog,
+                                                int which) {
+                                /*clearImages();*/
+                                Clear();
+                                //finish();
+                                return;
+                            }
+                        });
+
 
         btnSave.setOnClickListener(new View.OnClickListener() {
 
@@ -364,17 +381,19 @@ public class AddCustomerActivity extends Activity implements LocationListener {
                         CustomersPendingApprovalObject.closeDatabase();
 
                         saveFlag = true;
-                        btnSave.setEnabled(false);
+                        //btnSave.setEnabled(false);
                         //finish();
-
 
                         //startActivity(ItineraryListIntent);
                         new UploadNewCustomersTask(AddCustomerActivity.this)
                                 .execute("1");
-                        alertSave.setMessage(cName + " has Been saved! Do You want to btnAdd this customer to the Itinerary?");
-                       // alertSave.show();
                         //   Clear();
                         // Toast.makeText(AddCustomerActivity.this, cName + " has Been saved!",Toast.LENGTH_SHORT).show();
+
+                        alertSuccess.show();
+
+                        alertSave.setMessage(cName + " has Been saved! Do You want to btnAdd this customer to the Itinerary?");
+                        alertSave.show();
 
                     } catch (Exception e) {
 
@@ -410,8 +429,7 @@ public class AddCustomerActivity extends Activity implements LocationListener {
                 startGallery.putExtras(extras);
                 // startActivityForResult(startGallery,REQUEST_CODE_IMAGE);
                 startActivity(startGallery);
-
-
+                finish();
             }
         });
 

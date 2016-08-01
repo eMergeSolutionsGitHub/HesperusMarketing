@@ -147,6 +147,7 @@ public class CBMainActivity extends Activity implements LocationListener {
             }
         });
         getGPS();
+
         btnSubmit.setOnClickListener(new OnClickListener() {
 
             public void onClick(View v) {
