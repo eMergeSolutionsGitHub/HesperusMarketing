@@ -64,7 +64,6 @@ import java.util.List;
 public class CBMainActivity extends Activity implements LocationListener {
 
 
-
     /**
      * Called when the activity is first created.
      */
@@ -79,13 +78,14 @@ public class CBMainActivity extends Activity implements LocationListener {
     private LocationManager locationManager;
     Location location;
     double lat, lng;
-    String pwd = "",uName;
+    String pwd = "", uName;
 
     WebService webService;
 
     String timeStamp;
 
     String productImageId[] = new String[7];
+
     //
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -350,8 +350,6 @@ public class CBMainActivity extends Activity implements LocationListener {
     }
 
 
-
-
     public ArrayList<String> loadRepData(final String deviceId) {
 
         ArrayList<String> response = null;
@@ -426,18 +424,16 @@ public class CBMainActivity extends Activity implements LocationListener {
     public ArrayList<CreditPeriod> downloadCreditPeriods(String deviceId, String repId) {
         ArrayList<CreditPeriod> responseArr = null;
 
-            try {
+        try {
 
-                WebService webService = new WebService();
-                responseArr = webService.getCreditPeriods(deviceId, Integer.parseInt(repId));
-
-
-
-            } catch (Exception e) {
+            WebService webService = new WebService();
+            responseArr = webService.getCreditPeriods(deviceId, Integer.parseInt(repId));
 
 
-            }
+        } catch (Exception e) {
 
+
+        }
 
 
         return responseArr;
@@ -625,7 +621,7 @@ public class CBMainActivity extends Activity implements LocationListener {
             String[] DEL_Sales = custData.get(i);
 
             Long result = PaymentType.insert_Branch(DEL_Sales[0], DEL_Sales[1], DEL_Sales[2], DEL_Sales[3],
-                    DEL_Sales[4], DEL_Sales[5],DEL_Sales[6], DEL_Sales[7]
+                    DEL_Sales[4], DEL_Sales[5], DEL_Sales[6], DEL_Sales[7]
 
             );
 
@@ -705,7 +701,7 @@ public class CBMainActivity extends Activity implements LocationListener {
             if (!flag) {
                 productRepStore.openWritableDatabase();
                 Long result = productRepStore.insert_Master_Banks(DEL_Sales[0], DEL_Sales[1],
-                        DEL_Sales[2], DEL_Sales[3],DEL_Sales[4]
+                        DEL_Sales[2], DEL_Sales[3], DEL_Sales[4]
 
                 );
 
@@ -932,19 +928,17 @@ public class CBMainActivity extends Activity implements LocationListener {
             flag = productRepStore.isBatchAvailable(custDetails[5], custDetails[2]);
             productRepStore.closeDatabase();
 
-                productRepStore.openWritableDatabase();
-                Long result = productRepStore.insertProductRepStore(
-                        custDetails[0], custDetails[2], custDetails[5],
-                        custDetails[3], custDetails[4],custDetails[6],custDetails[7],custDetails[8], timeStamp);
+            productRepStore.openWritableDatabase();
+            Long result = productRepStore.insertProductRepStore(
+                    custDetails[0], custDetails[2], custDetails[5],
+                    custDetails[3], custDetails[4], custDetails[6], custDetails[7], custDetails[8], timeStamp);
 
-                if (result == -1) {
-                    rtnStr = "error";
-                    productRepStore.closeDatabase();
-                    break;
-                }
+            if (result == -1) {
+                rtnStr = "error";
                 productRepStore.closeDatabase();
-
-
+                break;
+            }
+            productRepStore.closeDatabase();
 
 
             rtnStr = "success";
@@ -1056,6 +1050,7 @@ public class CBMainActivity extends Activity implements LocationListener {
 
         private final Context context;
         String deviceId;
+
         public DownloadFilesTask(Context context) {
             this.context = context;
         }
@@ -1073,7 +1068,7 @@ public class CBMainActivity extends Activity implements LocationListener {
             dialog.show();
 
             SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-             deviceId = preferences.getString("DeviceId", "-1");
+            deviceId = preferences.getString("DeviceId", "-1");
         }
 
         protected void onProgressUpdate(Integer... progress) {
@@ -1159,7 +1154,7 @@ public class CBMainActivity extends Activity implements LocationListener {
             ArrayList<String> response = loadRepData(params[0]);
 
             Log.w("Log", "dddddddddddd result : " + response.get(0));
-            System.out.println("himaaaa :"+ response);
+            System.out.println("himaaaa :" + response);
 
             if (response.get(0) != "No Data" && response.get(0) != "No Connection") {
 
@@ -1168,21 +1163,21 @@ public class CBMainActivity extends Activity implements LocationListener {
                 //himanshu
 
                 ArrayList<String[]> approvedPersonList = null;
-                approvedPersonList= loadApprovedPerson(response.get(0));
+                approvedPersonList = loadApprovedPerson(response.get(0));
                 saveApreovedPersons(approvedPersonList);
 
 
                 String lastInvoice = null;
-                lastInvoice= loadLastInvoice(response.get(0));
+                lastInvoice = loadLastInvoice(response.get(0));
                 saveLastInvoice(lastInvoice);
 
                 ArrayList<String[]> productImageDetailsList = null;
-                productImageDetailsList= getProductImageDetails(response.get(0), params[0]);
+                productImageDetailsList = getProductImageDetails(response.get(0), params[0]);
                 saveProductImageDetails(productImageDetailsList);
                 downloadProductImage(response.get(0), params[0]);
 
                 ArrayList<String[]> DiscountStructures = null;
-                DiscountStructures= loadDiscountStructures(response.get(0));
+                DiscountStructures = loadDiscountStructures(response.get(0));
                 saveDiscountStructures(DiscountStructures);
 
                 String responseStr = saveUserData(response);
@@ -1195,7 +1190,7 @@ public class CBMainActivity extends Activity implements LocationListener {
                     if (custDataResponse.size() > 0) {
 
                         publishProgress(3);
-                        webService.uploadUserCredentials( response.get(0), params[0],uName,pwd,lng,lat,timeStamp);
+                        webService.uploadUserCredentials(response.get(0), params[0], uName, pwd, lng, lat, timeStamp);
 
                         String custStr = saveCustomerData(custDataResponse);
 
@@ -1235,86 +1230,88 @@ public class CBMainActivity extends Activity implements LocationListener {
 
                                                 String itnResult = saveItineraryData(itineraryDataResponse);
 
+/*
                                                 if (itnResult.equals("success")) {
-                                                    publishProgress(16);
-                                                    ArrayList<String[]> PaymentTypeResponse = load_PaymentType(params[0], response.get(0));
-                                                    ArrayList<CreditPeriod> periodArrayList = downloadCreditPeriods(params[0], response.get(0));
-                                                    com.HesperusMarketing.channelbridgedb.CreditPeriod periodController = new com.HesperusMarketing.channelbridgedb.CreditPeriod(context);
-                                                    if (periodArrayList.size() > 0){
-                                                        for(CreditPeriod period:periodArrayList){
-                                                            periodController.addCreditPeriods(period);
-                                                        }
+*/
+                                                publishProgress(16);
+                                                ArrayList<String[]> PaymentTypeResponse = load_PaymentType(params[0], response.get(0));
+                                                ArrayList<CreditPeriod> periodArrayList = downloadCreditPeriods(params[0], response.get(0));
+                                                com.HesperusMarketing.channelbridgedb.CreditPeriod periodController = new com.HesperusMarketing.channelbridgedb.CreditPeriod(context);
+                                                if (periodArrayList.size() > 0) {
+                                                    for (CreditPeriod period : periodArrayList) {
+                                                        periodController.addCreditPeriods(period);
                                                     }
-                                                    CollectionNoteMaterDownload();
-                                                    if (PaymentTypeResponse.size() > 0) {
-                                                        publishProgress(17);
-                                                        String PaymentTypeResulte = savePaymentType(PaymentTypeResponse);
-                                                        if (PaymentTypeResulte.equals("success")) {
-                                                            publishProgress(14);
+                                                }
+                                                CollectionNoteMaterDownload();
+                                                if (PaymentTypeResponse.size() > 0) {
+                                                    publishProgress(17);
+                                                    String PaymentTypeResulte = savePaymentType(PaymentTypeResponse);
+                                                    if (PaymentTypeResulte.equals("success")) {
+                                                        publishProgress(14);
 
-                                                            ArrayList<String[]> BranchResponse = loadBranchData(params[0], response.get(0));
-                                                            if (BranchResponse.size() > 0) {
-
-
-                                                                publishProgress(15);
-                                                                String BranchStr = saveBranchData(BranchResponse);
-                                                                if (BranchStr.equals("success")) {
-                                                                    publishProgress(20);
-                                                                    ArrayList<String[]> MBResponse = load_Master_Banks(params[0], response.get(0));
-                                                                    if (MBResponse.size() > 0) {
-                                                                        publishProgress(21);
-                                                                        String MBStr = saveMaster_Banks(MBResponse);
-                                                                        if (MBStr.equals("success")) {
-                                                                            publishProgress(12);
-                                                                            ArrayList<String[]> outstandResponse = loadOutStandData(params[0], response.get(0));
-                                                                            if (outstandResponse.size() > 0) {
-                                                                                publishProgress(13);
-                                                                                String outstandStr = saveOutStandData(outstandResponse);
-                                                                                if (outstandStr.equals("success")) {
-                                                                                    returnValue = 3;
-                                                                                } else {
-                                                                                    returnValue = 2;
-                                                                                }
+                                                        ArrayList<String[]> BranchResponse = loadBranchData(params[0], response.get(0));
+                                                        if (BranchResponse.size() > 0) {
 
 
+                                                            publishProgress(15);
+                                                            String BranchStr = saveBranchData(BranchResponse);
+                                                            if (BranchStr.equals("success")) {
+                                                                publishProgress(20);
+                                                                ArrayList<String[]> MBResponse = load_Master_Banks(params[0], response.get(0));
+                                                                if (MBResponse.size() > 0) {
+                                                                    publishProgress(21);
+                                                                    String MBStr = saveMaster_Banks(MBResponse);
+                                                                    if (MBStr.equals("success")) {
+                                                                        publishProgress(12);
+                                                                        ArrayList<String[]> outstandResponse = loadOutStandData(params[0], response.get(0));
+                                                                        if (outstandResponse.size() > 0) {
+                                                                            publishProgress(13);
+                                                                            String outstandStr = saveOutStandData(outstandResponse);
+                                                                            if (outstandStr.equals("success")) {
+                                                                                returnValue = 3;
                                                                             } else {
-
-                                                                                returnValue = 4;
+                                                                                returnValue = 2;
                                                                             }
+
+
                                                                         } else {
-                                                                            returnValue = 2;
 
+                                                                            returnValue = 4;
                                                                         }
-
                                                                     } else {
+                                                                        returnValue = 2;
 
-                                                                        returnValue = 4;
                                                                     }
 
-
                                                                 } else {
-                                                                    returnValue = 2;
+
+                                                                    returnValue = 4;
                                                                 }
+
+
                                                             } else {
-
-                                                                returnValue = 4;
-
+                                                                returnValue = 2;
                                                             }
-
                                                         } else {
-                                                            returnValue = 2;
+
+                                                            returnValue = 4;
+
                                                         }
 
                                                     } else {
-                                                        returnValue = 4;
-
+                                                        returnValue = 2;
                                                     }
 
                                                 } else {
-                                                    returnValue = 2;
+                                                    returnValue = 4;
+
                                                 }
 
-                                            } else {
+                                            }/* else {
+                                                    returnValue = 2;
+                                                }
+                                                }*/
+                                            else {
                                                 returnValue = 4;
                                             }
 
@@ -1388,12 +1385,13 @@ public class CBMainActivity extends Activity implements LocationListener {
     }
 
 
-    private  class UploadUserCredintialTask extends AsyncTask<Void,Void,Void> {
+    private class UploadUserCredintialTask extends AsyncTask<Void, Void, Void> {
 
         WebService webService;
         String deviceId = "";
         String repId = "";
         String timeStamp;
+
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
@@ -1422,7 +1420,7 @@ public class CBMainActivity extends Activity implements LocationListener {
         location = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
 
 
-        if (location != null){
+        if (location != null) {
 
 
             lat = (double) (location.getLatitude());
@@ -1457,6 +1455,7 @@ public class CBMainActivity extends Activity implements LocationListener {
 
         return response;
     }
+
     private String saveApreovedPersons(ArrayList<String[]> approvedPersonData) {
 
         String rtnStr = "";
@@ -1466,7 +1465,7 @@ public class CBMainActivity extends Activity implements LocationListener {
             approvedperson.openWritableDatabase();
             for (int i = 0; i < approvedPersonData.size(); i++) {
                 String[] personDetails = approvedPersonData.get(i);
-                approvedperson.insertPersons(personDetails[0],personDetails[1],personDetails[2],personDetails[3],personDetails[4]);
+                approvedperson.insertPersons(personDetails[0], personDetails[1], personDetails[2], personDetails[3], personDetails[4]);
 
             }
         } catch (Exception e) {
@@ -1477,7 +1476,8 @@ public class CBMainActivity extends Activity implements LocationListener {
         return rtnStr;
 
     }
-    public ArrayList<String[]> getProductImageDetails(String repId,String deviceID ) {
+
+    public ArrayList<String[]> getProductImageDetails(String repId, String deviceID) {
 
         ArrayList<String[]> response = null;
 
@@ -1503,6 +1503,7 @@ public class CBMainActivity extends Activity implements LocationListener {
 
         return response;
     }
+
     private String saveProductImageDetails(ArrayList<String[]> productImageDetailsList) {
 
         String rtnStr = "";
@@ -1523,16 +1524,16 @@ public class CBMainActivity extends Activity implements LocationListener {
         return rtnStr;
 
     }
-    public void downloadProductImage( String repId , String deviceId ){
 
+    public void downloadProductImage(String repId, String deviceId) {
 
 
         String imageWithImageId[] = new String[0];
-         new DownloadProductImage().execute(repId, deviceId);
-
+        new DownloadProductImage().execute(repId, deviceId);
 
 
     }
+
     private void createDirectoryAndSaveFile(Bitmap imageToSave, String fileName) {
 
         File direct = new File(Environment.getExternalStorageDirectory() + "/DCIM/Channel_Bridge_Images");
@@ -1555,7 +1556,8 @@ public class CBMainActivity extends Activity implements LocationListener {
             e.printStackTrace();
         }
     }
-    public class DownloadProductImage extends AsyncTask<String, Integer,Void>{
+
+    public class DownloadProductImage extends AsyncTask<String, Integer, Void> {
         ArrayList<String[]> repStoreDataResponse = null;
 
 
@@ -1569,7 +1571,6 @@ public class CBMainActivity extends Activity implements LocationListener {
         protected Void doInBackground(String... strings) {
 
 
-
             WebService webService = new WebService();
 
             try {
@@ -1581,9 +1582,9 @@ public class CBMainActivity extends Activity implements LocationListener {
                         productImageId = repStoreDataResponse.get(i);
 
                         byte[] image1 = new byte[0];
-                        if(productImageId[2].equals("0")){
+                        if (productImageId[2].equals("0")) {
 
-                        }else {
+                        } else {
                             image1 = android.util.Base64.decode(productImageId[2], Base64.DEFAULT);
                             Bitmap bm = BitmapFactory.decodeByteArray(image1, 0, image1.length);
                             createDirectoryAndSaveFile(bm, productImageId[1] + ".jpg");
@@ -1608,9 +1609,9 @@ public class CBMainActivity extends Activity implements LocationListener {
             super.onPostExecute(aVoid);
 
 
-
         }
     }
+
     private String saveDiscountStructures(ArrayList<String[]> discountStructuresData) {
         String rtnStr = "";
         try {
@@ -1630,6 +1631,7 @@ public class CBMainActivity extends Activity implements LocationListener {
         return rtnStr;
 
     }
+
     public ArrayList<String[]> loadDiscountStructures(String repId) {
 
         ArrayList<String[]> response = null;
@@ -1652,6 +1654,7 @@ public class CBMainActivity extends Activity implements LocationListener {
 
         return response;
     }
+
     public String loadLastInvoice(String repId) {
         String response = null;
         while (response == null) {
@@ -1672,6 +1675,7 @@ public class CBMainActivity extends Activity implements LocationListener {
 
         return response;
     }
+
     private String saveLastInvoice(String invoceNum) {
         String rtnStr = "";
         try {
@@ -1680,7 +1684,6 @@ public class CBMainActivity extends Activity implements LocationListener {
             sequence.openReadableDatabase();
 
             long result = sequence.insertSequence(invoceNum, "invoice");
-
 
 
             sequence.closeDatabase();
@@ -1695,9 +1698,7 @@ public class CBMainActivity extends Activity implements LocationListener {
     }
 
 
-
     //By Himanshu
-
 
 
     @Override
