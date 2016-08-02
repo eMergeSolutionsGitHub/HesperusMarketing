@@ -248,9 +248,9 @@ public class AddCustomerActivity extends Activity implements LocationListener {
                                 pharmCode, pharmCode,
                                 txtName.getText().toString(), "0", "2", timeStamp, "true", "true", "true");
                         itineraryObject.closeDatabase();
-                       /* startActivity(ItineraryListIntent);
+                        startActivity(ItineraryListIntent);
                         Clear();
-                        finish();*/
+                        finish();
                     }
                 })
                 .setNegativeButton("No", new DialogInterface.OnClickListener() {
@@ -294,10 +294,9 @@ public class AddCustomerActivity extends Activity implements LocationListener {
 
                             public void onClick(DialogInterface dialog,
                                                 int which) {
-                                /*clearImages();*/
+                                clearImages();
                                 Clear();
                                 //finish();
-                                return;
                             }
                         });
 
@@ -385,15 +384,14 @@ public class AddCustomerActivity extends Activity implements LocationListener {
                         //finish();
 
                         //startActivity(ItineraryListIntent);
-                        new UploadNewCustomersTask(AddCustomerActivity.this)
-                                .execute("1");
+                        new UploadNewCustomersTask(AddCustomerActivity.this).execute("1");
                         //   Clear();
                         // Toast.makeText(AddCustomerActivity.this, cName + " has Been saved!",Toast.LENGTH_SHORT).show();
 
                         alertSuccess.show();
 
-                        alertSave.setMessage(cName + " has Been saved! Do You want to btnAdd this customer to the Itinerary?");
-                        alertSave.show();
+                      /*  alertSave.setMessage(cName + " has Been saved! Do You want to btnAdd this customer to the Itinerary?");
+                        alertSave.show();*/
 
                     } catch (Exception e) {
 

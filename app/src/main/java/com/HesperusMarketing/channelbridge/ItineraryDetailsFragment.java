@@ -181,7 +181,7 @@ public class ItineraryDetailsFragment extends Fragment implements LocationListen
 
         }
 
-        try {
+     //   try {
 
             View v = getActivity().findViewById(R.id.details);
             SharedPreferences shared = getActivity().getApplicationContext().getSharedPreferences("CBHesPreferences", Context.MODE_PRIVATE);
@@ -649,7 +649,7 @@ public class ItineraryDetailsFragment extends Fragment implements LocationListen
                 }
             });
 
-        } catch (Exception e) {
+    /*    } catch (Exception e) {
             e.printStackTrace();
 
             String error = e.toString();
@@ -667,7 +667,7 @@ public class ItineraryDetailsFragment extends Fragment implements LocationListen
             alertDialog.setTitle("Error");
             alertDialog.setMessage(error);
             alertDialog.show();
-        }
+        }*/
 
         ScrollView scroller = new ScrollView(getActivity());
         return scroller;
@@ -902,7 +902,7 @@ public class ItineraryDetailsFragment extends Fragment implements LocationListen
         customerHandler.closeDatabase();
         String currCredit = "0";
         currCredit = selectedCustomer[15];
-        if (currCredit.isEmpty()) {
+        if (currCredit == null) {
             currCredit = "0";
         }
         tvCreditLimit.setText(selectedCustomer[14]);
