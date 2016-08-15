@@ -71,7 +71,7 @@ public class InvoiceGen1Alternate extends Activity {
 
 
     Spinner spPrinciple, spCategory;
-    AutoCompleteTextView actvCode;
+    AutoCompleteTextView actvDescription;
     private TableLayout tblTest;
     private Button btnAdd, btnSearch;
     EditText editDiscount, editshelf, editrequest, editfree, edtShelf, edtRequest, edtOrder, edtFree, edtDiscountProduct;
@@ -84,7 +84,7 @@ public class InvoiceGen1Alternate extends Activity {
 
     AlertDialog.Builder alertCancel;
 
-    ArrayList<String> test;
+    ArrayList<String> productDescList;
 
     ArrayAdapter<String> principleAdapter;
     ArrayAdapter<String> categoryAdapter;
@@ -128,7 +128,7 @@ public class InvoiceGen1Alternate extends Activity {
 
 
         principleList = new ArrayList<>();
-        test = new ArrayList<String>();
+        productDescList = new ArrayList<String>();
         categoryList = new ArrayList<>();
         prductList = new ArrayList<>();
         returnProductsArray = new ArrayList<ReturnProduct>();
@@ -152,7 +152,7 @@ public class InvoiceGen1Alternate extends Activity {
 
         spPrinciple = (Spinner) findViewById(R.id.spPrinciple);
         spCategory = (Spinner) findViewById(R.id.spCategory);
-        actvCode = (AutoCompleteTextView) findViewById(R.id.actvCode);
+        actvDescription = (AutoCompleteTextView) findViewById(R.id.actvCode);
 
         btnAdd = (Button) findViewById(R.id.btnNextToPayment);
         btnSearch = (Button) findViewById(R.id.btnSearch);
@@ -185,11 +185,12 @@ public class InvoiceGen1Alternate extends Activity {
 
 
 
-        productCodeAdapter = new ArrayAdapter<String>(getApplicationContext(), R.layout.single_list_item, test);
-        actvCode.setAdapter(productCodeAdapter);
+        productCodeAdapter = new ArrayAdapter<String>(InvoiceGen1Alternate.this, R.layout.single_list_item, productDescList);
+        actvDescription.setThreshold(1);
+        actvDescription.setAdapter(productCodeAdapter);
 
 
-        actvCode.addTextChangedListener(new TextWatcher() {
+        actvDescription.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -198,6 +199,7 @@ public class InvoiceGen1Alternate extends Activity {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                if(charSequence.toString().equals("")||charSequence.toString().isEmpty()){
+                   actSelectedProduct = "test";
                    productTablefill(1);
                }else {
 
@@ -211,12 +213,15 @@ public class InvoiceGen1Alternate extends Activity {
         });
 
 
-        actvCode.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        actvDescription.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                actSelectedProduct = test.get(i).toString();
-                Toast.makeText(getApplicationContext(),"Selected: "+actSelectedProduct, Toast.LENGTH_SHORT).show();
-                productTablefill(2);
+                actSelectedProduct = (String) adapterView.getItemAtPosition(i);
+                productTablefill(0);
+                for(int k=0;k<productDescList.size();k++){
+                    System.out.print("2. Selected desc: "+productDescList.get(k).toString()+", ");
+                }
+                Toast.makeText(InvoiceGen1Alternate.this,"CM :"+ actSelectedProduct, Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -235,6 +240,11 @@ public class InvoiceGen1Alternate extends Activity {
                 productTablefill(0);
                 productController.closeDatabase();
                 editDiscount.setText("");
+                actvDescription.setText("");
+
+                populateProductTableNew(prductList);
+                productCodeAdapter = new ArrayAdapter<String>(InvoiceGen1Alternate.this, android.R.layout.simple_list_item_1, productDescList);
+                actvDescription.setAdapter(productCodeAdapter);
 
                 //  freeStatus = 0;
             }
@@ -270,6 +280,7 @@ public class InvoiceGen1Alternate extends Activity {
                 super.onScrolled(recyclerView, dx, dy);
             }
         });
+
         btnAdd.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -475,7 +486,7 @@ public class InvoiceGen1Alternate extends Activity {
         tem.openReadableDatabase();
         String selectedCategory = spCategory.getSelectedItem().toString();
 
-        prductList = tem.getTempDataForTable(selected, selectedCategory, actSelectedProduct, status);
+        prductList = tem.getTempDataForTable(selectedCategory, selected, actSelectedProduct, status);
 
 
         populateProductTableNew(prductList);
@@ -487,12 +498,12 @@ public class InvoiceGen1Alternate extends Activity {
         adapter = new RecyclerListProductAdapter(this, prductList);
         recyclerView.setAdapter(adapter);
 
-        test.clear();
+        productDescList.clear();
         for(int i=0;i<prductList.size();i++){
-            test.add(prductList.get(i).getProductCode());
+            productDescList.add(prductList.get(i).getProductDes());
+            System.out.println("1. Add to product list: "+productDescList.get(i).toString());
         }
 
-        System.out.println("Chamal: "+test.toString());
     }
 
     private void getDataFromPreviousActivity(Bundle extras) {

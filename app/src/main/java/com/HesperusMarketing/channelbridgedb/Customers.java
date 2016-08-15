@@ -841,10 +841,15 @@ public class Customers {
 
     public String getInvoiceAlloweStstusByPharmacyId(String PharmacyID) {
 
-        Cursor cur = database.rawQuery("SELECT is_Invoice_allowed FROM customers where pharmacy_id =" + PharmacyID + " ", null);
-        cur.moveToFirst();
+        String productId = null;
+        try {
+            Cursor cur = database.rawQuery("SELECT is_Invoice_allowed FROM customers where pharmacy_id = '" + PharmacyID + "' ", null);
+            cur.moveToFirst();
 
-        String productId = cur.getString(0);
+            productId = cur.getString(0);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return productId;
     }
     public String getMaxInvoiceCountByPharmacyId(String PharmacyID) {

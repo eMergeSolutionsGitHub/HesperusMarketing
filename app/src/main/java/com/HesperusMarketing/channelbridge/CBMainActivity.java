@@ -1224,13 +1224,14 @@ public class CBMainActivity extends Activity implements LocationListener {
 
                                             ArrayList<String[]> itineraryDataResponse = loadItineraryData(response
                                                     .get(0), params[0], "0");
-                                            if (itineraryDataResponse.size() > 0) {
+
+//                                            if (itineraryDataResponse.size() > 0) {
 
                                                 publishProgress(7);
-
+/*
                                                 String itnResult = saveItineraryData(itineraryDataResponse);
 
-/*
+
                                                 if (itnResult.equals("success")) {
 */
                                                 publishProgress(16);
@@ -1302,12 +1303,12 @@ public class CBMainActivity extends Activity implements LocationListener {
                                                         returnValue = 2;
                                                     }
 
-                                                } else {
+                                                }/* else {
                                                     returnValue = 4;
 
                                                 }
 
-                                            }/* else {
+                                            } else {
                                                     returnValue = 2;
                                                 }
                                                 }*/
