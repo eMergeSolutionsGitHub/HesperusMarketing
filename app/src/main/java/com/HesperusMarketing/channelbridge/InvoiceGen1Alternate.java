@@ -232,6 +232,7 @@ public class InvoiceGen1Alternate extends Activity {
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
                 // editDiscount.setText("");
                 //  refreshViewOnSelection(0);
+                categoryList.clear();
                 productController.openReadableDatabase();
                 selected = spPrinciple.getSelectedItem().toString();
                 categoryList = productController.getCategoryListForPriciple(selected);

@@ -26,7 +26,7 @@ import java.util.List;
 /**
  * Created by Himanshu on 6/8/2016.
  */
-public class RecyclerListProductAdapter extends RecyclerView.Adapter<RecyclerListProductAdapter.MyViewHolder> {
+    public class RecyclerListProductAdapter extends RecyclerView.Adapter<RecyclerListProductAdapter.MyViewHolder> {
 
     private Context mContext;
     private ArrayList<TempInvoiceStock> albumList;

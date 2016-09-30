@@ -123,7 +123,7 @@ public class CollectionNote extends Activity implements DatePickerDialog.OnDateS
 
 
         //adapter
-        listAdapter = new CollectionNoteAdapter(this, listCollectionNoteItem);
+            listAdapter = new CollectionNoteAdapter(this, listCollectionNoteItem);
 
 
         final Customers customer = new Customers(CollectionNote.this);
@@ -187,6 +187,7 @@ public class CollectionNote extends Activity implements DatePickerDialog.OnDateS
 
                 final DEL_Outstandiing oustanding = new DEL_Outstandiing(CollectionNote.this);
                 oustanding.openReadableDatabase();
+
 
                 String selectCusName[] = arg0.getItemAtPosition(arg2).toString().split("-");
                 customerName.setText(selectCusName[0]);

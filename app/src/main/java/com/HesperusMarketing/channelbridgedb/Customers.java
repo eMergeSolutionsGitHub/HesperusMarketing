@@ -873,14 +873,11 @@ public class Customers {
 
         List<String> CustomerNameList = new ArrayList();
         try {
-
             String strqu = "select  pharmacy_id,customer_name,pharmacy_code from " + TABLE_NAME + "  ";
             Cursor cur = database.rawQuery(strqu, null);
             if (cur.moveToFirst()) {
                 do {
                     CustomerNameList.add(cur.getString(1) + "-" + cur.getString(2));
-                    // CustomerNameList.add(cur.getString(1));
-
                 } while (cur.moveToNext());
             }
 
@@ -888,11 +885,7 @@ public class Customers {
                 cur.close();
             }
 
-        } catch (Exception e) {
-
-
-        }
-
+        } catch (Exception e) {}
 
         return CustomerNameList;
     }

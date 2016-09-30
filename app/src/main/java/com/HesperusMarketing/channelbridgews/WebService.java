@@ -2660,7 +2660,7 @@ public class WebService {
         SoapObject table = new SoapObject(WSDL_TARGET_NAMESPACE, "Table");
         table.addProperty("COLLECTION_NOTE_NO", custDetails[0]);
         table.addProperty("REP_NO", custDetails[1]);
-        table.addProperty("CUSTOMER_NAME", custDetails[2]);
+        table.addProperty("CUSTOMER_NO", custDetails[2]);
         table.addProperty("CURRENT_OUTSTANDING", custDetails[3]);
         table.addProperty("CHEQUE_AMOUNT", custDetails[4]);
         table.addProperty("CASH_AMOUNT", custDetails[5]);
