@@ -4692,7 +4692,7 @@ public class WebService {
         try {
             httpTransport.call(SOAP_ACTION, envelope);
             response = (SoapObject) envelope.getResponse();
-            System.out.println("response response :"+response);
+//            System.out.println("response response :"+response);
             if (response != null && response.getPropertyCount() > 0) {
                 SoapObject custTable = (SoapObject) response.getProperty(0);
                 if (custTable != null && custTable.getPropertyCount() > 0) {

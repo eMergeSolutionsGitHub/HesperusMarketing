@@ -81,7 +81,6 @@ public class Product_Image {
         cv.put(KEY_DISPLAY_CODE, android.util.Base64.decode(displayCode, Base64.DEFAULT));
         cv.put(KEY_SEQUENCE_NO, sequence);
         return database.insert(TABLE_NAME, null, cv);
-
     }
 
     public ArrayList<String> getImages(){
@@ -95,14 +94,13 @@ public class Product_Image {
                 }else {
                     imageList.add(c.getString( c.getColumnIndex("image")) );
                 }
-
-
                 c.moveToNext();
             }
+
         }else {
 
-        }
 
+        }
         return imageList;
     }
 }
