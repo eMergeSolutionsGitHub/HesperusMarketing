@@ -3141,6 +3141,11 @@ public class SyncronizePreference extends PreferenceActivity {
 
         private final Context context;
         ArrayList<String[]> responseArr=null;
+
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+        String repId = sharedPreferences.getString("RepId", "-1");
+        String  deviceId = sharedPreferences.getString("DeviceId", "-1");
+
         public DownloadProductImage(Context context) {
             this.context = context;
         }
@@ -3170,31 +3175,6 @@ public class SyncronizePreference extends PreferenceActivity {
             }
         }
 
-        protected void onPostExecute(Integer returnCode) {
-
-            System.out.println("responseArr :"+responseArr);
-
-            try {
-                Product_Image productImage = new Product_Image(SyncronizePreference.this);
-                productImage.openWritableDatabase();
-                for (int i = 0; i < responseArr.size(); i++) {
-                    String[] personDetails = responseArr.get(i);
-                    productImage.insertProduct(personDetails[0], personDetails[1], personDetails[2], personDetails[3], personDetails[4]);
-
-                }
-            } catch (Exception e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
-
-            new DownloadImage().execute();
-
-
-            dialog.dismiss();
-            showDialog(returnCode);
-
-        }
-
         @Override
         protected Integer doInBackground(String... params) {
             // TODO Auto-generated method stub
@@ -3204,13 +3184,6 @@ public class SyncronizePreference extends PreferenceActivity {
             if (isOnline()) {
                 while (responseArr == null) {
                     try {
-
-                        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-
-                        String repId = sharedPreferences.getString("RepId", "-1");
-                        String  deviceId = sharedPreferences.getString("DeviceId", "-1");
-
-
                         WebService webService = new WebService();
                         responseArr = webService.getProductImageDetails(repId, deviceId);
                         Thread.sleep(100);
@@ -3220,7 +3193,6 @@ public class SyncronizePreference extends PreferenceActivity {
                     }catch (SocketException e) {
                         e.printStackTrace();
                     }
-
                 }
                 returnValue=2;
                 System.out.println("aasasas responseArr "+responseArr);
@@ -3233,10 +3205,32 @@ public class SyncronizePreference extends PreferenceActivity {
 
         }
 
+        protected void onPostExecute(Integer returnCode) {
+
+            System.out.println("responseArr :"+responseArr);
+            Product_Image productImage = new Product_Image(SyncronizePreference.this);
+            productImage.openWritableDatabase();
+            try {
+                for (int i = 0; i < responseArr.size(); i++) {
+                    String[] personDetails = responseArr.get(i);
+                    productImage.insertProduct(personDetails[0], personDetails[1], personDetails[2], personDetails[3], personDetails[4]);
+                }
+                productImage.closeDatabase();
+
+            } catch (Exception e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+            new DownloadImage().execute(repId, deviceId);
+
+            dialog.dismiss();
+            showDialog(returnCode);
+
+        }
     }
+
     public class DownloadImage extends AsyncTask<String, Integer,Void>{
         ArrayList<String[]> repStoreDataResponse = null;
-
 
         @Override
         protected void onPreExecute() {

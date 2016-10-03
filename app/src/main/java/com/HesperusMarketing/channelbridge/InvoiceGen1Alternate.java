@@ -63,7 +63,7 @@ public class InvoiceGen1Alternate extends Activity {
     String colerchartProductCode = "0", colerchartProductBatch = "0", colerchartProductShelf = "0", colerchartProductRequest = "0", colerchartProductOrder = "0", colerchartProductFree = "0", colerchartProductStock = "0";
     String productCode, productBatch, productStock;
     String actSelectedProduct = "test";
-    private Boolean iswebApprovalActive = true;
+    private Boolean iswebApprovalActive = true; //GIT test
     private Boolean isChanged = false;
     boolean chequeEnabled = false;
     int prosessStatus = 0;
@@ -426,10 +426,12 @@ public class InvoiceGen1Alternate extends Activity {
                                 Toast.makeText(InvoiceGen1Alternate.this, "Your exceed maximum discount level", Toast.LENGTH_LONG).show();
                                 editDiscount.setText("");
                                 tempInvoiceStockController.setDiscount(selected, 0.0);
+                                tempInvoiceStockController.closeDatabase();
                             } else if (Double.parseDouble(editable.toString()) > 30.0) {
                                 Toast.makeText(InvoiceGen1Alternate.this, "Your exceed maximum discount level", Toast.LENGTH_LONG).show();
                                 editDiscount.setText("");
                                 tempInvoiceStockController.setDiscount(selected, 0.0);
+                                tempInvoiceStockController.closeDatabase();
                             } else {
                                 tempInvoiceStockController.setDiscount(selected, Double.parseDouble(editable.toString()));
                                 tempInvoiceStockController.closeDatabase();
@@ -492,6 +494,7 @@ public class InvoiceGen1Alternate extends Activity {
 
         populateProductTableNew(prductList);
         productController.closeDatabase();
+        tem.closeDatabase();
     }
 
     private void populateProductTableNew(ArrayList<TempInvoiceStock> prductList) {
@@ -686,7 +689,7 @@ public class InvoiceGen1Alternate extends Activity {
 
         prductListImage = temInvies.getTempDataForTable(selected, selectedCategory, actSelectedProduct, 1);
         productAdapterImage = new ProductImagesAdapter(this, prductListImage);
-
+        temInvies.closeDatabase();
 
         final TextView shelf = (TextView) dialogBox.findViewById(R.id.textView20);
         final TextView request = (TextView) dialogBox.findViewById(R.id.textView23);
@@ -747,7 +750,6 @@ public class InvoiceGen1Alternate extends Activity {
             checkboxTwo.setEnabled(false);
             checkboxThree.setEnabled(false);
 
-
         }
 
 
@@ -784,9 +786,7 @@ public class InvoiceGen1Alternate extends Activity {
             }
 
         }
-
-
-        temInvies.closeDatabase();
+        tempInvoiceStockController.closeDatabase();
         recyclerViewImages.setAdapter(productAdapterImage);
 
 
@@ -1104,7 +1104,6 @@ public class InvoiceGen1Alternate extends Activity {
 
                     }
 
-
                 } else {
                     freeStatus = 1;
                     tempInvoiceStockController.updateFreeIssueRate(selected, null, checkboxThree.getText().toString());
@@ -1129,7 +1128,6 @@ public class InvoiceGen1Alternate extends Activity {
                     free.setVisibility(View.VISIBLE);
 
                 }
-
 
                 tempInvoiceStockController.closeDatabase();
             }
@@ -1258,7 +1256,7 @@ public class InvoiceGen1Alternate extends Activity {
         Done.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                tempInvoiceStockController.openWritableDatabase();
                 int Totle = tempInvoiceStockController.getTotle(selected, null);
                 if (checkboxTwo.isChecked() || checkboxThree.isChecked() || checkboxOne.isChecked()) {
 
@@ -1302,9 +1300,10 @@ public class InvoiceGen1Alternate extends Activity {
                     }
                 }
 
+                tempInvoiceStockController.closeDatabase();
+
+
                 tempInvoiceStockController.openReadableDatabase();
-
-
                 int totle = tempInvoiceStockController.getTotle(selected, null);
                 textViewtotal.setText("Total Qty :" + totle);
                 textViewtotal2.setText("Total Qty :" + totle);
@@ -1314,7 +1313,7 @@ public class InvoiceGen1Alternate extends Activity {
                 } else {
                     int totleFree = (totle / Integer.parseInt(split[0])) * Integer.parseInt(split[1]);
                     int remain = totleFree - tempInvoiceStockController.getFreeTotle(selected, null);
-
+                    tempInvoiceStockController.closeDatabase();
                     textViewfree.setText("Total Free : " + String.valueOf(totleFree));
                     textViewreamingfree.setText("Remi Free : " + String.valueOf(remain));
                     textViewfree2.setText("Total Free : " + String.valueOf(totleFree));
@@ -1348,7 +1347,6 @@ public class InvoiceGen1Alternate extends Activity {
                 if (!split[1].trim().equals("0")) {
                     Toast.makeText(context, "Please fill the Free issues", Toast.LENGTH_LONG).show();
                 } else {
-                    tempInvoiceStockController.closeDatabase();
                     prosessStatus = 0;
                     btnSearch.setEnabled(true);
                     dialogBox.dismiss();
@@ -1362,13 +1360,10 @@ public class InvoiceGen1Alternate extends Activity {
                     productTablefill(1);
                 }
 
-
             }
         });
 
         dialogBox.show();
-
-
     }
 
     public void lodeSelectCode(String icode, String batch, String shelf, String request, String order, String free, String stock) {
@@ -1468,6 +1463,7 @@ public class InvoiceGen1Alternate extends Activity {
 
                 if ((!charSequence.toString().isEmpty() || !charSequence.toString().equals(""))) {
                     edtDiscountProduct.setEnabled(true);
+                    tempInvoiceStockController.openWritableDatabase();
                     tempInvoiceStockController.updateShelfQuantity(productCode, productBatch, charSequence.toString());
                     edtRequest.setEnabled(true);
                     edtOrder.setEnabled(true);
@@ -1479,6 +1475,7 @@ public class InvoiceGen1Alternate extends Activity {
 
                 }
                 isChanged = true;
+                tempInvoiceStockController.closeDatabase();
             }
 
             @Override
@@ -1506,6 +1503,7 @@ public class InvoiceGen1Alternate extends Activity {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if (!charSequence.toString().isEmpty() || !charSequence.toString().equals("")) {
+                    tempInvoiceStockController.openWritableDatabase();
                     tempInvoiceStockController.updateRequestQuantity(productCode, productBatch, charSequence.toString());
                     if (Double.parseDouble(textStock.getText().toString()) < Double.parseDouble(edtRequest.getText().toString())) {
                         Toast.makeText(InvoiceGen1Alternate.this, "Enter valid quantity", Toast.LENGTH_LONG).show();
@@ -1517,7 +1515,7 @@ public class InvoiceGen1Alternate extends Activity {
 //
                     tempInvoiceStockController.updateRequestQuantity(productCode, productBatch, "0");
                 }
-
+                tempInvoiceStockController.closeDatabase();
             }
 
             @Override
@@ -1543,10 +1541,12 @@ public class InvoiceGen1Alternate extends Activity {
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 if ((!charSequence.toString().isEmpty() || !charSequence.toString().equals(""))) {
+                    tempInvoiceStockController.openWritableDatabase();
                     tempInvoiceStockController.updateNormalQuantity(productCode, productBatch, charSequence.toString());
                 } else {
                     tempInvoiceStockController.updateNormalQuantity(productCode, productBatch, "0");
                 }
+                tempInvoiceStockController.closeDatabase();
             }
 
             @Override
@@ -1583,6 +1583,7 @@ public class InvoiceGen1Alternate extends Activity {
 
                     if (iswebApprovalActive == false) {
                         if (stock - request >= free) { // check whether entered free quantity is smaller than stock -  requested
+                            tempInvoiceStockController.openWritableDatabase();
                             tempInvoiceStockController.updateFreeQuantity(productCode, productBatch, charSequence.toString());
 
                             edtDiscountProduct.setEnabled(false);
@@ -1602,6 +1603,7 @@ public class InvoiceGen1Alternate extends Activity {
                     tempInvoiceStockController.updateFreeQuantity(productCode, productBatch, "0");
                     edtDiscountProduct.setEnabled(true);
                 }
+                tempInvoiceStockController.closeDatabase();
             }
 
             @Override
@@ -1630,6 +1632,7 @@ public class InvoiceGen1Alternate extends Activity {
                 if ((!charSequence.toString().isEmpty() || !charSequence.toString().equals(""))) {
                     if (charSequence.length() < 4) {
                         if (Double.parseDouble(charSequence.toString()) <= 100) {
+                            tempInvoiceStockController.openWritableDatabase();
                             tempInvoiceStockController.updateDicount(productCode, productBatch, charSequence.toString());
                             if (Double.parseDouble(charSequence.toString()) > 0) {
 
@@ -1649,6 +1652,7 @@ public class InvoiceGen1Alternate extends Activity {
                 } else {
                     tempInvoiceStockController.updateDicount(productCode, productBatch, "0.0");
                 }
+                tempInvoiceStockController.closeDatabase();
             }
 
             @Override
