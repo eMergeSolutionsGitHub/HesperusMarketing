@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.HesperusMarketing.channelbridgedb.CollectionNoteSendToApprovel;
 import com.HesperusMarketing.channelbridgews.WebService;
 
+import java.net.SocketException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,14 +40,11 @@ public class UploadCollectionNoteTask extends AsyncTask<String, Integer, Integer
         int returnValue = 1;
         if (isNetworkAvailable() == true) {
             try {
-                CollectionNoteSendToApprovel rtnProdObject = new CollectionNoteSendToApprovel(
-                        context);
+                CollectionNoteSendToApprovel rtnProdObject = new CollectionNoteSendToApprovel(context);
                 rtnProdObject.openReadableDatabase();
 
                 List<String[]> rtnProducts = rtnProdObject.getCollectionNoteByUploadStatus();
                 rtnProdObject.closeDatabase();
-
-                Log.w("Log", "rtnProducts size :  " + rtnProducts.size());
 
                 ArrayList<String[]> invoicedProductDetailList = new ArrayList<String[]>();
 
@@ -56,10 +54,8 @@ public class UploadCollectionNoteTask extends AsyncTask<String, Integer, Integer
 
                 for (String[] rtnProdData : rtnProducts) {
 
-                    Log.w("Log", "rtnProducts id :  " + rtnProdData[0]);
-                    // Log.w("Log", "rtnProducts date :  " + rtnProdData[10]);
 
-                    String[] invoiceDetails = new String[9];
+                    String[] invoiceDetails = new String[20];
                     invoiceDetails[0] = rtnProdData[0];
                     invoiceDetails[1] = rtnProdData[1];
                     invoiceDetails[2] = rtnProdData[2];
@@ -68,6 +64,21 @@ public class UploadCollectionNoteTask extends AsyncTask<String, Integer, Integer
                     invoiceDetails[5] = rtnProdData[5];
                     invoiceDetails[6] = rtnProdData[6];
 
+                    invoiceDetails[7] = rtnProdData[7];
+                    invoiceDetails[8] = rtnProdData[8];
+                    invoiceDetails[9] = rtnProdData[9];
+                    invoiceDetails[10] = rtnProdData[10];
+                    invoiceDetails[11] = rtnProdData[11];
+                    invoiceDetails[12] = rtnProdData[12];
+                    invoiceDetails[13] = rtnProdData[13];
+
+
+                    invoiceDetails[14] = rtnProdData[14];
+                    invoiceDetails[15] = rtnProdData[15];
+                    invoiceDetails[16] = rtnProdData[16];
+
+
+
 
                     publishProgress(2);
                     String responseArr = null;
@@ -75,7 +86,11 @@ public class UploadCollectionNoteTask extends AsyncTask<String, Integer, Integer
                         try {
 
                             WebService webService = new WebService();
-                            responseArr = webService.uploadCollectionNoteTask(deviceId, repId, invoiceDetails);
+                            try {
+                                responseArr = webService.uploadCollectionNoteTask(deviceId, repId, invoiceDetails);
+                            } catch (SocketException e) {
+                                e.printStackTrace();
+                            }
 
                             Thread.sleep(100);
 

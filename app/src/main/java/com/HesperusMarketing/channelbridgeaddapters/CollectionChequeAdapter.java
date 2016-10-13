@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+
 import com.HesperusMarketing.channelbridge.R;
 
 import java.util.ArrayList;
@@ -52,8 +53,6 @@ public class CollectionChequeAdapter extends BaseAdapter {
 
         viewHolder.textcNumber = (TextView) view.findViewById(R.id.textView_cheque_number);
         viewHolder.textcValue = (TextView) view.findViewById(R.id.textView_value);
-
-
 
         viewHolder.textcNumber.setText(String.valueOf(listCollectionCheque.get(i).cNumber));
         viewHolder.textcValue.setText(String.valueOf(listCollectionCheque.get(i).cAmmount));

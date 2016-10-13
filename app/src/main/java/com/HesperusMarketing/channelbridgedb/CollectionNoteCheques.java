@@ -7,11 +7,8 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import com.HesperusMarketing.channelbridgeaddapters.ReportList;
-
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
@@ -30,9 +27,10 @@ public class CollectionNoteCheques {
     private static final String KEY_REALIZED_DATE= "realized_date";
     private static final String KEY_CHEQUE_IMAGE = "cheque_image";
     private static final String KEY_UPLOAD_STATUS = "upload_status";
+    private static final String KEY_INVOICES_NUMBER = "invoices_number";
 
 
-    String[] columns = new String[]{KEY_ROW_ID, KEY_COLLECTIONNOTE_NO, KEY_CHEQUENUMBER, KEY_CHEQUEAMOUNT, KEY_COLLECT_DATE, KEY_BANK,KEY_BRANCH, KEY_REALIZED_DATE,KEY_CHEQUE_IMAGE,KEY_UPLOAD_STATUS};
+    String[] columns = new String[]{KEY_ROW_ID, KEY_COLLECTIONNOTE_NO, KEY_CHEQUENUMBER, KEY_CHEQUEAMOUNT, KEY_COLLECT_DATE, KEY_BANK,KEY_BRANCH, KEY_REALIZED_DATE,KEY_CHEQUE_IMAGE,KEY_UPLOAD_STATUS,KEY_INVOICES_NUMBER};
 
 
     private static final String TABLE_NAME = "CollectionNote_Cheque";
@@ -47,6 +45,7 @@ public class CollectionNoteCheques {
             + KEY_BRANCH + " TEXT ,"
             + KEY_REALIZED_DATE + " TEXT ,"
             + KEY_CHEQUE_IMAGE + " BLOB ,"
+            + KEY_INVOICES_NUMBER + " TEXT ,"
             + KEY_UPLOAD_STATUS + " TEXT " + " );";
     public final Context customerContext;
     public DatabaseHelper databaseHelper;
@@ -84,9 +83,9 @@ public class CollectionNoteCheques {
         databaseHelper.close();
     }
 
-    public long insert_CollectionCheqes(String CollectionNo, String chequenumber,String cheqamount,String bankcode,String branchcode,String realizedDate,byte[] image) throws SQLException {
+    public long insert_CollectionCheqes(String CollectionNo, String chequenumber, String cheqamount, String bankcode, String branchcode, String realizedDate, byte[] image, String invNum) throws SQLException {
 
-        SimpleDateFormat format = new SimpleDateFormat("MM-dd-yyyy");
+        SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
         ContentValues cv = new ContentValues();
         cv.put(KEY_COLLECTIONNOTE_NO, CollectionNo);
         cv.put(KEY_CHEQUENUMBER , chequenumber);
@@ -96,6 +95,7 @@ public class CollectionNoteCheques {
         cv.put(KEY_BRANCH, branchcode);
         cv.put(KEY_REALIZED_DATE, realizedDate);
         cv.put(KEY_CHEQUE_IMAGE, image);
+        cv.put(KEY_INVOICES_NUMBER, invNum);
         cv.put(KEY_UPLOAD_STATUS, 0);
 
         return database.insert(TABLE_NAME, null, cv);

@@ -291,29 +291,8 @@ public class ItineraryList extends Activity implements
 
             case R.id.menu_collection_note:
 
-                SharedPreferences sharedPreferences1 = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-                String deviceId = sharedPreferences1.getString("DeviceId", "-1");
-                String repId = sharedPreferences1.getString("RepId", "-1");
 
-
-
-/**
- * commented for error handle....should do the synch task manually
- */
-             /*   new Download_DEL_Outstanding(ItineraryList.this)
-                        .execute(deviceId,
-                                repId);
-
-                new DownloadCustomersTask(ItineraryList.this)
-                        .execute(deviceId,
-                                repId);
-
-*/
                Intent startItinerary = new Intent(ItineraryList.this, CollectionNote.class);
-
-          //   Intent startItinerary = new Intent(ItineraryList.this, Test.class);
-
-                finish();
                 startActivity(startItinerary);
 
                 break;

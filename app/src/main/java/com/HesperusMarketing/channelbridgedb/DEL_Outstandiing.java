@@ -420,12 +420,37 @@ public class DEL_Outstandiing {
 
     }
 
-    public Cursor loadInvoiceNumberFromCusID(String customername) {
+    /*public Cursor loadInvoiceNumberFromCusID(String customername) {
         String strqu = "select  DISTINCT  InvoiceNo,CreditAmount from " + TABLE_NAME + " where " + KEY_CustomerNo + "='" + customername + "' AND " + KEY_CreditAmount + " != '0.00'";
         Cursor cur = database.rawQuery(strqu, null);
         return cur;
 
     }
+*/
+    public List<String> loadInvoiceNumberFromCusID(String customername) {
+        List<String> InvoiceNumberNameList = new ArrayList();
+        Cursor cur = null;
+        try {
+            cur = database.rawQuery("select DISTINCT InvoiceNo from DEL_Outstanding where CustomerNo = ? AND CreditAmount != '0.00'", new String[]{customername});
+            if (cur != null || cur.getCount() != 0) {
+                if (cur.moveToFirst()) {
+                    do {
+                        InvoiceNumberNameList.add(cur.getString(0));
+                    } while (cur.moveToNext());
+                } else {
+                }
+            } else {
+
+            }
+            cur.close();
+        } catch (Exception e) {
+            cur.close();
+        }
+
+        return InvoiceNumberNameList;
+    }
+
+
     public List<String[]> loadOutSatingInvoiceNumberBYId(String id) {
         List<String[]> outSating = new ArrayList<String[]>();
         Cursor cur = database.rawQuery("SELECT InvoiceNo,CreditAmount,InvoiceDate FROM DEL_Outstanding WHERE CreditAmount > 0 AND CustomerNo = ? ", new String[]{id});
@@ -449,5 +474,22 @@ public class DEL_Outstandiing {
         cur.close();
         return outSating;
     }
+    public String getOustandingFromInvoiesNumber(String cusNum, String invNum) {
+        Cursor cur = null;
+        String oustandingVal = "0.0";
+        cur = database.rawQuery("select CreditAmount from DEL_Outstanding where CustomerNo =? AND InvoiceNo = ? ", new String[]{cusNum, invNum});
+        if (cur != null || cur.getCount() != 0) {
+            if (cur.moveToFirst()) {
+                do {
+                    oustandingVal = cur.getString(0);
+                } while (cur.moveToNext());
+            } else {
+            }
+        } else {
+
+        }
+        return oustandingVal;
+    }
+
 
 }

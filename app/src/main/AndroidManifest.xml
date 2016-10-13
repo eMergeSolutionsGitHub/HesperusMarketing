@@ -339,7 +339,17 @@
             </intent-filter>
         </activity>
 
+        <activity
+            android:name="com.HesperusMarketing.channelbridge.CollectionNote"
+            android:screenOrientation="landscape"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="com.HesperusMarketing.channelbridge.Report" />
 
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
 
 
         <service
@@ -377,10 +387,6 @@
 
         <receiver  android:name="com.HesperusMarketing.channelbridge.GPSAutoSynchronizeStarter"></receiver>
 
-        <activity
-            android:name="com.HesperusMarketing.channelbridge.CollectionNote"
-            android:label="@string/title_activity_collection_note"
-            android:screenOrientation="landscape"></activity>
     </application>
 
 </manifest>

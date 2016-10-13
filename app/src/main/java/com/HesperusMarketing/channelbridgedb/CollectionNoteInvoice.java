@@ -7,9 +7,7 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -24,10 +22,12 @@ public class CollectionNoteInvoice {
     private static final String KEY_CREDIT_AMOUNT = "credit_amount";
     private static final String KEY_CASH_AMOUNT = "cash_amount";
     private static final String KEY_CHEQES_AMOUNT = "cheqes_amount";
+    private static final String KEY_BALANCE_AMOUNT = "balance_amount";
     private static final String KEY_UPLOAD_STATUS = "upload_status";
 
 
-    String[] columns = new String[]{KEY_ROW_ID, KEY_COLLECTIONNOTE_NO, KEY_INVOICE_NO, KEY_PAYMENT_TYPE,KEY_CREDIT_AMOUNT, KEY_CASH_AMOUNT,KEY_CHEQES_AMOUNT};
+
+    String[] columns = new String[]{KEY_ROW_ID, KEY_COLLECTIONNOTE_NO, KEY_INVOICE_NO, KEY_PAYMENT_TYPE,KEY_CREDIT_AMOUNT, KEY_CASH_AMOUNT,KEY_CHEQES_AMOUNT,KEY_BALANCE_AMOUNT};
 
 
     private static final String TABLE_NAME = "CollectionNote_Invoice";
@@ -40,6 +40,7 @@ public class CollectionNoteInvoice {
             + KEY_CREDIT_AMOUNT + " TEXT ,"
             + KEY_CASH_AMOUNT + " TEXT ,"
             + KEY_CHEQES_AMOUNT + " TEXT ,"
+            + KEY_BALANCE_AMOUNT + " TEXT ,"
             + KEY_UPLOAD_STATUS + " TEXT " + " );";
     public final Context customerContext;
     public DatabaseHelper databaseHelper;
@@ -77,7 +78,7 @@ public class CollectionNoteInvoice {
         databaseHelper.close();
     }
 
-    public long insert_CollectionInvoice(String CollectionNo, String invoiceno,String type,String credit,String cash,String cheque) throws SQLException {
+    public long insert_CollectionInvoice(String CollectionNo, String invoiceno, String type, String credit, String cash, String cheque,String bal) throws SQLException {
 
         ContentValues cv = new ContentValues();
         cv.put(KEY_COLLECTIONNOTE_NO, CollectionNo);
@@ -86,6 +87,7 @@ public class CollectionNoteInvoice {
         cv.put(KEY_CREDIT_AMOUNT,credit);
         cv.put(KEY_CASH_AMOUNT, cash);
         cv.put(KEY_CHEQES_AMOUNT, cheque);
+        cv.put(KEY_BALANCE_AMOUNT, bal);
         cv.put(KEY_UPLOAD_STATUS, 0);
 
         return database.insert(TABLE_NAME, null, cv);

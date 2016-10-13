@@ -15,5 +15,6 @@
     <color name="mywhite">#ffffff</color>
     <color name="myGreen">#2ecc71</color>
     <color name="myOrange">#e67e22</color>
+    <color name="iconBlue">#428bca</color>
 
 </resources>

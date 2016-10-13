@@ -1,20 +1,16 @@
 package com.HesperusMarketing.channelbridgeaddapters;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 
-import com.HesperusMarketing.channelbridge.CollectionNote;
-import com.HesperusMarketing.channelbridge.InvoiceGen1Alternate;
-import com.HesperusMarketing.channelbridge.R;
 
-import com.HesperusMarketing.channelbridgedb.TemporaryInvoice;
+import com.HesperusMarketing.channelbridge.CollectionNote;
+import com.HesperusMarketing.channelbridge.R;
 
 import java.util.ArrayList;
 

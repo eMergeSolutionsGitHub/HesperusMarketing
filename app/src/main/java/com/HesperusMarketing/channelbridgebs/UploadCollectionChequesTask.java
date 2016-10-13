@@ -11,7 +11,6 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.HesperusMarketing.channelbridgedb.CollectionNoteCheques;
-import com.HesperusMarketing.channelbridgedb.CollectionNoteSendToApprovel;
 import com.HesperusMarketing.channelbridgews.WebService;
 
 import java.util.ArrayList;

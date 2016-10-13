@@ -2658,14 +2658,33 @@ public class WebService {
 
 
         SoapObject table = new SoapObject(WSDL_TARGET_NAMESPACE, "Table");
-        table.addProperty("COLLECTION_NOTE_NO", custDetails[0]);
-        table.addProperty("REP_NO", custDetails[1]);
-        table.addProperty("CUSTOMER_NO", custDetails[2]);
-        table.addProperty("CURRENT_OUTSTANDING", custDetails[3]);
-        table.addProperty("CHEQUE_AMOUNT", custDetails[4]);
-        table.addProperty("CASH_AMOUNT", custDetails[5]);
-        table.addProperty("KEY_DATE", custDetails[6]);
 
+
+
+        table.addProperty("KEY_ROW_ID", custDetails[0]);
+        table.addProperty("COLLECTION_NOTE_NO", custDetails[1]);
+        table.addProperty("REP_NO", custDetails[2]);
+        table.addProperty("CUSTOMER_CODE", custDetails[3]);
+        table.addProperty("CUSTOMER_NAME","");
+        table.addProperty("CURRENT_OUTSTANDING", custDetails[4]);
+        table.addProperty("INVOICE_NO", custDetails[5]);
+
+
+        table.addProperty("CREDIT_AMOUNT", custDetails[6]);
+        table.addProperty("PAYMENTTYPE_CODE", "");
+        table.addProperty("PAYMENT_TYPE", custDetails[7]);
+        table.addProperty("CASH_AMOUNT", custDetails[8]);
+        table.addProperty("CHEQUE_AMOUNT", custDetails[9]);
+        table.addProperty("BALANCECREDIT", custDetails[10]);
+        table.addProperty("CHEQUE_NUMBER", custDetails[11]);
+
+        table.addProperty("BANK_NAME", custDetails[12]);
+        table.addProperty("BRANCH_CODE", "");
+        table.addProperty("BRANCH", custDetails[13]);
+        table.addProperty("COLLECT_DATE", custDetails[14]);
+        table.addProperty("REALIZE_DATE", custDetails[15]);
+        table.addProperty("TYPE", "");
+        table.addProperty("CHEQUE_IMAGE", custDetails[16]);
 
 
         dataset.addSoapObject(table);

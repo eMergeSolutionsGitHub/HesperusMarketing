@@ -10,7 +10,6 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.HesperusMarketing.channelbridgedb.CollectionNoteCheques;
 import com.HesperusMarketing.channelbridgedb.CollectionNoteInvoice;
 import com.HesperusMarketing.channelbridgews.WebService;
 
