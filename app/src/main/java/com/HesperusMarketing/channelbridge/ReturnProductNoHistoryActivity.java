@@ -560,10 +560,6 @@ public class ReturnProductNoHistoryActivity extends Activity implements Location
 
 
                         else {
-//                            txtReturnQuantity.setEnabled(false);
-//                            invoiceNumber = tViewInvoiceNumber.getText().toString();
-//                            String description = txtProduct.getText().toString();
-                            //                           String batch = txtBatches.getText().toString();
                             String unitPrice = txtUnitPrice.getText().toString();
                             // String returnQty = txtReturnQuantity.getText().toString();
                             String dicountValue = edPercentagevalue.getText().toString();
@@ -581,6 +577,7 @@ public class ReturnProductNoHistoryActivity extends Activity implements Location
 
 
                             double tempTotal = retrunTotal + retVal;
+
                             if(tempTotal > Double.parseDouble(credit)){
                                 Builder alertNotSaved = new AlertDialog.Builder(ReturnProductNoHistoryActivity.this)
                                         .setTitle("Warning")

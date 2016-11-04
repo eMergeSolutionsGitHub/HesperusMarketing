@@ -115,7 +115,7 @@ public class Master_Banks {
         try {
 
             //  String strqu = "select "+KEY_BankName+" from " + TABLE_NAME + " where "+KEY_IS_ACTIVE+"='"+0+"' ";
-            String strqu = "select " + KEY_BankName + " from " + TABLE_NAME + " ";
+            String strqu = "select " + KEY_CODE + " from " + TABLE_NAME + " ";
             Cursor cur = database.rawQuery(strqu, null);
             if (cur.moveToFirst()) {
                 do {
@@ -176,7 +176,7 @@ public class Master_Banks {
         Cursor cur = null;
         String result;
         try {
-             cur = database.rawQuery("select BankCode from Master_Bank where BankName = ?",new String[]{bank});
+             cur = database.rawQuery("select BankName from Master_Bank where BankCode = ?",new String[]{bank});
             cur.moveToFirst();
             result = cur.getString(0);
 

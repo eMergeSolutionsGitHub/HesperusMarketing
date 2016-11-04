@@ -37,6 +37,7 @@ import com.HesperusMarketing.channelbridgeaddapters.CollectionNoteList;
 import com.HesperusMarketing.channelbridgeaddapters.ListCollectionCheque;
 import com.HesperusMarketing.channelbridgebs.UploadCollectionNoteTask;
 import com.HesperusMarketing.channelbridgedb.Branch;
+import com.HesperusMarketing.channelbridgedb.CollectionChequesInvoice;
 import com.HesperusMarketing.channelbridgedb.CollectionNoteCheques;
 import com.HesperusMarketing.channelbridgedb.CollectionNoteInvoice;
 import com.HesperusMarketing.channelbridgedb.CollectionNoteSendToApprovel;
@@ -82,6 +83,9 @@ public class CollectionNote extends Activity implements DatePickerDialog.OnDateS
     Bitmap photo;
     byte[] chequeimageByte;
     ArrayList<CollectionNoteList> listCollectionNoteItem = new ArrayList<CollectionNoteList>();
+     AutoCompleteTextView edtBranch;
+
+    List<String> branchList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -164,10 +168,9 @@ public class CollectionNote extends Activity implements DatePickerDialog.OnDateS
                     Toast.makeText(CollectionNote.this, "Please enter valid number to cash", Toast.LENGTH_LONG).show();
                 } else if (selectedInvoiceNum == null) {
                     Toast.makeText(CollectionNote.this, "No Invoice Numbers ", Toast.LENGTH_LONG).show();
-                } else if (!tempreturnProducts.isEmpty() && balance == 0) {
-                    Toast.makeText(CollectionNote.this, "Your balance is 0 ", Toast.LENGTH_LONG).show();
+                } else if (!tempreturnProducts.isEmpty() && balance < 0) {
+                    Toast.makeText(CollectionNote.this, "You have no balance ", Toast.LENGTH_LONG).show();
                 } else {
-
                     //cheque & cash
                     if ((!chequeAmmount[1].toString().trim().equals("0.0")) && (!editCash.getText().toString().equals(""))) {
                         if (tempreturnProducts.isEmpty()) {
@@ -180,6 +183,32 @@ public class CollectionNote extends Activity implements DatePickerDialog.OnDateS
                                     cheqbalance = Double.parseDouble(chequeAmmount[1].toString().trim());
                                 } else {
                                 }
+
+                                Double seChqAmount = Double.parseDouble(textViewInvoiceCradite.getText().toString());
+                                for (int i = 0; i <= cheqeDetails.size(); i++) {
+                                    String[] r;
+                                    if (i == 0) {
+                                        r = cheqeDetails.get(i);
+                                    } else {
+                                        r = cheqeDetails.get(i - 1);
+                                    }
+                                    if (seChqAmount < Double.parseDouble(r[0])) {
+                                        chqDetails = new String[3];
+                                        chqDetails[0] = selectedInvoiceNum;
+                                        chqDetails[1] = r[1];
+                                        tempreturnChq.add(chqDetails);
+
+                                        break;
+                                    } else {
+                                        chqDetails = new String[3];
+                                        chqDetails[0] = selectedInvoiceNum;
+                                        chqDetails[1] = r[1];
+                                        tempreturnChq.add(chqDetails);
+                                        seChqAmount = seChqAmount - Double.parseDouble(r[0]);
+                                        cheqeDetails.remove(i);
+                                    }
+                                }
+
 
                             } else {
                                 cashbalance = Double.parseDouble(editCash.getText().toString()) - Double.parseDouble(textViewInvoiceCradite.getText().toString());
@@ -233,10 +262,11 @@ public class CollectionNote extends Activity implements DatePickerDialog.OnDateS
 
                             }
                         }
-                        if (balance < 0) {
+                      /*  if (balance < 0) {
                             balance = 0;
                         } else {
-                        }
+                        }*/
+
                         if (tempreturnProducts.size() == 0) {
                             returnDetails[0] = selectedInvoiceNum;
                             returnDetails[1] = String.valueOf(cashbalance);
@@ -269,10 +299,12 @@ public class CollectionNote extends Activity implements DatePickerDialog.OnDateS
                                 tempreturnProducts.add(returnDetails);
                                 listCollectionNoteItem.add(new CollectionNoteList(selectedInvoiceNum, returnDetails[1], returnDetails[2], returnDetails[3]));
                                 addedInvoiceList.setAdapter(listAdapter);
+
                             } else {
 
                             }
                         }
+                        editCash.setEnabled(false);
 //cheque
                     } else if (editCash.getText().toString().equals("")) {
 
@@ -284,11 +316,6 @@ public class CollectionNote extends Activity implements DatePickerDialog.OnDateS
                             balance = Double.parseDouble(rBal[3]) - Double.parseDouble(textViewInvoiceCradite.getText().toString());
                         }
 
-                        if (balance < 0) {
-                            balance = 0;
-                        } else {
-
-                        }
                         Double seChqAmount = Double.parseDouble(textViewInvoiceCradite.getText().toString());
                         for (int i = 0; i <= cheqeDetails.size(); i++) {
                             String[] r;
@@ -357,7 +384,7 @@ public class CollectionNote extends Activity implements DatePickerDialog.OnDateS
 
                             }
                         }
-
+                        editCash.setEnabled(false);
                     }
 
 
@@ -373,10 +400,10 @@ public class CollectionNote extends Activity implements DatePickerDialog.OnDateS
                             balance = Double.parseDouble(rBal[3]) - Double.parseDouble(textViewInvoiceCradite.getText().toString());
                         }
 
-                        if (balance < 0) {
-                            balance = 0;
-                        } else {
-                        }
+                        //   if (balance < 0) {
+                        //      balance = 0;
+                        //  } else {
+                        // }
                         if (tempreturnProducts.size() == 0) {
 
                             returnDetails[0] = selectedInvoiceNum;
@@ -418,7 +445,7 @@ public class CollectionNote extends Activity implements DatePickerDialog.OnDateS
 
                             }
                         }
-
+                        editCash.setEnabled(false);
                     }
                 }
             }
@@ -451,11 +478,17 @@ public class CollectionNote extends Activity implements DatePickerDialog.OnDateS
                 } catch (Exception e) {
 
                 }
+                Customers cus = new Customers(CollectionNote.this);
+                cus.openReadableDatabase();
+                String companyCode=cus.getCompanyCodeFromPhamcyId(custmomerNumber);
+                cus.closeDatabase();
+
+
+
                 if (tempreturnProducts.isEmpty()) {
                     Toast.makeText(CollectionNote.this, "Empty Collection!", Toast.LENGTH_SHORT).show();
                 } else {
-                    cns.insertCollectionNoteSendToApprovel(collectionNoteNumber, repId, custmomerNumber,
-                            String.valueOf(OutStand_value), editCash.getText().toString(), chqAmmount[1]);
+                    cns.insertCollectionNoteSendToApprovel(collectionNoteNumber, repId, custmomerNumber, String.valueOf(OutStand_value), editCash.getText().toString(), chqAmmount[1]);
                     cns.closeDatabase();
                     for (int i = 0; i < tempreturnProducts.size(); i++) {
                         String cNoteDetail[] = tempreturnProducts.get(i);
@@ -467,11 +500,17 @@ public class CollectionNote extends Activity implements DatePickerDialog.OnDateS
                             paymentType = "Cheque";
                         }
 
-                        cninvoice.insert_CollectionInvoice(collectionNoteNumber, cNoteDetail[0], paymentType, cNoteDetail[1], cNoteDetail[2], textViewInvoiceCradite.getText().toString(), cNoteDetail[3]);
+
+
+                       // cninvoice.insert_CollectionInvoice(collectionNoteNumber, cNoteDetail[0], paymentType, cNoteDetail[1], cNoteDetail[2], textViewInvoiceCradite.getText().toString(), cNoteDetail[3]);
+                        cninvoice.insert_CollectionInvoice(collectionNoteNumber, cNoteDetail[0], paymentType,  textViewInvoiceCradite.getText().toString(), cNoteDetail[1], cNoteDetail[2], cNoteDetail[3]);
 
                     }
                     CollectionNoteCheques noteCheques = new CollectionNoteCheques(CollectionNote.this);
                     noteCheques.openWritableDatabase();
+
+                    CollectionChequesInvoice ccInvoice = new CollectionChequesInvoice(CollectionNote.this);
+                    ccInvoice.openWritableDatabase();
 
                     int a = cheqeDetails.size();
                     for (String[] chaqeData : tempcheqeDetails) {
@@ -483,23 +522,22 @@ public class CollectionNote extends Activity implements DatePickerDialog.OnDateS
                             bytes = null;
                         }
 
-                        String invnum = null;
-                        for (int j = 0; j <tempreturnChq.size() ; j++) {
-                            String c[] = tempreturnChq.get(j);
-                            if(c[1].equals(chaqeData[1])) {
-                                invnum=c[0];
-                            }
-                        }
+                        noteCheques.insert_CollectionCheqes(collectionNoteNumber, chaqeData[1], chaqeData[0], chaqeData[2], chaqeData[3], chaqeData[4], bytes, "");
 
-                        noteCheques.insert_CollectionCheqes(collectionNoteNumber, chaqeData[1], chaqeData[0], chaqeData[2], chaqeData[3], chaqeData[4], bytes,invnum);
+                    }
+
+                    for (int j = 0; j < tempreturnChq.size(); j++) {
+                        String c[] = tempreturnChq.get(j);
+                        ccInvoice.insert_CollectionCheqesInvoice(collectionNoteNumber,c[1],c[0]);
 
                     }
                     noteCheques.closeDatabase();
-
+                    ccInvoice.closeDatabase();
                     Toast.makeText(CollectionNote.this, "Collection note save successfully", Toast.LENGTH_SHORT).show();
                     cns.closeDatabase();
                     valueclear();
 
+                    editCash.setEnabled(true);
                     if (isNetworkAvailable() == true) {
                         upload();
 
@@ -573,12 +611,12 @@ public class CollectionNote extends Activity implements DatePickerDialog.OnDateS
         dialogBox.setContentView(R.layout.dialog_colection_note_cheque);
         dialogBox.setCancelable(false);
 
-        List<String> bankList, branchList;
+        List<String> bankList;
 
         calenderView = (RelativeLayout) dialogBox.findViewById(R.id.relativeLayout_Dialog_calender);
         textViewRealizedate = (TextView) dialogBox.findViewById(R.id.textViewRealizedate);
         final AutoCompleteTextView bankTextView = (AutoCompleteTextView) dialogBox.findViewById(R.id.editTextdilaog_bank);
-        final AutoCompleteTextView edtBranch = (AutoCompleteTextView) dialogBox.findViewById(R.id.editTextdilaog_branch);
+        edtBranch = (AutoCompleteTextView) dialogBox.findViewById(R.id.editTextdilaog_branch);
         ImageView btnClose = (ImageView) dialogBox.findViewById(R.id.imageViewClose);
         final EditText edtNumber = (EditText) dialogBox.findViewById(R.id.editTextdilaog_number);
         Button btnDone = (Button) dialogBox.findViewById(R.id.button_dialog_done);
@@ -596,8 +634,8 @@ public class CollectionNote extends Activity implements DatePickerDialog.OnDateS
 
         final ArrayList<ListCollectionCheque> cheqLists = new ArrayList<>();
 
-        bankList = new ArrayList<String>();
-        branchList = new ArrayList<String>();
+
+
 
 
         final CollectionChequeAdapter cheqAdapter;
@@ -607,10 +645,7 @@ public class CollectionNote extends Activity implements DatePickerDialog.OnDateS
         bankList = banks.GetBank();
         banks.closeDatabase();
 
-        Branch branch = new Branch(this);
-        branch.openReadableDatabase();
-        branchList = branch.GetBranchName();
-        branch.closeDatabase();
+
         cheqAdapter = new CollectionChequeAdapter(this, cheqLists);
         for (String[] chaqeData : cheqeDetails) {
             cheqLists.add(new ListCollectionCheque(chaqeData[1], chaqeData[0]));
@@ -641,8 +676,7 @@ public class CollectionNote extends Activity implements DatePickerDialog.OnDateS
         ArrayAdapter<String> bankAdapterList = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, bankList);
         bankTextView.setAdapter(bankAdapterList);
 
-        ArrayAdapter<String> barnchAdapterList = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, branchList);
-        edtBranch.setAdapter(barnchAdapterList);
+
 
 
         bankTextView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -652,16 +686,25 @@ public class CollectionNote extends Activity implements DatePickerDialog.OnDateS
                 if (bankTextView.getText().toString().equals("")) {
 
                 } else {
+                    branchList = new ArrayList<String>();
+
+                    Branch branch = new Branch(CollectionNote.this);
+                    branch.openReadableDatabase();
+                    branchList = branch.GetBranchName((String) arg0.getItemAtPosition(arg2));
+                    branch.closeDatabase();
+
+                    setBranch();
+
                     Master_Banks banks = new Master_Banks(CollectionNote.this);
                     banks.openReadableDatabase();
-                    bankCode.setText("Bank Code : " + banks.getBankCode((String) arg0.getItemAtPosition(arg2)));
+                    bankCode.setText("Bank : " + banks.getBankCode((String) arg0.getItemAtPosition(arg2)));
                     banks.closeDatabase();
                     if (edtBranch.getText().toString().equals("")) {
 
                     } else {
-                        Branch branch = new Branch(CollectionNote.this);
+                        branch = new Branch(CollectionNote.this);
                         branch.openReadableDatabase();
-                        barnchCode.setText("Branch Code : " + branch.getBranchCodeForCollection((String) arg0.getItemAtPosition(arg2), edtBranch.getText().toString()));
+                        barnchCode.setText("Branch : " + branch.getBranchCodeForCollection((String) arg0.getItemAtPosition(arg2), edtBranch.getText().toString()));
                         branch.closeDatabase();
                     }
 
@@ -677,9 +720,11 @@ public class CollectionNote extends Activity implements DatePickerDialog.OnDateS
                 if (barnchCode.getText().toString().equals("")) {
                 } else {
 
+
+
                     Branch branch = new Branch(CollectionNote.this);
                     branch.openReadableDatabase();
-                    barnchCode.setText("Branch Code : " + branch.getBranchCodeForCollection(bankTextView.getText().toString(), (String) arg0.getItemAtPosition(arg2)));
+                    barnchCode.setText("Branch : " + branch.getBranchCodeForCollection(bankTextView.getText().toString(), (String) arg0.getItemAtPosition(arg2)));
                     branch.closeDatabase();
 
 
@@ -688,7 +733,7 @@ public class CollectionNote extends Activity implements DatePickerDialog.OnDateS
                     } else {
                         Master_Banks banks = new Master_Banks(CollectionNote.this);
                         banks.openReadableDatabase();
-                        bankCode.setText("Bank Code : " + banks.getBankCode(bankTextView.getText().toString()));
+                        bankCode.setText("Bank : " + banks.getBankCode(bankTextView.getText().toString()));
                         banks.closeDatabase();
                     }
 
@@ -919,8 +964,15 @@ public class CollectionNote extends Activity implements DatePickerDialog.OnDateS
         });
 
 
+
         dialogBox.show();
 
+    }
+
+    public void setBranch(){
+
+        ArrayAdapter<String> barnchAdapterList = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, branchList);
+        edtBranch.setAdapter(barnchAdapterList);
     }
 
     public void valueclear() {
@@ -969,7 +1021,6 @@ public class CollectionNote extends Activity implements DatePickerDialog.OnDateS
                 month = String.valueOf((monthOfYear + 1));
             }
 
-          //  textViewRealizedate.setText(day + "/" + month + "/" + String.valueOf(year));
             textViewRealizedate.setText(month + "/" + day + "/" + String.valueOf(year));
         } else {
             Toast.makeText(CollectionNote.this, "Please select future date", Toast.LENGTH_LONG).show();
@@ -1033,6 +1084,13 @@ public class CollectionNote extends Activity implements DatePickerDialog.OnDateS
 
                     tempreturnProducts.remove(i);
 
+                    if (tempreturnProducts.size() == 0) {
+                        editCash.setEnabled(true);
+                    } else {
+
+                    }
+
+
                 } else {
                     Toast.makeText(CollectionNote.this, "You can remove only the last row", Toast.LENGTH_SHORT).show();
                 }
@@ -1048,15 +1106,7 @@ public class CollectionNote extends Activity implements DatePickerDialog.OnDateS
         }
 
         if (cheqeDetails.isEmpty()) {
-
-            // int a =cheqeDetails.size();
-            // int b =tempcheqeDetails.size();
-
             cheqeDetails = (ArrayList<String[]>) tempcheqeDetails.clone();
-
-
-            //  int aa =cheqeDetails.size();
-            //   int ba =tempcheqeDetails.size();
         } else {
             for (int i = 0; i < tempcheqeDetails.size(); i++) {
                 String[] r = tempcheqeDetails.get(i);

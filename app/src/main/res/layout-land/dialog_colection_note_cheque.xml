@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical" android:layout_width="800dp"
     android:layout_height="550dp"
     android:background="#00FFFFFF"
@@ -116,10 +117,10 @@
 
 
         <TextView
-            android:layout_width="170dp"
+            android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Bank :"
+            android:text="Bank Code :"
             android:id="@+id/textView37"
             android:layout_centerVertical="true"
             android:layout_alignParentLeft="true"
@@ -128,15 +129,16 @@
             android:textColor="#000000" />
 
         <AutoCompleteTextView
-            android:layout_width="fill_parent"
+            android:layout_width="100dip"
             android:layout_height="wrap_content"
             android:inputType="textAutoComplete"
             android:ems="10"
             android:id="@+id/editTextdilaog_bank"
-            android:layout_centerVertical="true"
+            android:layout_alignBaseline="@+id/textView37"
+            android:layout_alignBottom="@+id/textView37"
             android:layout_toRightOf="@+id/textView37"
-            android:layout_toEndOf="@+id/textView37" />
-
+            android:layout_toEndOf="@+id/textView37"
+            tools:inputType="number" />
 
 
     </RelativeLayout>
@@ -154,32 +156,31 @@
         android:id="@+id/relativeLayout21">
 
         <TextView
-            android:layout_width="170dp"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Branch :"
+            android:text="Branch Code :"
             android:id="@+id/textView38"
             android:layout_centerVertical="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:layout_marginLeft="5dp"
-            android:textColor="#000000" />
+            android:textColor="#000000"
+            android:layout_width="120dp" />
 
         <AutoCompleteTextView
-            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:inputType="text"
             android:ems="10"
             android:id="@+id/editTextdilaog_branch"
             android:layout_centerVertical="true"
             android:layout_toRightOf="@+id/textView38"
-            android:layout_toEndOf="@+id/textView38" />
+            android:layout_toEndOf="@+id/textView38"
+            android:layout_width="100dip" />
 
     </RelativeLayout>
 .................................
     <RelativeLayout
         android:layout_width="500dp"
-        android:layout_height="50dp"
         android:layout_below="@+id/relativeLayout21"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
@@ -187,33 +188,35 @@
         android:layout_marginTop="2dp"
         android:layout_marginRight="5dp"
         android:background="#ffffff"
-        android:id="@+id/relativeLayout30">
+        android:id="@+id/relativeLayout30"
+        android:layout_height="70dp">
 
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Bank Code : "
+            android:text="Bank : "
             android:id="@+id/textView_bankcode"
             android:layout_centerVertical="true"
             android:layout_alignParentLeft="true"
             android:layout_alignParentStart="true"
             android:textColor="#000000"
-            android:layout_marginLeft="5dp" />
+            android:layout_marginLeft="5dp"
+            android:layout_toLeftOf="@+id/textView_barnchCode"
+            android:layout_toStartOf="@+id/textView_barnchCode" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="Branch Code : "
+            android:text="Branch  : "
             android:id="@+id/textView_barnchCode"
             android:textColor="#000000"
             android:layout_alignTop="@+id/textView_bankcode"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true"
-            android:layout_marginRight="125dp"
-            android:layout_marginEnd="125dp" />
+            />
     </RelativeLayout>
 
 

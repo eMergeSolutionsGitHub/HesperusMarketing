@@ -21,6 +21,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
+        CollectionChequesInvoice.onCreate(db);
         CollectionNoteInvoice.onCreate(db);
         CollectionNoteCheques.onCreate(db);
         ChequesDetails.onCreate(db);
@@ -68,7 +69,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
+        CollectionChequesInvoice.onUpgrade(db, oldVersion, newVersion);
         CollectionNoteCheques.onUpgrade(db, oldVersion, newVersion);
         ChequesDetails.onUpgrade(db, oldVersion, newVersion);
         DiscountStructures.onUpgrade(db, oldVersion, newVersion);

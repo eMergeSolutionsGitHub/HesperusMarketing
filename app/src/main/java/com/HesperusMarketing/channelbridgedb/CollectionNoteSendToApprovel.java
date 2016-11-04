@@ -160,14 +160,16 @@ public class CollectionNoteSendToApprovel {
         database.execSQL(updateQuery);
     }
 
-    public List<String[]> getCollectionNoteByUploadStatus() {
+    public List<String[]> getCollectionChqesNoteByUploadStatus() {
         List<String[]> invoice = new ArrayList<String[]>();
 
-       // String countQuery = "SELECT collection_note_number,rep_number,customer_code,current_outstanding,cheque_ammount,cash_ammount,collected_date,row_id FROM collection_note_send_approval WHERE upload_status = 'false' ";
-        Cursor cursor = database.rawQuery("SELECT cnsp.row_id,cnsp.collection_note_number,cnsp.rep_number,cnsp.customer_code,cnsp.current_outstanding,cinv.invoice_no,cinv.credit_amount,cinv.type, \n" +
-                "cinv.cash_amount,cinv.cheqes_amount,cinv.balance_amount,cc.Cheque_number,cc.bank,cc.branch,cc.collect_date,cc.realized_date,cc.cheque_image\n" +
-                "from collection_note_send_approval cnsp INNER JOIN CollectionNote_Invoice cinv on cnsp.collection_note_number = cinv.collevtion_note_no \n" +
-                "INNER JOIN CollectionNote_Cheque cc on cinv.invoice_no = cc.invoices_number", null);
+        Cursor cursor = database.rawQuery("SELECT cnsa.row_id,cnsa.collection_note_number,cnsa.rep_number,cnsa.customer_code,cnsa.current_outstanding,\n" +
+                "ci.invoice_no,ci.credit_amount,ci.type,ci.cash_amount,ci.cheqes_amount,ci.balance_amount,\n" +
+                "cc.Cheque_number,cc.bank,cc.branch,cc.collect_date,cc.realized_date,cc.cheque_image\n" +
+                "FROM collection_note_send_approval cnsa\n" +
+                "INNER JOIN CollectionNote_Cheque_invoice cci on cnsa.collection_note_number = cci.collevtion_note_no\n" +
+                "INNER JOIN CollectionNote_Cheque cc on cci.collevtion_note_no = cc.collevtion_note_no and cci.Cheque_number = cc.Cheque_number\n" +
+                "INNER JOIN CollectionNote_Invoice ci on cci.collevtion_note_no = ci.collevtion_note_no and cci.invoices_number = ci.invoice_no WHERE cnsa.upload_status ='false'", null);
 
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
@@ -186,18 +188,41 @@ public class CollectionNoteSendToApprovel {
             invoiceData[8] = cursor.getString(8);//KEY_CASHAMOUNT
             invoiceData[9] = cursor.getString(9);//KEY_CHEQUEAMOUNT
             invoiceData[10] = cursor.getString(10);//bal
-            invoiceData[11] = cursor.getString(11);//CHEQUE no
 
+            if(cursor.getString(11)==null){
+                invoiceData[11] ="";
+            }else {
+                invoiceData[11] = cursor.getString(11);//CHEQUE no
+            }
+            if(cursor.getString(12)==null){
+                invoiceData[12] ="";
+            }else {
+                invoiceData[12] = cursor.getString(12);//BANKJ no
+            }
 
+            if(cursor.getString(13)==null){
+                invoiceData[13] ="";
+            }else {
+                invoiceData[13] = cursor.getString(13);//BRANCH
+            }
+            if(cursor.getString(14)==null){
+                invoiceData[14] ="";
+            }else {
+                invoiceData[14] = cursor.getString(14);//cal
+            }
 
-            invoiceData[12] = cursor.getString(12);//BANKJ
-            invoiceData[13] = cursor.getString(13);//BRANCH
-            invoiceData[14] = cursor.getString(14);//cal date
-            invoiceData[15] = cursor.getString(15);//rez date
-            byte[] bb = cursor.getBlob(16);
-            invoiceData[16] = ConvertByteArryTobase64String(bb);
+            if(cursor.getString(15)==null){
+                invoiceData[15] ="";
+            }else {
+                invoiceData[15] = cursor.getString(15);//rel date
+            }
 
-
+            if(cursor.getBlob(16)==null){
+                invoiceData[16]="";
+            }else {
+                byte[] bb = cursor.getBlob(16);
+                invoiceData[16] = ConvertByteArryTobase64String(bb);
+            }
 
 
             invoice.add(invoiceData);
@@ -211,6 +236,49 @@ public class CollectionNoteSendToApprovel {
         return invoice;
     }
 
+    public List<String[]> getCollectionCashNoteByUploadStatus() {
+        List<String[]> invoice = new ArrayList<String[]>();
+
+        Cursor cursor = database.rawQuery("SELECT cnsa.row_id,cnsa.collection_note_number,cnsa.rep_number,cnsa.customer_code,cnsa.current_outstanding,\n" +
+                "ci.invoice_no,ci.credit_amount,ci.type,ci.cash_amount,ci.cheqes_amount,ci.balance_amount\n" +
+                "FROM collection_note_send_approval cnsa\n" +
+                "INNER JOIN CollectionNote_Invoice ci on cnsa.collection_note_number = ci.collevtion_note_no \n" +
+                "WHERE  NOT EXISTS (SELECT *\n" +
+                "                   FROM   CollectionNote_Cheque_invoice od\n" +
+                "                   WHERE  cnsa.collection_note_number = od.collevtion_note_no) AND cnsa.upload_status ='false'", null);
+
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+            String[] invoiceData = new String[20];
+
+            invoiceData[0] = cursor.getString(0);//KEY_ROW_ID
+            invoiceData[1] = cursor.getString(1);//KEY_COLLECTION_NOTE_NO
+            invoiceData[2] = cursor.getString(2);//KEY_REP_NO
+            invoiceData[3] = cursor.getString(3);//customer_code
+            invoiceData[4] = cursor.getString(4);//KEY_CURRENT_OUTSTANDING
+            invoiceData[5] = cursor.getString(5);//Inv no
+            invoiceData[6] = cursor.getString(6);//credit
+            invoiceData[7] = cursor.getString(7);//type
+            invoiceData[8] = cursor.getString(8);//KEY_CASHAMOUNT
+            invoiceData[9] = cursor.getString(9);//KEY_CHEQUEAMOUNT
+            invoiceData[10] = cursor.getString(10);//bal
+            invoiceData[11] ="";
+            invoiceData[12] ="";
+            invoiceData[13] ="";
+            invoiceData[14] ="";
+            invoiceData[15] ="";
+            invoiceData[16]="";
+
+            invoice.add(invoiceData);
+            cursor.moveToNext();
+        }
+
+        cursor.close();
+
+        Log.w("invoice size", "inside : " + invoice.size());
+
+        return invoice;
+    }
 
 
     public ArrayList<ReportList> getDataForCollection(String customer, String town, String fromDate, String toDate, int searchStatus) {

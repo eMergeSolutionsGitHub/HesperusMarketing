@@ -131,6 +131,7 @@ public class CBMainActivity extends Activity implements LocationListener {
         txtDeviceId.setText("C3@HES");
         txtUserName.setText("a");
         txtPassword.setText("a");
+
         Button btnSubmit = (Button) findViewById(R.id.btnSubmit);
         Button btnCancel = (Button) findViewById(R.id.btnCancel);
         Button btnAtchDb = (Button) findViewById(R.id.btnAtchDb);
@@ -201,10 +202,7 @@ public class CBMainActivity extends Activity implements LocationListener {
                 fileDialog.addFileListener(new FileDialog.FileSelectedListener() {
                     public void fileSelected(final File file) {
                         Log.d(getClass().getName(), "selected file " + file.toString());
-
                         if (file.getName().endsWith(".db")) {
-
-
                             if (file.getName().contains("DBVersion-" + DatabaseHelper.DATABASE_VERSION)) {
 
                                 Builder alertCancel = new AlertDialog.Builder(CBMainActivity.this)
@@ -302,8 +300,7 @@ public class CBMainActivity extends Activity implements LocationListener {
 
             AlertDialog alertDialog = new AlertDialog.Builder(CBMainActivity.this).create();
             alertDialog.setTitle("Successfull");
-            alertDialog
-                    .setMessage("Database succesfully restored.");
+            alertDialog.setMessage("Database succesfully restored.");
             alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
 
                 public void onClick(DialogInterface dialog, int which) {

@@ -32,29 +32,26 @@ public class UploadCollectionNoteTask extends AsyncTask<String, Integer, Integer
     @Override
     protected void onPreExecute() {
 
-
     }
 
     @Override
     protected Integer doInBackground(String... params) {
         int returnValue = 1;
+        List<String[]> rtnProductsCash;
         if (isNetworkAvailable() == true) {
-            try {
+           try {
                 CollectionNoteSendToApprovel rtnProdObject = new CollectionNoteSendToApprovel(context);
                 rtnProdObject.openReadableDatabase();
-
-                List<String[]> rtnProducts = rtnProdObject.getCollectionNoteByUploadStatus();
+                List<String[]> rtnProducts = rtnProdObject.getCollectionChqesNoteByUploadStatus();
+                rtnProductsCash  = rtnProdObject.getCollectionCashNoteByUploadStatus();
                 rtnProdObject.closeDatabase();
 
-                ArrayList<String[]> invoicedProductDetailList = new ArrayList<String[]>();
 
                 SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
                 String deviceId = sharedPreferences.getString("DeviceId", "-1");
                 String repId = sharedPreferences.getString("RepId", "-1");
 
                 for (String[] rtnProdData : rtnProducts) {
-
-
                     String[] invoiceDetails = new String[20];
                     invoiceDetails[0] = rtnProdData[0];
                     invoiceDetails[1] = rtnProdData[1];
@@ -105,27 +102,87 @@ public class UploadCollectionNoteTask extends AsyncTask<String, Integer, Integer
                     if (responseArr.contains("No Error")) {
                         Log.w("Log", "Update the Collection Note status");
 
-                        // setCellectionNoteUpdatedStatus
-
-
                         CollectionNoteSendToApprovel rtnProdObj = new CollectionNoteSendToApprovel(context);
                         rtnProdObj.openWritableDatabase();
-                        rtnProdObj.setCellectionNoteUpdatedStatus(rtnProdData[7], "true");
+                        rtnProdObj.setCellectionNoteUpdatedStatus(rtnProdData[0], "true");
                         rtnProdObj.closeDatabase();
                         returnValue = 2;
+
+
+
+
 
                     } else {
                         returnValue = 1;
 
                     }
 
+
+
                     Log.w("Log", "loadProductRepStoreData result : "
                             + responseArr);
 
                 }
 
-                Log.w("Log", "invoicedProductDetailList size :  "
-                        + invoicedProductDetailList.size());
+               for(String[] rtnProdDatacash : rtnProductsCash){
+
+                   String[] invoiceDetails = new String[20];
+                   invoiceDetails[0] = rtnProdDatacash[0];
+                   invoiceDetails[1] = rtnProdDatacash[1];
+                   invoiceDetails[2] = rtnProdDatacash[2];
+                   invoiceDetails[3] = rtnProdDatacash[3];
+                   invoiceDetails[4] = rtnProdDatacash[4];
+                   invoiceDetails[5] = rtnProdDatacash[5];
+                   invoiceDetails[6] = rtnProdDatacash[6];
+
+                   invoiceDetails[7] = rtnProdDatacash[7];
+                   invoiceDetails[8] = rtnProdDatacash[8];
+                   invoiceDetails[9] = rtnProdDatacash[9];
+                   invoiceDetails[10] = rtnProdDatacash[10];
+                   invoiceDetails[11] = rtnProdDatacash[11];
+                   invoiceDetails[12] = rtnProdDatacash[12];
+                   invoiceDetails[13] = rtnProdDatacash[13];
+
+
+                   invoiceDetails[14] = rtnProdDatacash[14];
+                   invoiceDetails[15] = rtnProdDatacash[15];
+                   invoiceDetails[16] = rtnProdDatacash[16];
+
+                   String responseArrcash = null;
+                   while (responseArrcash == null) {
+                       try {
+
+                           WebService webService = new WebService();
+                           try {
+                               responseArrcash = webService.uploadCollectionNoteTask(deviceId, repId, invoiceDetails);
+                           } catch (SocketException e) {
+                               e.printStackTrace();
+                           }
+
+                           Thread.sleep(100);
+
+                       } catch (InterruptedException e) {
+                           // TODO Auto-generated catch block
+                           e.printStackTrace();
+                       }
+
+                   }
+
+                   if (responseArrcash.contains("No Error")) {
+                       Log.w("Log", "Update the Collection Note status");
+
+                       CollectionNoteSendToApprovel rtnProdObj = new CollectionNoteSendToApprovel(context);
+                       rtnProdObj.openWritableDatabase();
+                       rtnProdObj.setCellectionNoteUpdatedStatus(rtnProdDatacash[0], "true");
+                       rtnProdObj.closeDatabase();
+                       returnValue = 2;
+
+                   } else {
+                       returnValue = 1;
+
+                   }
+
+               }
 
                 if (rtnProducts.size() < 1) {
 

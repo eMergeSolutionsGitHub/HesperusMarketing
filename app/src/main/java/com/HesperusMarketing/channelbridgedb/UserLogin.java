@@ -198,8 +198,7 @@ public class UserLogin {
 
         Log.w("Itenarary", "Query: " + MY_QUERY);
 
-        Cursor cursor = database.rawQuery(MY_QUERY,
-                new String[]{String.valueOf(userName)});
+        Cursor cursor = database.rawQuery(MY_QUERY, new String[]{String.valueOf(userName)});
 
         cursor.moveToFirst();
         String[] data = new String[5];

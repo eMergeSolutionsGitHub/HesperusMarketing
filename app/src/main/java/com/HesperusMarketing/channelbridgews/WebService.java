@@ -2710,12 +2710,9 @@ public class WebService {
             response = (SoapObject) envelope.bodyIn;
 
             Log.w("test123", "response : " + response.toString());
-
             if (response != null && response.getPropertyCount() > 0) {
                 Log.w("Log", "response Str : " + response.toString());
-
                 repStoreDetailList = response.getProperty("xmlSetCollectionNoteResult").toString();
-
             } else {
                 repStoreDetailList = "error";
                 Log.w("test123", "Error repStoreDetailList: 0 size xxx");

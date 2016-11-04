@@ -1,34 +1,449 @@
+<?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="100dp"
-    android:layout_height="110dp"
-    android:orientation="vertical"
-    android:id="@+id/layout_backgroun"
-    android:background="#ffffff">
-
+    android:orientation="vertical" android:layout_width="800dp"
+    android:layout_height="550dp"
+    android:background="#00FFFFFF"
+    android:id="@+id/relativeLayoutmain">
 
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="500dp"
+        android:layout_height="50dp"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_margin="5dp"
-        android:id="@+id/layout_select_color">
-
-        <ImageView
-            android:layout_width="70dip"
-            android:layout_height="70dip"
-            android:id="@+id/image_gallery"
-            android:scaleType="fitXY"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:background="@color/myGreen"
+        android:id="@+id/relativeLayout17"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="5dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Medium Text"
-            android:id="@+id/text_gallery_title"
-            android:layout_below="@+id/image_gallery"
-            android:layout_centerHorizontal="true" />
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Cheque"
+            android:id="@+id/textView34"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            android:textColor="#ffffff" />
+
     </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="500dp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/relativeLayout17"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="5dp"
+        android:background="#ffffff"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="5dp"
+        android:id="@+id/relativeLayout18">
+
+        <TextView
+            android:layout_width="170dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Cheque Ammount :"
+            android:id="@+id/textView36"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="5dp"
+            android:textColor="#000000" />
+
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:ems="10"
+            android:id="@+id/editTextdilaog_ammount"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/textView36"
+            android:layout_toEndOf="@+id/textView36" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="500dp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/relativeLayout18"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="5dp"
+        android:background="#ffffff"
+        android:layout_marginTop="2dp"
+        android:id="@+id/relativeLayout19">
+
+        <TextView
+            android:layout_width="170dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Cheque Number :"
+            android:id="@+id/textView35"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="5dp"
+            android:textColor="#000000" />
+
+        <EditText
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:inputType="numberDecimal"
+            android:ems="10"
+            android:id="@+id/editTextdilaog_number"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/textView35"
+            android:layout_toEndOf="@+id/textView35" />
+
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="500dp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/relativeLayout19"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="2dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginLeft="15dp"
+        android:background="#ffffff"
+        android:id="@+id/relativeLayout20">
+
+
+        <TextView
+            android:layout_width="120dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Bank Code :"
+            android:id="@+id/textView37"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="5dp"
+            android:textColor="#000000" />
+
+        <AutoCompleteTextView
+            android:layout_width="100dip"
+            android:layout_height="wrap_content"
+            android:inputType="textAutoComplete"
+            android:ems="10"
+            android:id="@+id/editTextdilaog_bank"
+            android:layout_alignBaseline="@+id/textView37"
+            android:layout_alignBottom="@+id/textView37"
+            android:layout_toRightOf="@+id/textView37"
+            android:layout_toEndOf="@+id/textView37" />
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="500dp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/relativeLayout20"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginRight="5dp"
+        android:background="#ffffff"
+        android:id="@+id/relativeLayout21">
+
+        <TextView
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Branch Code :"
+            android:id="@+id/textView38"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="5dp"
+            android:textColor="#000000"
+            android:layout_width="120dp" />
+
+        <AutoCompleteTextView
+            android:layout_height="wrap_content"
+            android:inputType="text"
+            android:ems="10"
+            android:id="@+id/editTextdilaog_branch"
+            android:layout_centerVertical="true"
+            android:layout_toRightOf="@+id/textView38"
+            android:layout_toEndOf="@+id/textView38"
+            android:layout_width="100dip" />
+
+    </RelativeLayout>
+    .................................
+    <RelativeLayout
+        android:layout_width="500dp"
+        android:layout_below="@+id/relativeLayout21"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginRight="5dp"
+        android:background="#ffffff"
+        android:id="@+id/relativeLayout30"
+        android:layout_height="70dp">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Bank : "
+            android:id="@+id/textView_bankcode"
+            android:layout_centerVertical="true"
+            android:layout_alignEnd="@+id/textView_barnchCode"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:textColor="#000000"
+            android:layout_marginLeft="5dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Branch  : "
+            android:id="@+id/textView_barnchCode"
+            android:textColor="#000000"
+            android:layout_alignTop="@+id/textView_bankcode"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            />
+    </RelativeLayout>
+
+
+
+
+
+
+
+    //////////////////
+    <RelativeLayout
+        android:layout_width="500dp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/relativeLayout30"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="2dp"
+        android:background="#ffffff"
+        android:id="@+id/relativeLayout22">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="Realize Date :"
+            android:id="@+id/textView43"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="5dp"
+            android:textColor="#000000"
+            />
+
+        <RelativeLayout
+            android:layout_width="60dp"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginRight="10dp"
+            android:id="@+id/relativeLayout_Dialog_calender">
+
+            <com.HesperusMarketing.helpModel.TextViewFontAwesome
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:text="@string/fw_collection_calender"
+                android:id="@+id/textView32"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                android:textSize="40dp" />
+        </RelativeLayout>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text=""
+            android:id="@+id/textViewRealizedate"
+            android:textColor="#000000"
+            android:layout_alignTop="@+id/textView43"
+            android:layout_toRightOf="@+id/textView43"
+            android:layout_toEndOf="@+id/textView43"
+            android:layout_marginLeft="5dp" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="500dp"
+        android:layout_height="120dp"
+        android:layout_below="@+id/relativeLayout22"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginRight="5dp"
+        android:background="#ffffff"
+        android:id="@+id/relativeLayoutimage">
+
+        <RelativeLayout
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="5dp"
+            android:id="@+id/relativeLayoutCheqeImage">
+
+            <com.HesperusMarketing.helpModel.TextViewFontAwesome
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/fw_collection_camera"
+                android:id="@+id/textView39"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                android:textSize="40dp" />
+
+        </RelativeLayout>
+
+        <ImageView
+            android:layout_width="250dp"
+            android:layout_height="fill_parent"
+            android:id="@+id/imageViewCheque"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="5dp" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="500dp"
+        android:layout_height="50dp"
+        android:layout_below="@+id/relativeLayoutimage"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="2dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="5dp"
+        android:background="#ffffff">
+
+        <Button
+            android:layout_width="150dp"
+            android:layout_height="40dp"
+            android:text="Add"
+            android:id="@+id/button_dialog_done"
+            android:background="@drawable/button_green"
+            android:textColor="#ffffff"
+            android:layout_centerVertical="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_marginLeft="5dp" />
+
+        <Button
+            android:layout_width="150dp"
+            android:layout_height="40dp"
+            android:text="Delete"
+            android:id="@+id/buttonChange"
+            android:layout_centerVertical="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="5dp"
+            android:background="@color/myRed"
+            android:textColor="#ffffff" />
+
+    </RelativeLayout>
+
+    <ImageView
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:id="@+id/imageViewClose"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:src="@drawable/tick_red" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignTop="@+id/relativeLayout17"
+        android:layout_toRightOf="@+id/relativeLayout17"
+        android:layout_toEndOf="@+id/relativeLayout17"
+        android:background="#ffffff">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:background="@color/myGreen"
+            android:id="@+id/relativeLayout32">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Cheque Details"
+                android:id="@+id/textView47"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true"
+                android:textColor="#ffffff" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_below="@+id/relativeLayout32"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="5dp"
+            android:background="@color/blue_grey_500"
+            android:id="@+id/relativeLayout33"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp">
+
+            <TextView
+                android:layout_width="140dp"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Cheque Number"
+                android:id="@+id/textView48"
+                android:layout_centerVertical="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true"
+                android:textColor="#ffffff"
+                android:layout_marginLeft="5dp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Amount"
+                android:id="@+id/textView_value"
+                android:layout_alignTop="@+id/textView48"
+                android:layout_toRightOf="@+id/textView48"
+                android:layout_toEndOf="@+id/textView48"
+                android:layout_marginLeft="40dp"
+                android:layout_marginStart="40dp"
+                android:textColor="#ffffff" />
+        </RelativeLayout>
+
+        <ListView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/listViewChewues"
+            android:layout_below="@+id/relativeLayout33"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:divider="#ffffff"
+            android:dividerHeight="5dp"
+            android:layout_margin="5dp" />
+    </RelativeLayout>
+
 </RelativeLayout>

@@ -899,4 +899,13 @@ public class Customers {
         return productId;
     }
 
+    public String getCompanyCodeFromPharmacyId(String PharmacyID) {
+
+        Cursor cur = database.rawQuery("SELECT company_code FROM customers where pharmacy_id =" + PharmacyID + " ", null);
+        cur.moveToFirst();
+
+        String code = cur.getString(0);
+        return code;
+    }
+
 }

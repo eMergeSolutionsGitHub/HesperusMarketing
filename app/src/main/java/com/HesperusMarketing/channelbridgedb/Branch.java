@@ -167,14 +167,13 @@ public class Branch {
 
     }
 
-    public List<String> GetBranchName() {
+    public List<String> GetBranchName(String bankcode) {
         List<String> loadInvoiceNumberList = new ArrayList();
         try {
-            String strqu = "select " + KEY_Town + " from " + TABLE_NAME + "";
-            Cursor cur = database.rawQuery("Select Town from Branch GROUP BY Town ", null);
+           // Cursor cur = database.rawQuery("Select Town from Branch GROUP BY Town ",null);
+            Cursor cur = database.rawQuery("Select BranchCode from Branch where BankCode = ?", new String[]{bankcode});
             if (cur.moveToFirst()) {
                 do {
-
                     if(cur.getString(0)==null){
 
                     }else {
@@ -268,10 +267,9 @@ public class Branch {
         Cursor cur = null;
         String result;
         try {
-            cur = database.rawQuery("select br.BranchCode from Branch br INNER JOIN Master_Bank ban ON br.BankCode = ban.BankCode where ban.BankName = ? AND br.Town = ?",new String[]{bank,branch});
+            cur = database.rawQuery("select br.Town from Branch br INNER JOIN Master_Bank ban ON br.BankCode = ban.BankCode where ban.BankCode = ? AND br.BranchCode = ?",new String[]{bank,branch});
             cur.moveToFirst();
             result = cur.getString(0);
-
 
         } catch (Exception e) {
             result = "No Code";
